@@ -1,9 +1,14 @@
 {
-    "Basedir": "/pnfs/iihe/cms/store/user/nivanden/AnalysisOutput/ReducedTuples/2024-04-23_16-46",
+    "Basedir": "/pnfs/iihe/cms/store/user/nivanden/AnalysisOutput/ReducedTuples/2024-11-09_20-50",
     "Processes": {
-        "TTT": {
-            "fileglobs": ["Tree_TTTW_*MCPrompt", "Tree_TTTJ_*MCPrompt"],
-            "pretty_name": "ttt",
+        "TTTJ": {
+            "fileglobs": ["Tree_TTTJ_*MCPrompt"],
+            "pretty_name": "tttq",
+            "color": "#e9d98d"
+        },
+        "TTTW": {
+            "fileglobs": ["Tree_TTTW_*MCPrompt"],
+            "pretty_name": "tttW",
             "color": "#e9d98d"
         },
         "other_t": {

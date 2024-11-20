@@ -252,7 +252,7 @@
         "technical_name": "JEC",
         "processes": "MCOnly",
         "type": "shape",
-        "fileglob": "JEC"
+        "fileglob": "_JEC"
     },
     "JER_2p5": {
         "fileglob": "JER",
@@ -322,5 +322,10 @@
         "type": "weight",
         "aliasUp": "nominalWeight * otherVariations[:, 12]",
         "aliasDown": "nominalWeight * otherVariations[:, 13]"
+    },
+    "HEMIssue": {
+        "fileglob": "HEMIssue",
+        "processes": "MCOnly",
+        "type": "shape"
     }
 }
