@@ -64,14 +64,14 @@ def convert_and_write_histogram(input_histogram, variable: Variable, outputname:
     for i in range(1, ret_th1.GetNbinsX() + 1):
         if ret_th1.GetBinContent(i) > 0.001:
             continue
-        if ret_th1.GetBinContent(i) < -0.1:
+        ret_th1.SetBinError(i, 0.001)
+        ret_th1.SetBinContent(i, 0.001)
+        if ret_th1.GetBinContent(i) < 0.001:
             if "lin" in outputname :
                 print (outputname) #("\n we don't want to change the interference even if it's negative!!")
                 continue
-            else : 
+            else:
                 print(f"WARNING: Significant negative value in {outputname} bin {i}! Setting to 0.")
-                ret_th1.SetBinError(i, 0.0)
-                ret_th1.SetBinContent(i, 0.0)
     if ret_th1.Integral()==0 :
         ret_th1.SetBinContent(1, 1e-6)  # Set the first bin to a small value
         print (f"This process {outputname} is actually empty here")
@@ -85,6 +85,7 @@ def get_pretty_channelnames(dc_settings):
 
 def patch_scalevar_correlations(systematics, processes):
     if not "ScaleVarEnvelope" in systematics:
+        print("SCALE VAR NO FOUND")
         return
 
     envelope_relevant_mod = list(systematics["ScaleVarEnvelope"].processes)
@@ -122,6 +123,7 @@ def nominal_datacard_creation(rootfile: uproot.WritableDirectory, datacard_setti
     """
     all_asimovdata = dict()
     for channelname, channel_DC_setting in datacard_settings["channelcontent"].items():
+        print(channelname)
         # load histograms for this specific channel and the variable with HistogramManager
         histograms = dict()
 
@@ -142,6 +144,7 @@ def nominal_datacard_creation(rootfile: uproot.WritableDirectory, datacard_setti
         for process in processes:
             if channels[channelname].is_process_excluded(process):
                 continue
+            print(process)
             histograms = HistogramManager(storagepath, process, variables, list(shape_systematics.keys()), args.years[0])
             histograms.load_histograms()
 
@@ -152,6 +155,7 @@ def nominal_datacard_creation(rootfile: uproot.WritableDirectory, datacard_setti
 
             # loop and write systematics
             for systname, syst in shape_systematics.items():
+                # print(systname)
                 if systname == "nominal" or systname == "stat_unc":
                     continue
                 if not syst.is_process_relevant(process):
