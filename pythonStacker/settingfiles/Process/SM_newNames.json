@@ -23,10 +23,14 @@
         "VVV": {
             "fileglobs": ["Tree_WWZ_*MCPrompt", "Tree_WZZ_*MCPrompt", "Tree_ZZZ_*MCPrompt", "Tree_SSWW*MCPrompt", 
             "Tree_VHToNonbb*MCPrompt", "Tree_ZZTo4L*MCPrompt", "Tree_VBF_HToZZTo4L*MCPrompt",
-            "Tree_GluGlu*MCPrompt",
-	    "Tree_WZTo3LNu_*MCPrompt"
-	    ],
+            "Tree_GluGlu*MCPrompt"
+            ],
             "pretty_name": "VV(V)",
+            "color": "#bd1f01"
+        },
+        "WZ": {
+            "fileglobs": ["Tree_WZTo3LNu_*MCPrompt"],
+            "pretty_name": "WZ",
             "color": "#bd1f01"
         },
         "nonPrompt": {
