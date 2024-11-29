@@ -90,7 +90,7 @@
         "type": "flat"
     }, 
     "VVVNorm": {
-        "processes": "VV(V)", 
+        "processes": "VVV", 
         "corr_proc": 1, 
         "technical_name": "Norm_VVV", 
         "channels": "all", 
@@ -319,7 +319,7 @@
     "MuonIDSyst": {
         "aliasDown": "nominalWeight * expDown[:, 1]", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_eff_m_syst", 
+        "technical_name": "CMS_eff_m_correlated", 
         "aliasUp": "nominalWeight * expUp[:, 1]", 
         "channels": "all", 
         "type": "weight"
