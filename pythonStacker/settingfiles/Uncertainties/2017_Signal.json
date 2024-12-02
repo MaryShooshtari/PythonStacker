@@ -356,7 +356,7 @@
     "MuonIDSyst": {
         "aliasDown": "nominalWeight * expDown[:, 1]", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_eff_m_correlated", 
+        "technical_name": "CMS_eff_m_id_correlated", 
         "aliasUp": "nominalWeight * expUp[:, 1]", 
         "channels": "all", 
         "type": "weight"
