@@ -64,14 +64,14 @@ def convert_and_write_histogram(input_histogram, variable: Variable, outputname:
     for i in range(1, ret_th1.GetNbinsX() + 1):
         if ret_th1.GetBinContent(i) > 0.001:
             continue
-        if ret_th1.GetBinContent(i) < -0.1:
+        ret_th1.SetBinError(i, 0.001)
+        ret_th1.SetBinContent(i, 0.001)
+        if ret_th1.GetBinContent(i) < 0.001:
             if "lin" in outputname :
                 print (outputname) #("\n we don't want to change the interference even if it's negative!!")
                 continue
-            else : 
+            else:
                 print(f"WARNING: Significant negative value in {outputname} bin {i}! Setting to 0.")
-                ret_th1.SetBinError(i, 0.0)
-                ret_th1.SetBinContent(i, 0.0)
     if ret_th1.Integral()==0 :
         ret_th1.SetBinContent(1, 1e-6)  # Set the first bin to a small value
         print (f"This process {outputname} is actually empty here")
@@ -85,6 +85,7 @@ def get_pretty_channelnames(dc_settings):
 
 def patch_scalevar_correlations(systematics, processes):
     if not "ScaleVarEnvelope" in systematics:
+        print("SCALE VAR NO FOUND")
         return
 
     envelope_relevant_mod = list(systematics["ScaleVarEnvelope"].processes)
@@ -122,6 +123,7 @@ def nominal_datacard_creation(rootfile: uproot.WritableDirectory, datacard_setti
     """
     all_asimovdata = dict()
     for channelname, channel_DC_setting in datacard_settings["channelcontent"].items():
+        print(channelname)
         # load histograms for this specific channel and the variable with HistogramManager
         histograms = dict()
 
@@ -142,6 +144,7 @@ def nominal_datacard_creation(rootfile: uproot.WritableDirectory, datacard_setti
         for process in processes:
             if channels[channelname].is_process_excluded(process):
                 continue
+            print(process)
             histograms = HistogramManager(storagepath, process, variables, list(shape_systematics.keys()), args.years[0])
             histograms.load_histograms()
 
@@ -152,6 +155,7 @@ def nominal_datacard_creation(rootfile: uproot.WritableDirectory, datacard_setti
 
             # loop and write systematics
             for systname, syst in shape_systematics.items():
+                # print(systname)
                 if systname == "nominal" or systname == "stat_unc":
                     continue
                 if not syst.is_process_relevant(process):
@@ -202,7 +206,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
     
             variables = VariableReader(args.variablefile, [var_name])
     
-            sm_histograms[channelname] = HistogramManager(storagepath, "TTTT", variables, list(shape_systematics.keys()), args.years[0])
+            sm_histograms[channelname] = HistogramManager(storagepath, "tttt", variables, list(shape_systematics.keys()), args.years[0])
             sm_histograms[channelname].load_histograms()
             all_asimovdata[channel_DC_setting['prettyname']] = sm_histograms[channelname][var_name]["nominal"]
     
@@ -212,7 +216,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
             for systname, syst in shape_systematics.items():
                 if systname == "nominal" or systname == "stat_unc"  or systname == "ScaleVarEnvelopeSignal" or systname == "ISRSignal":
                     continue
-                if not syst.is_process_relevant("TTTT"):
+                if not syst.is_process_relevant("tttt"):
                     continue
                 #if "ISR" in systname: print("\n""Here we go. ISR is hereeeeee")
                 
@@ -226,7 +230,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
     
                 rootpath_systname = syst.technical_name
                 if not syst.correlated_process:
-                    rootpath_systname += "TTTT"
+                    rootpath_systname += "tttt"
     
                 path_to_histogram_systematic_up = f"{channel_DC_setting['prettyname']}/{rootpath_systname}Up/sm"
                 path_to_histogram_systematic_down = f"{channel_DC_setting['prettyname']}/{rootpath_systname}Down/sm"
@@ -252,7 +256,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
     
                 # load nominal and stat unc? stat unc from EFT sample itself, then nominal is the variation, so:
                 content_to_load = ["nominal", "stat_unc", lin_name, quad_name]
-                histograms_eft = HistogramManager(storagepath, "TTTT_EFT", variables, content_to_load, args.years[0])
+                histograms_eft = HistogramManager(storagepath, "tttt_EFT", variables, content_to_load, args.years[0])
                 histograms_eft.load_histograms()
                 # print(channelname)
                 # print(var_name)
@@ -281,7 +285,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                     #print("\n",f"running systematic {systname}")
                     if systname == "nominal" or systname == "stat_unc" or systname == "ScaleVarEnvelopeSignal" or systname == "ISRSignal":
                         continue
-                    if not syst.is_process_relevant("TTTT"):
+                    if not syst.is_process_relevant("tttt"):
                         continue
     
                     upvar_sm = sm_histograms[channelname][var_name][systname]["Up"]
@@ -358,7 +362,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                     
                     # load nominal and stat unc? stat unc from EFT sample itself, then nominal is the variation, so:
                     content_to_load = ["nominal", "stat_unc", mixName, first_lin_name,first_quad_name,second_lin_name,second_quad_name]
-                    histograms_eft = HistogramManager(storagepath, "TTTT_EFT", variables, content_to_load, args.years[0])
+                    histograms_eft = HistogramManager(storagepath, "tttt_EFT", variables, content_to_load, args.years[0])
                     histograms_eft.load_histograms()
                     
                     rel = np.nan_to_num(sm_histograms[channelname][var_name]["nominal"] / histograms_eft[var_name]["nominal"], nan=1.)
@@ -375,7 +379,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                     for systname, syst in shape_systematics.items():
                         if systname == "nominal" or systname == "stat_unc" or systname == "ScaleVarEnvelopeSignal" or systname == "ISRSignal":
                                 continue
-                        if not syst.is_process_relevant("TTTT"):
+                        if not syst.is_process_relevant("tttt"):
                                 continue
                         
                         upvar_sm = sm_histograms[channelname][var_name][systname]["Up"]
@@ -643,9 +647,9 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
     
             variables = VariableReader(args.variablefile, [var_name])
     
-            sm_4t_histograms[channelname] = HistogramManager(storagepath, "TTTT", variables, list(shape_systematics.keys()), args.years[0])
+            sm_4t_histograms[channelname] = HistogramManager(storagepath, "tttt", variables, list(shape_systematics.keys()), args.years[0])
             sm_4t_histograms[channelname].load_histograms()
-            sm_3t_histograms[channelname] = HistogramManager(storagepath, "TTT", variables, list(shape_systematics.keys()), args.years[0])
+            sm_3t_histograms[channelname] = HistogramManager(storagepath, "ttt", variables, list(shape_systematics.keys()), args.years[0])
             sm_3t_histograms[channelname].load_histograms()
             all_asimovdata[channel_DC_setting['prettyname']] = sm_4t_histograms[channelname][var_name]["nominal"] + sm_3t_histograms[channelname][var_name]["nominal"]
     
@@ -657,7 +661,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
             for systname, syst in shape_systematics.items():
                 if systname == "nominal" or systname == "stat_unc" or systname == "ScaleVarEnvelopeTTTT" or systname == "ISRTTTT":
                     continue
-                if not (syst.is_process_relevant("TTT") or syst.is_process_relevant("TTTT")):
+                if not (syst.is_process_relevant("ttt") or syst.is_process_relevant("tttt")):
                     continue
                 #if "ISR" in systname: print("\n""Here we go. ISR is hereeeeee")
                 
@@ -701,7 +705,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                  content_to_load = ["nominal", "stat_unc", lin_name, quad_name]
                  histograms_4t_eft = HistogramManager(storagepath, "TTTT_EFT", variables, content_to_load, args.years[0])
                  histograms_4t_eft.load_histograms()
-                 histograms_3t_eft = HistogramManager(storagepath, "TTT_EFT", variables, content_to_load, args.years[0])
+                 histograms_3t_eft = HistogramManager(storagepath, "TTTW_EFT", variables, content_to_load, args.years[0])
                  histograms_3t_eft.load_histograms()
                  # print(channelname)
                  # print(var_name)
@@ -748,7 +752,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                      #print("\n",f"running systematic {systname}")
                      if systname == "nominal" or systname == "stat_unc" or systname == "ScaleVarEnvelopeTTTT" or systname == "ISRTTTT":
                          continue
-                     if not (syst.is_process_relevant("TTT") or syst.is_process_relevant("TTTT")):
+                     if not (syst.is_process_relevant("ttt") or syst.is_process_relevant("tttt")):
                          continue
                  
                      # vary 3top and 4top separately for each nuisance
@@ -848,7 +852,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                     content_to_load = ["nominal", "stat_unc", mixName, first_lin_name,first_quad_name,second_lin_name,second_quad_name]
                     histograms_4t_eft = HistogramManager(storagepath, "TTTT_EFT", variables, content_to_load, args.years[0])
                     histograms_4t_eft.load_histograms()
-                    histograms_3t_eft = HistogramManager(storagepath, "TTT_EFT", variables, content_to_load, args.years[0])
+                    histograms_3t_eft = HistogramManager(storagepath, "TTTW_EFT", variables, content_to_load, args.years[0])
                     histograms_3t_eft.load_histograms()
                     
                     rel4 = np.nan_to_num(sm_4t_histograms[channelname][var_name]["nominal"] / histograms_4t_eft[var_name]["nominal"], nan=1.)
@@ -875,7 +879,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                     for systname, syst in shape_systematics.items():
                         if systname == "nominal" or systname == "stat_unc" or systname == "ScaleVarEnvelopeTTTT" or systname == "ISRTTTT":
                                 continue
-                        if not (syst.is_process_relevant("TTT") or syst.is_process_relevant("TTTT")):
+                        if not (syst.is_process_relevant("ttt") or syst.is_process_relevant("tttt")):
                                 continue
                         
                         upvar_4t_sm = sm_4t_histograms[channelname][var_name][systname]["Up"]
@@ -1037,18 +1041,19 @@ if __name__ == "__main__":
     if args.UseEFT:
         eft_part, asimov_signal = eft_datacard_creation(rootfile, datacard_settings, args.eft_operator, shape_systematics, args)
         if args.TTTT_EFT:
-            processes = [process for process in processes if process != "TTTT"]
+            processes = [process for process in processes if process != "tttt"]
         elif args.TTT_EFT:
-            processes = [process for process in processes if process != "TTTW"]
-            processes = [process for process in processes if process != "TTTJ"]
-            processes = [process for process in processes if process != "TTT"]
+            processes = [process for process in processes if process != "tttW"]
+            processes = [process for process in processes if process != "tttJ"]
+            processes = [process for process in processes if process != "ttt"]
         elif args.All_EFT:
-            processes = [process for process in processes if process != "TTTT"]
-            processes = [process for process in processes if process != "TTT"]
-            processes = [process for process in processes if process != "TTTW"]
-            processes = [process for process in processes if process != "TTTJ"]
+            processes = [process for process in processes if process != "tttt"]
+            processes = [process for process in processes if process != "ttt"]
+            processes = [process for process in processes if process != "tttW"]
+            processes = [process for process in processes if process != "tttJ"]
                 #print("I am Actually trying")
         processes_write = [[process, i + 1] for i, process in enumerate(processes)]
+        processes_write.extend(eft_part)
     elif args.UseBSM:
         # find BSM process in processlist:
         for process in processes:
@@ -1081,7 +1086,6 @@ if __name__ == "__main__":
 
     if not args.UseData:
         if args.UseEFT:
-            processes_write.extend(eft_part)
             for channelname, channel_DC_setting in datacard_settings["channelcontent"].items():
                 asimov_data_path = f"{channel_DC_setting['prettyname']}/data_obs"
                 var_name = channel_DC_setting["variable"]
@@ -1108,7 +1112,7 @@ if __name__ == "__main__":
 
     systematics = load_uncertainties(args.systematicsfile)
     if args.UseEFT:
-        processes.append("TTTT")
+        processes.append("tttt")
         for proc, nb in processes_write:
             if "quad" in proc:
                 processes.append(proc)

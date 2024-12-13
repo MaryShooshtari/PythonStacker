@@ -20,19 +20,23 @@
             "fileglobs": ["*_ChargeDD*"],
             "color": "#832db6"
         },
-        "VV(V)": {
+        "VVV": {
             "fileglobs": ["Tree_WWZ_*MCPrompt", "Tree_WZZ_*MCPrompt", "Tree_ZZZ_*MCPrompt", "Tree_SSWW*MCPrompt", 
             "Tree_VHToNonbb*MCPrompt", "Tree_ZZTo4L*MCPrompt", "Tree_VBF_HToZZTo4L*MCPrompt",
-            "Tree_GluGlu*MCPrompt",
-	    "Tree_WZTo3LNu_*MCPrompt"
-	    ],
+            "Tree_GluGlu*MCPrompt"
+            ],
             "pretty_name": "VV(V)",
             "color": "#bd1f01"
         },
+        "WZ": {
+            "fileglobs": ["Tree_WZTo3LNu_*MCPrompt"],
+            "pretty_name": "WZ",
+            "color": "#bd1f01"
+        },
         "nonPrompt": {
-            "fileglobs": ["*_nonPromptDD_*","*_nonPromptDD_*"],
+            "fileglobs": ["*_nonPromptDD_*"],
             "color": "#e76300",
-            "pretty_name": "NP e"
+            "pretty_name": "NP"
         },
         "ttH": {
             "fileglobs": ["Tree_ttHJetToNonbb*MCPrompt"],

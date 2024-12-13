@@ -21,17 +21,18 @@
             "ttZ", 
             "ttH", 
             "Xg", 
-            "VV(V)", 
+            "VVV", 
+            "WZ",
             "Othert"
         ], 
         "corr_proc": 0, 
-        "technical_name": "ps_isr", 
+        "technical_name": "ps_isr_", 
         "aliasUp": "isrfsrVariations[:, 0]", 
         "channels": "all", 
         "type": "weight"
     }, 
     "nonPromptMuNorm2018": {
-        "processes": "nonPromptMuon", 
+        "processes": ["nonPromptMuon","nonPrompt"], 
         "corr_proc": 1, 
         "technical_name": "CMS_fake_m_2018", 
         "channels": "all", 
@@ -101,7 +102,7 @@
         "type": "weight"
     }, 
     "nonPromptElNorm": {
-        "processes": "nonPromptElectron", 
+        "processes": ["nonPromptElectron","nonPrompt"], 
         "corr_proc": 1, 
         "technical_name": "CMS_fake_e_correlated", 
         "channels": "all", 
@@ -128,7 +129,7 @@
         "type": "weight"
     }, 
     "nonPromptElNorm2018": {
-        "processes": "nonPromptElectron", 
+        "processes": ["nonPromptElectron","nonPrompt"], 
         "corr_proc": 1, 
         "technical_name": "CMS_fake_e_2018", 
         "channels": "all", 
@@ -183,7 +184,7 @@
         "type": "flat"
     }, 
     "nonPromptMuNorm": {
-        "processes": "nonPromptMuon", 
+        "processes": ["nonPromptMuon","nonPrompt"], 
         "corr_proc": 1, 
         "technical_name": "CMS_fake_m_correlated", 
         "channels": "all", 
@@ -234,7 +235,7 @@
         "type": "flat"
     }, 
     "VVVNorm": {
-        "processes": "VV(V)", 
+        "processes": "VVV", 
         "corr_proc": 1, 
         "technical_name": "Norm_VVV", 
         "channels": "all", 
@@ -277,25 +278,26 @@
     "btag_lf_stats1": {
         "aliasDown": "nominalWeight * expDown[:, 11]", 
         "processes": "MCOnly", 
-        "technical_name": "BTagSFLfs1_2018", 
+        "technical_name": "CMS_btag_lfstats1_2018", 
         "aliasUp": "nominalWeight * expUp[:, 11]", 
         "channels": "all", 
         "pretty_name": "BTagSFLfs1_2018", 
         "type": "weight"
     }, 
     "ScaleVarFactorization": {
-        "aliasDown": "nominalWeight * scaleVariations[:, 4]", 
+        "aliasDown": "scaleVariations[:, 4]", 
         "processes": [
             "ttW", 
             "ttZ", 
             "ttH", 
             "Xg", 
-            "VV(V)", 
+            "VVV", 
+            "WZ",
             "Othert"
         ], 
         "corr_proc": 0, 
         "technical_name": "QCDscale_fac_", 
-        "aliasUp": "nominalWeight * scaleVariations[:, 3]", 
+        "aliasUp": "scaleVariations[:, 3]", 
         "channels": "all", 
         "type": "weight"
     }, 
@@ -336,13 +338,13 @@
     "MuonIDSyst": {
         "aliasDown": "nominalWeight * expDown[:, 1]", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_eff_m_syst", 
+        "technical_name": "CMS_eff_m_correlated", 
         "aliasUp": "nominalWeight * expUp[:, 1]", 
         "channels": "all", 
         "type": "weight"
     }, 
     "ScaleVarFactorizationSignal": {
-        "aliasDown": "nominalWeight * scaleVariations[:, 4]", 
+        "aliasDown": "scaleVariations[:, 4]", 
         "processes": [
             "tttt", 
             "ttt", 
@@ -351,7 +353,7 @@
         ], 
         "corr_proc": 1, 
         "technical_name": "QCDscale_fac_BSMsignal", 
-        "aliasUp": "nominalWeight * scaleVariations[:, 3]", 
+        "aliasUp": "scaleVariations[:, 3]", 
         "channels": "all", 
         "type": "weight"
     }, 
@@ -389,7 +391,7 @@
         "pretty_name": "ElectronIDStat_2018", 
         "type": "weight"
     }, 
-    "MET": {
+    "METUnclustered": {
         "type": "shape", 
         "processes": "MCOnly", 
         "technical_name": "CMS_scale_met_unclustered_energy", 
@@ -406,14 +408,14 @@
     "ttz_norm": {
         "processes": "ttZ", 
         "corr_proc": 1, 
-        "technical_name": "Norm_ttW", 
+        "technical_name": "Norm_ttZ", 
         "channels": "all", 
         "pretty_name": "ttZ norm", 
         "rate": 1.2, 
         "type": "flat"
     }, 
     "ScaleVarRenormalizationSignal": {
-        "aliasDown": "nominalWeight * scaleVariations[:, 1]", 
+        "aliasDown": "scaleVariations[:, 1]", 
         "processes": [
             "tttt", 
             "ttt", 
@@ -422,7 +424,7 @@
         ], 
         "corr_proc": 1, 
         "technical_name": "QCDscale_ren_BSMsignal", 
-        "aliasUp": "nominalWeight * scaleVariations[:, 0]", 
+        "aliasUp": "scaleVariations[:, 0]", 
         "channels": "all", 
         "type": "weight"
     }, 
@@ -436,18 +438,19 @@
         "type": "flat"
     }, 
     "ScaleVarRenormalization": {
-        "aliasDown": "nominalWeight * scaleVariations[:, 1]", 
+        "aliasDown": "scaleVariations[:, 1]", 
         "processes": [
             "ttW", 
             "ttZ", 
             "ttH", 
             "Xg", 
-            "VV(V)", 
+            "VVV", 
+            "WZ",
             "Othert"
         ], 
         "corr_proc": 0, 
         "technical_name": "QCDscale_ren_", 
-        "aliasUp": "nominalWeight * scaleVariations[:, 0]", 
+        "aliasUp": "scaleVariations[:, 0]", 
         "channels": "all", 
         "type": "weight"
     }

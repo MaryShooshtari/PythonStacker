@@ -48,6 +48,8 @@ if __name__ == "__main__":
     systematics = []
     if args.systematic:
         systematics = [args.systematic]
+    elif args.UseData:
+        systematics = [None]
     else:
         systematics = ["weight"]
         # load shape uncertainties
@@ -83,6 +85,8 @@ if __name__ == "__main__":
                     command += " --EFT"
                 if args.UseBSM is True:
                     command += " --BSM"
+                if args.UseData:
+                    command += " --data"
 
                 for syst in systematics:
                     if syst is None:
