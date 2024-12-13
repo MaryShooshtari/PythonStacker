@@ -64,7 +64,7 @@ def convert_and_write_histogram(input_histogram, variable: Variable, outputname:
     for i in range(1, ret_th1.GetNbinsX() + 1):
         if ret_th1.GetBinContent(i) > 0.001:
             continue
-        if ret_th1.GetBinContent(i) < -0.1:
+        if ret_th1.GetBinContent(i) < -1e-06:
             if "lin" in outputname :
                 print (outputname) #("\n we don't want to change the interference even if it's negative!!")
                 continue
@@ -1030,9 +1030,9 @@ if __name__ == "__main__":
     shape_systematics = load_uncertainties(args.systematicsfile, allowflat=False)
     shape_systematics["nominal"] = Uncertainty("nominal", {})
     shape_systematics["stat_unc"] = Uncertainty("stat_unc", {})
-    print(f"Shape systematics before patch: {shape_systematics.keys()}")
+    #print(f"Shape systematics before patch: {shape_systematics.keys()}")
     patch_scalevar_correlations(shape_systematics, processes)
-    print(f"Shape systematics after patch: {shape_systematics.keys()}")
+    #print(f"Shape systematics after patch: {shape_systematics.keys()}")
 
     if args.UseEFT:
         eft_part, asimov_signal = eft_datacard_creation(rootfile, datacard_settings, args.eft_operator, shape_systematics, args)
@@ -1130,7 +1130,7 @@ if __name__ == "__main__":
     #     print(f"Where u at? {systematics['tttt_norm']}")
 
     for syst_name, syst_info in systematics.items():
-        print(f"This syst was written: {syst_name}")
+        #print(f"This syst was written: {syst_name}")
         dc_writer.add_systematic(syst_info)
 
     dc_writer.write_card()
