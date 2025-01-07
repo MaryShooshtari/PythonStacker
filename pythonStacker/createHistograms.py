@@ -130,6 +130,12 @@ def create_histograms_singledata(output_histograms: dict, args, files, channel: 
                     else:
                         if not syst.is_process_relevant(process):
                             continue
+                        if syst.era_specific() and not (syst.era_specific() in filename):
+                            # if Era specific and the era we want is NOT in the filename, put the nominal histograms in the Up and Down variations
+                            hist_content, _, hist_unc = prepare_histogram(data, weights["nominal"], variable)
+                            output_histograms[args.channel][variable.name][name]["Up"] += hist_content
+                            output_histograms[args.channel][variable.name][name]["Down"] += hist_content
+                            continue
                         keys = syst.get_weight_keys()
                         hist_content_up, _, _ = prepare_histogram(data, weights[keys[0]], variable)
                         output_histograms[args.channel][variable.name][name]["Up"] += hist_content_up
@@ -147,6 +153,11 @@ def create_histograms_singledata(output_histograms: dict, args, files, channel: 
                             output_histograms[subchannel_name][variable.name]["stat_unc"] += hist_unc
                         else:
                             if not syst.is_process_relevant(process):
+                                continue
+                            if syst.era_specific() and not (syst.era_specific() in filename):
+                                hist_content, _, hist_unc = prepare_histogram(data, weights["nominal"], variable)
+                                output_histograms[args.channel][variable.name][name]["Up"] += hist_content
+                                output_histograms[args.channel][variable.name][name]["Down"] += hist_content
                                 continue
                             keys = syst.get_weight_keys()
                             hist_content_up, _, _ = prepare_histogram(data[subchannelmasks[subchannel_name]], weights[keys[0]][subchannelmasks[subchannel_name]], variable)

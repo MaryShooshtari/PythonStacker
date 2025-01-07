@@ -28,6 +28,8 @@ class Uncertainty:
         self._correlated_process = bool(dict_entry.get("corr_proc", True))
 
         self.correlated_years = True
+        self.eraspecific = dict_entry.get("eraspecific", False)
+
         # Possible types: flat, weight, shape
         self.type = dict_entry.get("type", "flat")
         if self.type == "flat":
@@ -103,3 +105,6 @@ class Uncertainty:
 
     def get_weight_keys(self):
         return (self.weight_key_up, self.weight_key_down)
+
+    def era_specific(self):
+        return self.eraspecific
