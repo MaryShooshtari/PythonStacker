@@ -168,11 +168,21 @@ def create_histograms_singledata(output_histograms: dict, args, files, channel: 
                                 output_histograms[subchannel_name][variable.name][name]["Down"] += hist_content_down
 
 
-def create_histogram_shapevar(output_histograms: dict, args, files, channel: Channel, variables: VariableReader, systematics: dict, globalEFTToggle, globalBSMToggle):
-    for filename in files:
+def create_histogram_shapevar(output_histograms: dict, args, files, nominalfiles, channel: Channel, variables: VariableReader, systematics: dict, globalEFTToggle, globalBSMToggle):
+    files_sorted = sorted(files)
+    nominalfiles_sorted = sorted(nominalfiles)
+    print("In create_histogram_shapevar")
+    for filename, filenominal in zip(files_sorted, nominalfiles_sorted):
+        print(filename)
+        print(filenominal)
         name, syst = list(systematics.items())[0]
         for variation in ["Up", "Down"]:
-            current_tree: uproot.TTree = src.get_tree_from_file(filename, "Unc_" + name + "_" + variation)
+            if syst.era_specific() and not (syst.era_specific() in filename):
+                print("Not correct era, loading nominal")
+                current_tree: uproot.TTree = src.get_tree_from_file(filenominal, args.process)
+            else:
+                print("correct era, loading vaiation")
+                current_tree: uproot.TTree = src.get_tree_from_file(filename, "Unc_" + syst.treename + "_" + variation)
             weights = WeightManager(current_tree, channel.selection, systematics)
             subchannelmasks, subchannelnames = channel.produce_masks(current_tree)
 
@@ -296,7 +306,8 @@ if __name__ == "__main__":
     if base_run:
         create_histograms_singledata(output_histograms, args, files, channel, variables, systematics, globalEFTToggle, globalBSMToggle)
     else:
-        create_histogram_shapevar(output_histograms, args, files, channel, variables, systematics, globalEFTToggle, globalBSMToggle)
+        nominalfiles = src.get_file_from_globs(basedir, processinfo["fileglobs"], args.years[0], "base")
+        create_histogram_shapevar(output_histograms, args, files, nominalfiles, channel, variables, systematics, globalEFTToggle, globalBSMToggle)
 
     subchannelnames = channel.get_subchannels()
     output_histograms[args.channel].save_histograms()
