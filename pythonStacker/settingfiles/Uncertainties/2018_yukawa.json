@@ -219,13 +219,13 @@
         "type": "weight"
     }, 
     "ElectronIDStat": {
-        "processes": "MCOnly", 
-        "technical_name": "ElectronIDStat", 
-        "aliasUp": "nominalWeight * expUp[:, 4]", 
         "aliasDown": "nominalWeight * expDown[:, 4]", 
+        "processes": "MCOnly", 
+        "technical_name": "CMS_eff_e_id_2018", 
+        "aliasUp": "nominalWeight * expUp[:, 4]", 
         "channels": "all", 
         "type": "weight"
-    }, 
+    },
     "ElectronIDSyst": {
         "processes": "MCOnly", 
         "technical_name": "CMS_eff_e_id_correlated", 
@@ -235,53 +235,53 @@
         "type": "weight"
     }, 
     "MuonIDSyst": {
-        "processes": "MCOnly", 
-        "technical_name": "CMS_eff_m_syst", 
-        "aliasUp": "nominalWeight * expUp[:, 1]", 
         "aliasDown": "nominalWeight * expDown[:, 1]", 
+        "processes": "MCOnly", 
+        "technical_name": "CMS_eff_m_id_correlated", 
+        "aliasUp": "nominalWeight * expUp[:, 1]", 
         "channels": "all", 
         "type": "weight"
     }, 
     "MuonIDStat": {
-        "processes": "MCOnly", 
-        "technical_name": "MuonIDStat", 
-        "aliasUp": "nominalWeight * expUp[:, 2]", 
         "aliasDown": "nominalWeight * expDown[:, 2]", 
+        "processes": "MCOnly", 
+        "technical_name": "CMS_eff_m_id_2018", 
+        "aliasUp": "nominalWeight * expUp[:, 2]", 
         "channels": "all", 
         "type": "weight"
-    }, 
+    },
     "btag_hf": {
-        "processes": "MCOnly", 
-        "technical_name": "CMS_btag_hf", 
-        "aliasUp": "nominalWeight * expUp[:, 7]", 
         "aliasDown": "nominalWeight * expDown[:, 7]", 
+        "processes": "MCOnly", 
+        "technical_name": "CMS_btag_DeepFlav_hf", 
+        "aliasUp": "nominalWeight * expUp[:, 7]", 
         "channels": "all", 
         "pretty_name": "BTagSFHf", 
         "type": "weight"
     }, 
     "btag_hf_stats1": {
-        "processes": "MCOnly", 
-        "technical_name": "BTagSFHfs1", 
-        "aliasUp": "nominalWeight * expUp[:, 9]", 
         "aliasDown": "nominalWeight * expDown[:, 9]", 
+        "processes": "MCOnly", 
+        "technical_name": "CMS_btag_DeepFlav_hfstats1_2018",
+        "aliasUp": "nominalWeight * expUp[:, 9]", 
         "channels": "all", 
         "pretty_name": "BTagSFHfs1", 
         "type": "weight"
     }, 
     "btag_hf_stats2": {
-        "processes": "MCOnly", 
-        "technical_name": "BTagSFHfs2", 
-        "aliasUp": "nominalWeight * expUp[:, 10]", 
         "aliasDown": "nominalWeight * expDown[:, 10]", 
+        "processes": "MCOnly", 
+        "technical_name": "CMS_btag_DeepFlav_hfstats2_2018",
+        "aliasUp": "nominalWeight * expUp[:, 10]", 
         "channels": "all", 
         "pretty_name": "BTagSFHfs2", 
         "type": "weight"
     },
     "btag_lf": {
-        "processes": "MCOnly", 
-        "technical_name": "CMS_btag_lf", 
-        "aliasUp": "nominalWeight * expUp[:, 8]", 
         "aliasDown": "nominalWeight * expDown[:, 8]", 
+        "processes": "MCOnly", 
+        "technical_name": "CMS_btag_DeepFlav_lf", 
+        "aliasUp": "nominalWeight * expUp[:, 8]", 
         "channels": "all", 
         "pretty_name": "BTagSFLf", 
         "type": "weight"
@@ -289,16 +289,16 @@
     "btag_lf_stats1": {
         "aliasDown": "nominalWeight * expDown[:, 11]", 
         "processes": "MCOnly", 
-        "technical_name": "BTagSFLfs1", 
+        "technical_name": "CMS_btag_DeepFlav_lfstats1_2018",
         "aliasUp": "nominalWeight * expUp[:, 11]", 
         "channels": "all", 
         "pretty_name": "BTagSFLfs1", 
         "type": "weight"
-    }, 
+    },
     "btag_lf_stats2": {
         "aliasDown": "nominalWeight * expDown[:, 12]", 
         "processes": "MCOnly", 
-        "technical_name": "BTagSFLfs2", 
+        "technical_name": "CMS_btag_DeepFlav_lfstats2_2018",
         "aliasUp": "nominalWeight * expUp[:, 12]", 
         "channels": "all", 
         "pretty_name": "BTagSFLfs2", 
@@ -307,21 +307,21 @@
     "btag_cferr1": {
         "aliasDown": "nominalWeight * expDown[:, 13]", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_btag_cferr1", 
+        "technical_name": "CMS_btag_DeepFlav_cferr1", 
         "aliasUp": "nominalWeight * expUp[:, 13]", 
         "channels": "all", 
         "pretty_name": "BTagSFCfe1", 
         "type": "weight"
     }, 
     "btag_cferr2": {
-        "processes": "MCOnly", 
-        "technical_name": "CMS_btag_cferr2", 
-        "aliasUp": "nominalWeight * expUp[:, 14]", 
         "aliasDown": "nominalWeight * expDown[:, 14]", 
+        "processes": "MCOnly", 
+        "technical_name": "CMS_btag_DeepFlav_cferr2", 
+        "aliasUp": "nominalWeight * expUp[:, 14]", 
         "channels": "all", 
         "pretty_name": "BTagSFCfe2", 
         "type": "weight"
-    }, 
+    },
     "ISR": {
         "processes": "MCOnly", 
         "technical_name": "ps_isr_", 
@@ -342,15 +342,17 @@
     "JER_1p93": {
         "fileglob": "JER", 
         "processes": "MCOnly", 
-        "technical_name": "JER_1p93", 
+        "technical_name": "CMS_res_j_1p93_2018",
+        "treename": "JER_1p93",
         "type": "shape"
     }, 
     "JER_2p5": {
         "fileglob": "JER", 
         "processes": "MCOnly", 
-        "technical_name": "JER_2p5", 
+        "technical_name": "CMS_res_j_2p5_2018",
+        "treename": "JER_2p5",
         "type": "shape"
-    }, 
+    },
     "METUnclustered": {
         "fileglob": "MET", 
         "processes": "MCOnly", 

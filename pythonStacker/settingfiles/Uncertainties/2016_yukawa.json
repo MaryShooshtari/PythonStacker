@@ -209,13 +209,23 @@
         "channels": "all", 
         "type": "weight"
     }, 
-    "ElectronIDStat": {
-        "processes": "MCOnly", 
-        "technical_name": "ElectronIDStat", 
-        "aliasUp": "nominalWeight * expUp[:, 4]", 
+    "ElectronIDStat_16PreVFP": {
         "aliasDown": "nominalWeight * expDown[:, 4]", 
+        "processes": "MCOnly", 
+        "technical_name": "CMS_eff_e_id_2016preVFP", 
+        "aliasUp": "nominalWeight * expUp[:, 4]", 
         "channels": "all", 
-        "type": "weight"
+        "type": "weight",
+        "eraspecific": "16PreVFP"
+    }, 
+    "ElectronIDStat_16PostVFP": {
+        "aliasDown": "nominalWeight * expDown[:, 4]", 
+        "processes": "MCOnly", 
+        "technical_name": "CMS_eff_e_id_2016postVFP", 
+        "aliasUp": "nominalWeight * expUp[:, 4]", 
+        "channels": "all", 
+        "type": "weight",
+        "eraspecific": "16PostVFP"
     }, 
     "ElectronIDSyst": {
         "processes": "MCOnly", 
@@ -233,72 +243,126 @@
         "channels": "all", 
         "type": "weight"
     }, 
-    "MuonIDStat": {
-        "processes": "MCOnly", 
-        "technical_name": "MuonIDStat", 
-        "aliasUp": "nominalWeight * expUp[:, 2]", 
+    "MuonIDStat_2016PreVFP": {
         "aliasDown": "nominalWeight * expDown[:, 2]", 
+        "processes": "MCOnly", 
+        "technical_name": "CMS_eff_m_id_2016preVFP", 
+        "aliasUp": "nominalWeight * expUp[:, 2]", 
         "channels": "all", 
-        "type": "weight"
-    }, 
+        "type": "weight",
+        "eraspecific": "16PreVFP"
+    },
+    "MuonIDStat_2016PostVFP": {
+        "aliasDown": "nominalWeight * expDown[:, 2]", 
+        "processes": "MCOnly", 
+        "technical_name": "CMS_eff_m_id_2016postVFP", 
+        "aliasUp": "nominalWeight * expUp[:, 2]", 
+        "channels": "all", 
+        "type": "weight",
+        "eraspecific": "16PreVFP"
+    },
     "btag_hf": {
         "processes": "MCOnly", 
-        "technical_name": "CMS_btag_hf", 
+        "technical_name": "CMS_btag_DeepFlav_hf", 
         "aliasUp": "nominalWeight * expUp[:, 7]", 
         "aliasDown": "nominalWeight * expDown[:, 7]", 
         "channels": "all", 
         "pretty_name": "BTagSFHf", 
         "type": "weight"
     }, 
-    "btag_hf_stats1": {
-        "processes": "MCOnly", 
-        "technical_name": "BTagSFHfs1", 
+    "btag_hf_stats1_16PreVFP": {
+        "aliasDown": "nominalWeight * expDown[:, 10]", 
         "aliasUp": "nominalWeight * expUp[:, 9]", 
-        "aliasDown": "nominalWeight * expDown[:, 9]", 
+        "technical_name": "CMS_btag_DeepFlav_hfstats1_2016preVFP",
+        "processes": "MCOnly", 
         "channels": "all", 
         "pretty_name": "BTagSFHfs1", 
-        "type": "weight"
+        "type": "weight",
+        "eraspecific": "16PreVFP"
     }, 
-    "btag_hf_stats2": {
-        "processes": "MCOnly", 
-        "technical_name": "BTagSFHfs2", 
-        "aliasUp": "nominalWeight * expUp[:, 10]", 
+    "btag_hf_stats2_16PreVFP": {
         "aliasDown": "nominalWeight * expDown[:, 10]", 
+        "aliasUp": "nominalWeight * expUp[:, 9]", 
+        "technical_name": "CMS_btag_DeepFlav_hfstats2_2016preVFP",
+        "processes": "MCOnly", 
         "channels": "all", 
         "pretty_name": "BTagSFHfs2", 
-        "type": "weight"
+        "type": "weight",
+        "eraspecific": "16PreVFP"
+    }, 
+    "btag_hf_stats1_16PostVFP": {
+        "aliasDown": "nominalWeight * expDown[:, 10]", 
+        "aliasUp": "nominalWeight * expUp[:, 9]", 
+        "technical_name": "CMS_btag_DeepFlav_hfstats1_2016postVFP",
+        "processes": "MCOnly", 
+        "channels": "all", 
+        "pretty_name": "BTagSFHfs1", 
+        "type": "weight",
+        "eraspecific": "16PostVFP"
+    }, 
+    "btag_hf_stats2_16PostVFP": {
+        "aliasDown": "nominalWeight * expDown[:, 10]", 
+        "aliasUp": "nominalWeight * expUp[:, 9]", 
+        "technical_name": "CMS_btag_DeepFlav_hfstats2_2016postVFP",
+        "processes": "MCOnly", 
+        "channels": "all", 
+        "pretty_name": "BTagSFHfs2", 
+        "type": "weight",
+        "eraspecific": "16PostVFP"
     },
     "btag_lf": {
         "processes": "MCOnly", 
-        "technical_name": "CMS_btag_lf", 
+        "technical_name": "CMS_btag_DeepFlav_lf", 
         "aliasUp": "nominalWeight * expUp[:, 8]", 
         "aliasDown": "nominalWeight * expDown[:, 8]", 
         "channels": "all", 
         "pretty_name": "BTagSFLf", 
         "type": "weight"
     }, 
-    "btag_lf_stats1": {
+    "btag_lf_stats1_16PreVFP": {
         "aliasDown": "nominalWeight * expDown[:, 11]", 
+        "aliasUp": "nominalWeight * expUp[:, 11]",
+        "technical_name": "CMS_btag_DeepFlav_lfstats1_2016preVFP",
         "processes": "MCOnly", 
-        "technical_name": "BTagSFLfs1", 
-        "aliasUp": "nominalWeight * expUp[:, 11]", 
         "channels": "all", 
         "pretty_name": "BTagSFLfs1", 
-        "type": "weight"
+        "type": "weight",
+        "eraspecific": "16PreVFP"
     }, 
-    "btag_lf_stats2": {
+    "btag_lf_stats2_16PreVFP": {
         "aliasDown": "nominalWeight * expDown[:, 12]", 
+        "aliasUp": "nominalWeight * expUp[:, 12]",
+        "technical_name": "CMS_btag_DeepFlav_lfstats2_2016preVFP",
         "processes": "MCOnly", 
-        "technical_name": "BTagSFLfs2", 
-        "aliasUp": "nominalWeight * expUp[:, 12]", 
         "channels": "all", 
         "pretty_name": "BTagSFLfs2", 
-        "type": "weight"
+        "type": "weight",
+        "eraspecific": "16PreVFP"
     }, 
+    "btag_lf_stats1_16PostVFP": {
+        "aliasDown": "nominalWeight * expDown[:, 11]", 
+        "aliasUp": "nominalWeight * expUp[:, 11]",
+        "technical_name": "CMS_btag_DeepFlav_hlstats1_2016postVFP",
+        "processes": "MCOnly", 
+        "channels": "all", 
+        "pretty_name": "BTagSFLfs1", 
+        "type": "weight",
+        "eraspecific": "16PostVFP"
+    }, 
+    "btag_lf_stats2_16PostVFP": {
+        "aliasDown": "nominalWeight * expDown[:, 12]", 
+        "aliasUp": "nominalWeight * expUp[:, 12]",
+        "technical_name": "CMS_btag_DeepFlav_hlstats2_2016postVFP",
+        "processes": "MCOnly", 
+        "channels": "all", 
+        "pretty_name": "BTagSFLfs2", 
+        "type": "weight",
+        "eraspecific": "16PostVFP"
+    },
     "btag_cferr1": {
         "aliasDown": "nominalWeight * expDown[:, 13]", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_btag_cferr1", 
+        "technical_name": "CMS_btag_DeepFlav_cferr1", 
         "aliasUp": "nominalWeight * expUp[:, 13]", 
         "channels": "all", 
         "pretty_name": "BTagSFCfe1", 
@@ -306,7 +370,7 @@
     }, 
     "btag_cferr2": {
         "processes": "MCOnly", 
-        "technical_name": "CMS_btag_cferr2", 
+        "technical_name": "CMS_btag_DeepFlav_cferr2", 
         "aliasUp": "nominalWeight * expUp[:, 14]", 
         "aliasDown": "nominalWeight * expDown[:, 14]", 
         "channels": "all", 
