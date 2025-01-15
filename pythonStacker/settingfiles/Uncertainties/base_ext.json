@@ -548,13 +548,13 @@
     "METUnclustered": {
         "fileglob": "MET", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_scale_met_unclustered_energy", 
+        "technical_name": "CMS_scale_met_unclustered_energy_", 
         "type": "shape"
     },
     "METUnclustered_16PreVFP": {
         "fileglob": "MET", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_scale_met_unclustered_energy", 
+        "technical_name": "CMS_scale_met_unclustered_energy_2016preVFP", 
         "type": "shape",
         "treename": "METUnclustered",
         "eraspecific": "16PreVFP"
@@ -562,7 +562,7 @@
     "METUnclustered_16PostVFP": {
         "fileglob": "MET", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_scale_met_unclustered_energy", 
+        "technical_name": "CMS_scale_met_unclustered_energy_2016postVFP", 
         "type": "shape",
         "treename": "METUnclustered",
         "eraspecific": "16PostVFP"

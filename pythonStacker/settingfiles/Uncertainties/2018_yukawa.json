@@ -356,7 +356,7 @@
     "METUnclustered": {
         "fileglob": "MET", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_scale_met_unclustered_energy", 
+        "technical_name": "CMS_scale_met_unclustered_energy_2018", 
         "type": "shape"
     },     
     "pdfUncertainty": {
