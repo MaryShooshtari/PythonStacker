@@ -1,5 +1,5 @@
 {
-    "Basedir": "/pnfs/iihe/cms/store/user/nivanden/AnalysisOutput/ReducedTuples/2024-12-15_17-50",
+    "Basedir": "/pnfs/iihe/cms/store/user/nivanden/AnalysisOutput/ReducedTuples/2024-11-20_14-44",
     "Processes": {
         "tttj": {
             "fileglobs": ["Tree_TTTJminus*MCPrompt", "Tree_TTTJplus*MCPrompt"],
