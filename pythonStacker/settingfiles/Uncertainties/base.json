@@ -11,7 +11,7 @@
     "ttw_norm": {
         "processes": "ttW", 
         "corr_proc": 1, 
-        "technical_name": "Norm_ttW", 
+        "technical_name": "CMS_TOP24008_Norm_ttW", 
         "channels": "all", 
         "pretty_name": "ttW norm", 
         "rate": 1.2, 
@@ -20,7 +20,7 @@
     "ttz_norm": {
         "processes": "ttZ", 
         "corr_proc": 1, 
-        "technical_name": "Norm_ttW", 
+        "technical_name": "CMS_TOP24008_Norm_ttW", 
         "channels": "all", 
         "pretty_name": "ttZ norm", 
         "rate": 1.2, 
@@ -29,7 +29,7 @@
     "tth_norm": {
         "processes": "ttH", 
         "corr_proc": 1, 
-        "technical_name": "Norm_ttH", 
+        "technical_name": "CMS_TOP24008_Norm_ttH", 
         "channels": "all", 
         "pretty_name": "ttH norm", 
         "rate": 1.2, 
@@ -38,7 +38,7 @@
     "nonPromptElNorm": {
         "processes": "nonPromptElectron", 
         "corr_proc": 1, 
-        "technical_name": "CMS_fake_e_correlated", 
+        "technical_name": "CMS_TOP24008_fake_e_correlated", 
         "channels": "all", 
         "pretty_name": "nonPromptElNorm", 
         "rate": 1.2, 
@@ -56,7 +56,7 @@
     "nonPromptMuNorm": {
         "processes": "nonPromptMuon", 
         "corr_proc": 1, 
-        "technical_name": "CMS_fake_m_correlated", 
+        "technical_name": "CMS_TOP24008_fake_m_correlated", 
         "channels": "all", 
         "pretty_name": "nonPromptMuNorm", 
         "rate": 1.2, 
@@ -74,7 +74,7 @@
     "ChargeMisIDNorm": {
         "processes": "ChargeMisID", 
         "corr_proc": 1, 
-        "technical_name": "Norm_ChargeMisID", 
+        "technical_name": "CMS_TOP24008_Norm_ChargeMisID", 
         "channels": "all", 
         "pretty_name": "ChargeMisIDNorm", 
         "rate": 1.15, 
@@ -83,7 +83,7 @@
     "WZNorm": {
         "processes": "WZ", 
         "corr_proc": 1, 
-        "technical_name": "Norm_WZ", 
+        "technical_name": "CMS_TOP24008_Norm_WZ", 
         "channels": "all", 
         "pretty_name": "WZNorm ", 
         "rate": 1.062, 
@@ -92,7 +92,7 @@
     "VVVNorm": {
         "processes": "VVV", 
         "corr_proc": 1, 
-        "technical_name": "Norm_VVV", 
+        "technical_name": "CMS_TOP24008_Norm_VVV", 
         "channels": "all", 
         "pretty_name": "VVVNorm", 
         "rate": 1.06, 
@@ -101,7 +101,7 @@
     "XgammaNorm": {
         "processes": "Xg", 
         "corr_proc": 1, 
-        "technical_name": "Norm_Xg", 
+        "technical_name": "CMS_TOP24008_Norm_Xg", 
         "channels": "all", 
         "pretty_name": "XgammaNorm ", 
         "rate": 1.05, 
@@ -110,7 +110,7 @@
     "Other_tNorm": {
         "processes": "Othert", 
         "corr_proc": 1, 
-        "technical_name": "Norm_Othert", 
+        "technical_name": "CMS_TOP24008_Norm_Othert", 
         "channels": "all", 
         "pretty_name": "Other_tNorm", 
         "rate": 1.2, 
@@ -259,7 +259,7 @@
     "ElectronReco": {
         "aliasDown": "nominalWeight * expDown[:, 6]", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_eff_e_reco", 
+        "technical_name": "CMS_TOP24008_eff_e_reco", 
         "aliasUp": "nominalWeight * expUp[:, 6]", 
         "channels": "all", 
         "type": "weight"
@@ -275,7 +275,7 @@
     "ElectronIDSyst": {
         "aliasDown": "nominalWeight * expDown[:, 3]", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_eff_e_id_correlated", 
+        "technical_name": "CMS_TOP24008_eff_e_id_correlated", 
         "aliasUp": "nominalWeight * expUp[:, 3]", 
         "channels": "all", 
         "type": "weight"
@@ -283,7 +283,7 @@
     "MuonIDSyst": {
         "aliasDown": "nominalWeight * expDown[:, 1]", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_eff_m_id_correlated", 
+        "technical_name": "CMS_TOP24008_eff_m_id_correlated", 
         "aliasUp": "nominalWeight * expUp[:, 1]", 
         "channels": "all", 
         "type": "weight"
@@ -307,7 +307,7 @@
     "ISR": {
         "aliasDown": "isrfsrVariations[:, 1]", 
         "processes": "MCOnly", 
-        "technical_name": "ps_isr", 
+        "technical_name": "CMS_TOP24008_ps_isr_", 
         "aliasUp": "isrfsrVariations[:, 0]", 
         "channels": "all", 
         "type": "weight",
@@ -322,7 +322,7 @@
             "lin", 
             "quad"
         ], 
-        "technical_name": "ps_isr_BSMsignal", 
+        "technical_name": "CMS_TOP24008_ps_isr_BSMsignal", 
         "aliasUp": "isrfsrVariations[:, 0]", 
         "channels": "all", 
         "type": "weight"
@@ -350,19 +350,19 @@
     "JER_1p93": {
         "fileglob": "JER", 
         "processes": "MCOnly", 
-        "technical_name": "JER_1p93", 
+        "technical_name": "CMS_TOP24008_res_j_1p93", 
         "type": "shape"
     }, 
     "JER_2p5": {
         "fileglob": "JER", 
         "processes": "MCOnly", 
-        "technical_name": "JER_2p5", 
+        "technical_name": "CMS_TOP24008_res_j_2p5", 
         "type": "shape"
     }, 
     "METUnclustered": {
         "fileglob": "MET", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_scale_met_unclustered_energy", 
+        "technical_name": "CMS_TOP24008_scale_met_unclustered_energy", 
         "type": "shape"
     },     
     "pdfUncertainty": {
@@ -374,7 +374,7 @@
     "ScaleVarFactorization": {
         "processes": "MCOnly",
         "corr_proc": 0, 
-        "technical_name": "QCDscale_fac_", 
+        "technical_name": "CMS_TOP24008_QCDscale_fac_", 
         "aliasUp": "scaleVariations[:, 3]", 
         "aliasDown": "scaleVariations[:, 4]", 
         "channels": "all", 
@@ -383,7 +383,7 @@
     "ScaleVarRenormalization": {
         "processes": "MCOnly",
         "corr_proc": 0, 
-        "technical_name": "QCDscale_ren_", 
+        "technical_name": "CMS_TOP24008_QCDscale_ren_", 
         "aliasUp": "scaleVariations[:, 0]", 
         "aliasDown": "scaleVariations[:, 1]", 
         "channels": "all", 
