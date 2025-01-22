@@ -39,8 +39,11 @@ def reweight_and_write(reweighter, eventclass, tree, storage, filename, process)
 
     import numpy as np
     # var = np.array([reweighter.transform_weights(entry[1:]) for entry in arrs.eftVariationsNorm])
-    if process == "TTTT_EFT":
+    if process == "TTTT_EFT" or process == "TTH_EFT":
         var = np.transpose(np.array(reweighter.transform_weights_parallel(ak.to_numpy(arrs.eftVariationsNorm[:, 1:]))))
+        #print("eftVariationsNorm[:, 1:] ", ak.to_numpy(arrs.eftVariationsNorm[:, 1:]))
+        print("var not T",np.array(reweighter.transform_weights_parallel(ak.to_numpy(arrs.eftVariationsNorm[:, 1:]))))
+        #print("var", var)
     else:
         var = np.transpose(np.array(reweighter.transform_weights_parallel(ak.to_numpy(arrs.eftVariationsNorm))))
 

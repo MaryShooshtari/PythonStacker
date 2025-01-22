@@ -44,7 +44,7 @@ for in_file in input_file_names:
     for i in range(input_tree.GetEntries()):
         input_tree.GetEntry(i)
         eftVariations.clear()
-        for val in [1.0, 0.99990205, 0.99992729, 0.9999462, 1.0, 0.99997367, 1.0014771, 0.99987528, 0.99982935,
+        for val in [1.0, 1.0, 0.99990205, 0.99992729, 0.9999462, 1.0, 0.99997367,0.88140415, 1.0014771, 0.99987528, 0.99982935,
                     0.99984825, 0.99990205, 0.99988799, 0.88134156, 1.0013791, 1.0001748, 0.99992867, 0.99992729,
                     0.99990096, 0.88136608, 1.0014043, 0.99991938, 0.9999462, 0.99991988, 0.88135975, 1.0014233,
                     1.0, 0.99997367, 0.88140415, 1.0014771, 0.99995334, 0.88138661, 1.0014508, 0.77031229,
@@ -58,30 +58,30 @@ for in_file in input_file_names:
     input_file.Close()
     print(f"Modified ROOT file has been saved to {output_dir + output_file_name}")
 
-import subprocess
-
-# List of files to copy
-copy_files = [
-"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2016PostVFP_JEC.root",
-"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2016PostVFP_JER.root",
-"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2016PostVFP_MET.root",
-"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2016PreVFP_JEC.root",
-"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2016PreVFP_JER.root",
-"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2016PreVFP_MET.root",
-"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2017_JEC.root",
-"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2017_JER.root",
-"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2017_MET.root",
-"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2018_HEMIssue.root",
-"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2018_JEC.root",
-"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2018_JER.root",
-"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2018_MET.root",
-]
-# Loop over files
-for c_file in copy_files:
-    source = input_dir + c_file
-    destination = output_dir + "Tree_ttHJetToNonbb_EFT"+c_file.split("ttHJetToNonbb")[1]
-    try:
-        subprocess.run(["xrdcp", source, destination], check=True)
-        print(f"Successfully copied: {source} -> {destination}")
-    except subprocess.CalledProcessError as e:
-        print(f"Error occurred while copying {source}: {e}")
+#import subprocess
+#
+## List of files to copy
+#copy_files = [
+#"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2016PostVFP_JEC.root",
+#"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2016PostVFP_JER.root",
+#"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2016PostVFP_MET.root",
+#"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2016PreVFP_JEC.root",
+#"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2016PreVFP_JER.root",
+#"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2016PreVFP_MET.root",
+#"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2017_JEC.root",
+#"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2017_JER.root",
+#"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2017_MET.root",
+#"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2018_HEMIssue.root",
+#"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2018_JEC.root",
+#"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2018_JER.root",
+#"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2018_MET.root",
+#]
+## Loop over files
+#for c_file in copy_files:
+#    source = input_dir + c_file
+#    destination = output_dir + "Tree_ttHJetToNonbb_EFT"+c_file.split("ttHJetToNonbb")[1]
+#    try:
+#        subprocess.run(["xrdcp", source, destination], check=True)
+#        print(f"Successfully copied: {source} -> {destination}")
+#    except subprocess.CalledProcessError as e:
+#        print(f"Error occurred while copying {source}: {e}")

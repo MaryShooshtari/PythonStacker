@@ -33,13 +33,18 @@
             "pretty_name": "WZ",
             "color": "#bd1f01"
         },
-        "nonPrompt": {
+        "nonPromptElectron": {
             "fileglobs": ["*_nonPromptDD_*"],
             "color": "#e76300",
-            "pretty_name": "NP"
+            "pretty_name": "NP e"
+        },
+        "nonPromptMuon": {
+            "fileglobs": ["*_nonPromptDD_*"],
+            "color": "#a96b59",
+            "pretty_name": "NP\\ \\mu"
         },
         "ttH": {
-            "fileglobs": ["Tree_ttHJetToNonbb*MCPrompt"],
+            "fileglobs": ["Tree_ttHJetToNonbb_M125*MCPrompt"],
             "pretty_name": "t\\bar{t}H",
             "color": "#b9ac70"
         },
