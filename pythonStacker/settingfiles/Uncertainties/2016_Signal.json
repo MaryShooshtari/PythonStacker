@@ -25,7 +25,7 @@
             "Othert"
         ], 
         "corr_proc": 0, 
-        "technical_name": "CMS_TOP24008_ps_isr_", 
+        "technical_name": "ps_isr_", 
         "aliasUp": "isrfsrVariations[:, 0]", 
         "channels": "all", 
         "type": "weight"
@@ -70,7 +70,7 @@
     "XgammaNorm": {
         "processes": "Xg", 
         "corr_proc": 1, 
-        "technical_name": "CMS_TOP24008_Norm_Xg", 
+        "technical_name": "cross_section_Xg", 
         "channels": "all", 
         "pretty_name": "XgammaNorm ", 
         "rate": 1.05, 
@@ -116,7 +116,7 @@
     "VVVNorm": {
         "processes": "VVV", 
         "corr_proc": 1, 
-        "technical_name": "CMS_TOP24008_Norm_VVV", 
+        "technical_name": "cross_section_VVV", 
         "channels": "all", 
         "pretty_name": "VVVNorm", 
         "rate": 1.06, 
@@ -143,7 +143,7 @@
             "Othert"
         ], 
         "corr_proc": 0, 
-        "technical_name": "CMS_TOP24008_QCDscale_fac_", 
+        "technical_name": "QCDscale_fac_", 
         "aliasUp": "scaleVariations[:, 3]", 
         "channels": "all", 
         "type": "weight"
@@ -176,7 +176,7 @@
             "quad"
         ], 
         "corr_proc": 1, 
-        "technical_name": "CMS_TOP24008_QCDscale_ren_BSMsignal", 
+        "technical_name": "QCDscale_ren_BSMsignal", 
         "aliasUp": "scaleVariations[:, 0]", 
         "channels": "all", 
         "type": "weight"
@@ -184,7 +184,7 @@
     "WZNorm": {
         "processes": "WZ", 
         "corr_proc": 1, 
-        "technical_name": "CMS_TOP24008_Norm_WZ", 
+        "technical_name": "cross_section_WZ", 
         "channels": "all", 
         "pretty_name": "WZNorm ", 
         "rate": 1.062, 
@@ -269,7 +269,7 @@
             "lin", 
             "quad"
         ], 
-        "technical_name": "CMS_TOP24008_ps_isr_BSMsignal", 
+        "technical_name": "ps_isr_BSMsignal", 
         "aliasUp": "isrfsrVariations[:, 0]", 
         "channels": "all", 
         "type": "weight"
@@ -305,7 +305,7 @@
     "ttw_norm": {
         "processes": "ttW", 
         "corr_proc": 1, 
-        "technical_name": "CMS_TOP24008_Norm_ttW", 
+        "technical_name": "cross_section_ttW", 
         "channels": "all", 
         "pretty_name": "ttW norm", 
         "rate": 1.2, 
@@ -321,7 +321,7 @@
     "ElectronReco": {
         "aliasDown": "nominalWeight * expDown[:, 6]", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_TOP24008_eff_e_reco", 
+        "technical_name": "CMS_eff_e_reco", 
         "aliasUp": "nominalWeight * expUp[:, 6]", 
         "channels": "all", 
         "type": "weight"
@@ -344,7 +344,7 @@
             "quad"
         ], 
         "corr_proc": 1, 
-        "technical_name": "CMS_TOP24008_QCDscale_fac_BSMsignal", 
+        "technical_name": "QCDscale_fac_BSMsignal", 
         "aliasUp": "scaleVariations[:, 3]", 
         "channels": "all", 
         "type": "weight"
@@ -352,7 +352,7 @@
     "ChargeMisIDNorm": {
         "processes": "ChargeMisID", 
         "corr_proc": 1, 
-        "technical_name": "CMS_TOP24008_Norm_ChargeMisID", 
+        "technical_name": "cross_section_ChargeMisID", 
         "channels": "all", 
         "pretty_name": "ChargeMisIDNorm", 
         "rate": 1.15, 
@@ -390,7 +390,7 @@
     "ttz_norm": {
         "processes": "ttZ", 
         "corr_proc": 1, 
-        "technical_name": "CMS_TOP24008_Norm_ttZ", 
+        "technical_name": "cross_section_ttZ", 
         "channels": "all", 
         "pretty_name": "ttZ norm", 
         "rate": 1.2, 
@@ -408,7 +408,7 @@
     "Other_tNorm": {
         "processes": "Othert", 
         "corr_proc": 1, 
-        "technical_name": "CMS_TOP24008_Norm_Othert", 
+        "technical_name": "cross_section_Othert", 
         "channels": "all", 
         "pretty_name": "Other_tNorm", 
         "rate": 1.2, 

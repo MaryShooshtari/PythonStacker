@@ -1192,11 +1192,11 @@ if __name__ == "__main__":
     if args.UseEFT:
 
         if args.TTTT_EFT: 
-            systematics["Norm_tttt"] = Uncertainty("Norm_tttt", {"rate": "0.88/1.04", "processes": ["sm","lin","quad"], "exact": False})
+            systematics["Norm_tttt"] = Uncertainty("cross_section_tttt", {"rate": "0.88/1.04", "processes": ["sm","lin","quad"], "exact": False})
         elif args.TTT_EFT: 
-                systematics["Norm_ttt"] = Uncertainty("Norm_ttt", {"rate": "0.88/1.12", "processes": ["sm","lin","quad"], "exact": False})
+                systematics["Norm_ttt"] = Uncertainty("cross_section_ttt", {"rate": "0.88/1.12", "processes": ["sm","lin","quad"], "exact": False})
         elif args.All_EFT: 
-                systematics["Norm_Signal"] = Uncertainty("Norm_BSMsignal", {"rate": "0.84/1.13", "processes": ["sm","lin","quad"], "exact": False})
+                systematics["Norm_Signal"] = Uncertainty("cross_section_BSMsignal", {"rate": "0.84/1.13", "processes": ["sm","lin","quad"], "exact": False})
 
   
     # if args.UseBSM:
