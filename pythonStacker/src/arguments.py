@@ -12,7 +12,7 @@ def add_settingfiles(parser: argparse.ArgumentParser):
                         type=str, help='JSON file with process definitions.')
     parser.add_argument('-cf', '--channelfile', dest='channelfile', default="settingfiles/Channel/all_channels.json",
                         type=str, help='JSON file with channel definitions.')
-    parser.add_argument('-y', '--years', dest='years', default=["2016", "2017", "2018"], nargs='+',
+    parser.add_argument('-y', '--years', dest='years', default=["2016PreVFP", "2016PostVFP","2016", "2017", "2018"], nargs='+',
                         help='Specific years.')
 
 
@@ -46,7 +46,7 @@ def add_EFT_choice(parser: argparse.ArgumentParser):
 def add_BSM_choices(parser: argparse.ArgumentParser):
     parser.add_argument('--BSMModel', dest="bsm_model", nargs='+', default=["TopPhilicVectorSinglet"],
                         help="string to choose which models to consider.")
-    parser.add_argument('--BSMMass', dest="bsm_mass", nargs='+', default=[400, 600, 800],
+    parser.add_argument('--BSMMass', dest="bsm_mass", nargs='+', default=[400, 600, 800, 1000, 15000],
                         help="string to choose which masses to consider.")
     parser.add_argument('--BSMCoupling', dest="bsm_coupling", nargs='+', default=[1.0],
                         help="string to choose which couplings to consider.")
@@ -57,6 +57,10 @@ def add_tmp_storage(parser: argparse.ArgumentParser):
                         default="Intermediate", help="Path at which the \
                         histograms are stored")
 
+
+def add_reweighting_option(parser: argparse.ArgumentParser):
+    parser.add_argument("--pseudo", action="store_true",
+    default=False, help="Enable reweighting procedure")
 
 def add_plot_output(parser: argparse.ArgumentParser):
     default_output = f"/user/{os.getenv('USER')}/public_html/Interpretations/Plots/"
