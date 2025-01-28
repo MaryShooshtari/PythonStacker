@@ -34,6 +34,7 @@ def parse_arguments():
     arguments.add_tmp_storage(parser)
     arguments.add_toggles(parser)
     arguments.add_EFT_choice(parser)
+    arguments.add_BSM_choices(parser)
     # args_select_specifics(parser)
 
     parser.add_argument("-dcf", "--datacardfile", dest="datacardfile",
@@ -1004,8 +1005,8 @@ def bsm_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
 
                 path_to_histogram_systematic_up = f"{channel_DC_setting['prettyname']}/{rootpath_systname}Up/{bsm_variation}"
                 path_to_histogram_systematic_down = f"{channel_DC_setting['prettyname']}/{rootpath_systname}Down/{bsm_variation}"
-                convert_and_write_histogram(upvar, variables.get_properties(var_name), path_to_histogram_systematic_up, rootfile)
-                convert_and_write_histogram(downvar, variables.get_properties(var_name), path_to_histogram_systematic_down, rootfile)
+                convert_and_write_histogram(content_var_syst_up, variables.get_properties(var_name), path_to_histogram_systematic_up, rootfile)
+                convert_and_write_histogram(content_var_syst_down, variables.get_properties(var_name), path_to_histogram_systematic_down, rootfile)
     return ret
 
 if __name__ == "__main__":
