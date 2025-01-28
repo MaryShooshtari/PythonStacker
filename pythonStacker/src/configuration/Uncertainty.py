@@ -5,6 +5,12 @@ class Uncertainty:
     def __init__(self, name, dict_entry):
         self.name = name
 
+        # self.years = ["2016", "2016PreVFP", "2016PostVFP", "2017", "2018"]
+        # if any([year in name for year in self.years]):
+        #     self.years = [year for year in self.years if year in name]
+        #     if self.years[0] == "2016":
+        #         self.years = ["2016PreVFP", "2016PostVFP"] + self.years
+
         # extract dictionary and add defaults for every property
         self.pretty_name = dict_entry.get("pretty_name", name)
         self.technical_name = dict_entry.get("technical_name", name)

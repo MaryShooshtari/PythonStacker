@@ -48,6 +48,8 @@ if __name__ == "__main__":
     systematics = []
     if args.systematic:
         systematics = [args.systematic]
+    elif args.UseData:
+        systematics = [None]
     else:
         systematics = ["weight"]
         # load shape uncertainties

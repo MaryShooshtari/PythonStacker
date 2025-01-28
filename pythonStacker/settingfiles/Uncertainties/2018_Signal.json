@@ -391,7 +391,7 @@
         "pretty_name": "ElectronIDStat_2018", 
         "type": "weight"
     }, 
-    "MET": {
+    "METUnclustered": {
         "type": "shape", 
         "processes": "MCOnly", 
         "technical_name": "CMS_scale_met_unclustered_energy", 
