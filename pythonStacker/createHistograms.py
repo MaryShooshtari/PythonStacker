@@ -216,7 +216,7 @@ if __name__ == "__main__":
         basedir = processfile["Basedir"]
         subbasedir = basedir.split("/")[-1]
         
-        if args.UseBSM and processinfo.get("hasBSM", 0) > 0 and base_run:
+        if args.UseBSM and processinfo.get("hasBSM", 0) > 0:
             storagepath = os.path.join(storagepath, '2024-04-23_16-46')
         else:
             storagepath = os.path.join(storagepath, subbasedir)
