@@ -13,7 +13,8 @@
     },
     "CR-4L-Z": {
         "subchannels": [],
-        "selection": "eventClass==7"
+        "selection": "eventClass==7",
+        "ignore_processes": ["WZ"]
     },
     "CR-3L-2J1B": {
         "subchannels": [],

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import os
 
 from src.variables.variableReader import VariableReader, Variable
-from src.configuration import load_channels
+from src.configuration import load_channels, load_channels_and_subchannels
 from src.histogramTools import HistogramManager
 
 import src.plotTools.figureCreator as fg
@@ -28,7 +28,7 @@ def parse_arguments():
     return args
 
 
-def batch_systematic_keys(systematics, batchsize=6):
+def batch_systematic_keys(systematics, batchsize=4):
     keys = list(systematics.keys())
     batched = []
     i = 0
@@ -99,7 +99,7 @@ if __name__ == "__main__":
         subbasedir = processfile["Basedir"].split("/")[-1]
 
     variables = VariableReader(args.variablefile, args.variable)
-    channels = load_channels(args.channelfile)
+    channels = load_channels_and_subchannels(args.channelfile)
     storagepath = os.path.join(args.storage, subbasedir)
 
     outputfolder_base = generate_outputfolder(args.years, args.outputfolder, subbasedir, suffix="_Syst_Variations")
@@ -113,7 +113,7 @@ if __name__ == "__main__":
     for channel in channels:
         if args.channel is not None and channel != args.channel:
             continue
-
+        print(channel)
         storagepath_tmp = os.path.join(storagepath, channel)
 
         outputfolder = os.path.join(outputfolder_base, channel, args.process)
@@ -131,20 +131,20 @@ if __name__ == "__main__":
                 plot_systematicsset(variable, outputfolder, histograms, i, channel, syst_set)
         
 
-        for subchannel in channels[channel].subchannels.keys():
-            print(subchannel)
-            storagepath_tmp = os.path.join(storagepath, channel + subchannel)
-            outputfolder = os.path.join(outputfolder_base, channel, args.process, subchannel)
-            if not os.path.exists(outputfolder):
-                os.makedirs(outputfolder)
-            copy_index_html(outputfolder)
-
-            histograms = HistogramManager(storagepath_tmp, args.process, variables, systematics_list, args.years[0])
-            histograms.load_histograms()
-            for _, variable in variables.get_variable_objects().items():
-                if not variable.is_channel_relevant(channel):
-                    continue
-                for i, syst_set in enumerate(batched_systematics):
-                    plot_systematicsset(variable, outputfolder, histograms, i, channel + subchannel, syst_set)
+        # for subchannel in channels[channel].subchannels.keys():
+        #     print(subchannel)
+        #     storagepath_tmp = os.path.join(storagepath, channel + subchannel)
+        #     outputfolder = os.path.join(outputfolder_base, channel, args.process, subchannel)
+        #     if not os.path.exists(outputfolder):
+        #         os.makedirs(outputfolder)
+        #     copy_index_html(outputfolder)
+        # 
+        #     # histograms = HistogramManager(storagepath_tmp, args.process, variables, systematics_list, args.years[0])
+        #     # histograms.load_histograms()
+        #     # for _, variable in variables.get_variable_objects().items():
+        #     #     if not variable.is_channel_relevant(channel):
+        #     #         continue
+        #     #     for i, syst_set in enumerate(batched_systematics):
+        #     #         plot_systematicsset(variable, outputfolder, histograms, i, channel + subchannel, syst_set)
     
     print("Finished!")

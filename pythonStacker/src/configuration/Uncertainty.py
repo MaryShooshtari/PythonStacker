@@ -14,6 +14,7 @@ class Uncertainty:
         # extract dictionary and add defaults for every property
         self.pretty_name = dict_entry.get("pretty_name", name)
         self.technical_name = dict_entry.get("technical_name", name)
+        self.treename = dict_entry.get("treename", name)
         self.fileglob = dict_entry.get("fileglob", name)
 
         self.channels = dict_entry.get("channels", ["all"])
@@ -28,6 +29,8 @@ class Uncertainty:
         self._correlated_process = bool(dict_entry.get("corr_proc", True))
 
         self.correlated_years = True
+        self.eraspecific = dict_entry.get("eraspecific", False)
+
         # Possible types: flat, weight, shape
         self.type = dict_entry.get("type", "flat")
         if self.type == "flat":
@@ -103,3 +106,6 @@ class Uncertainty:
 
     def get_weight_keys(self):
         return (self.weight_key_up, self.weight_key_down)
+
+    def era_specific(self):
+        return self.eraspecific
