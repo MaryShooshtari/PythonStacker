@@ -46,7 +46,7 @@ def add_EFT_choice(parser: argparse.ArgumentParser):
 def add_BSM_choices(parser: argparse.ArgumentParser):
     parser.add_argument('--BSMModel', dest="bsm_model", nargs='+', default=["TopPhilicVectorSinglet"],
                         help="string to choose which models to consider.")
-    parser.add_argument('--BSMMass', dest="bsm_mass", nargs='+', default=[400, 600, 800, 1000, 15000],
+    parser.add_argument('--BSMMass', dest="bsm_mass", nargs='+', default=[400, 600, 800, 1000, 1500],
                         help="string to choose which masses to consider.")
     parser.add_argument('--BSMCoupling', dest="bsm_coupling", nargs='+', default=[1.0],
                         help="string to choose which couplings to consider.")
