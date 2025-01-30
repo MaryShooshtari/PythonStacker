@@ -233,7 +233,7 @@
     }, 
     "ElectronIDSyst": {
         "processes": "MCOnly", 
-        "technical_name": "CMS_eff_e_id_correlated", 
+        "technical_name": "CMS_TOP24008_eff_e_id_correlated", 
         "aliasUp": "nominalWeight * expUp[:, 3]", 
         "aliasDown": "nominalWeight * expDown[:, 3]", 
         "channels": "all", 
@@ -514,7 +514,7 @@
     },
     "FlavorQCD_light": {
         "pretty_name": "JEC_FlavorQCD_light",
-        "technical_name": "CMS_TOP24008_scale_j_FlavorPureLight",
+        "technical_name": "CMS_TOP24008_scale_j_FlavorQCD_light",
         "processes": "MCOnly",
         "type": "shape",
         "fileglob": "GroupedJEC"
@@ -574,7 +574,7 @@
     },
     "tttw_norm": {
         "pretty_name": "tttw_norm",
-        "technical_name": "cross_section_tttw",
+        "technical_name": "cross_section_tttW",
         "channels": "all",
         "processes": "tttW",
         "rate": "0.846/1.162",
