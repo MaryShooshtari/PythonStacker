@@ -66,12 +66,15 @@ def convert_and_write_histogram(input_histogram, variable: Variable, outputname:
             continue
         ret_th1.SetBinError(i, 0.001)
         ret_th1.SetBinContent(i, 0.001)
+        #if ret_th1.GetBinContent(i) < -1e-06:
         if ret_th1.GetBinContent(i) < 0.001:
             if "lin" in outputname :
-                print (outputname) #("\n we don't want to change the interference even if it's negative!!")
+                print (outputname , "\n we don't want to change the interference even if it's negative!!")
                 continue
             else:
                 print(f"WARNING: Significant negative value in {outputname} bin {i}! Setting to 0.")
+                #ret_th1.SetBinError(i, 0.0)
+                #ret_th1.SetBinContent(i, 0.0)
     if ret_th1.Integral()==0 :
         ret_th1.SetBinContent(1, 1e-6)  # Set the first bin to a small value
         print (f"This process {outputname} is actually empty here")
@@ -85,7 +88,7 @@ def get_pretty_channelnames(dc_settings):
 
 def patch_scalevar_correlations(systematics, processes):
     if not "ScaleVarEnvelope" in systematics:
-        print("SCALE VAR NO FOUND")
+        #print("SCALE VAR NO FOUND")
         return
 
     envelope_relevant_mod = list(systematics["ScaleVarEnvelope"].processes)
@@ -106,7 +109,7 @@ def patch_scalevar_correlations(systematics, processes):
 
     relevant_processes = [process for process in processes if not process in envelope_relevant]
 
-    print("Debugging the scale variations")
+    #print("Debugging the scale variations")
     # print(f"For Processes {relevant_processes}")
     for i in range(6):
         key = f"ScaleVar_{i}"
@@ -114,7 +117,30 @@ def patch_scalevar_correlations(systematics, processes):
         # systematics[key].processes = relevant_processes
         systematics[key].set_processes(relevant_processes)
 
-
+def extract_up_value(data):
+    """
+    Extracts the 'Up' value from the given data, handling cases
+    where the data is an array or a dictionary.
+    """
+    """
+    Ensures the output is an Awkward Array.
+    - If the input is already an Awkward Array, return it unchanged.
+    - If the input is a dictionary, extract the 'Up' value and convert to Awkward Array.
+    - If the input is a NumPy array or list, convert to Awkward Array.
+    - For unsupported types, return an empty Awkward Array.
+    """
+    if isinstance(data, ak.Array):
+        # If already an Awkward Array, return it as is
+        return data
+    elif isinstance(data, dict):
+        # If it's a dictionary, get the 'Up' key or default to an empty list
+        return ak.Array(data.get("Up", []))
+    elif isinstance(data, (np.ndarray, list)):
+        # Convert NumPy arrays or lists to Awkward Array
+        return ak.Array(data)
+    else:
+        # For unsupported types, return an empty Awkward Array
+        return ak.Array([])
 
 def nominal_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings: dict, channels: dict, processes: list, shape_systematics: dict, args: argparse.Namespace):
     """
@@ -123,7 +149,7 @@ def nominal_datacard_creation(rootfile: uproot.WritableDirectory, datacard_setti
     """
     all_asimovdata = dict()
     for channelname, channel_DC_setting in datacard_settings["channelcontent"].items():
-        print(channelname)
+        #print(channelname)
         # load histograms for this specific channel and the variable with HistogramManager
         histograms = dict()
 
@@ -144,7 +170,7 @@ def nominal_datacard_creation(rootfile: uproot.WritableDirectory, datacard_setti
         for process in processes:
             if channels[channelname].is_process_excluded(process):
                 continue
-            print(process)
+            #print(process)
             histograms = HistogramManager(storagepath, process, variables, list(shape_systematics.keys()), args.years[0])
             histograms.load_histograms()
 
@@ -264,8 +290,8 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                 rel = np.nan_to_num(sm_histograms[channelname][var_name]["nominal"] / histograms_eft[var_name]["nominal"], nan=1.)
                 rel = np.where(np.abs(rel) > 1e10, 1., rel)
     
-                content_sm_lin_quad_nominal_beforeRW = histograms_eft[var_name]["nominal"] + histograms_eft[var_name][lin_name]["Up"] + histograms_eft[var_name][quad_name]["Up"]
-                content_sm_lin_quad_nominal = rel * content_sm_lin_quad_nominal_beforeRW
+                content_sm_lin_quad_nominal = histograms_eft[var_name]["nominal"] + histograms_eft[var_name][lin_name]["Up"] + histograms_eft[var_name][quad_name]["Up"]
+                #content_sm_lin_quad_nominal = rel * content_sm_lin_quad_nominal_beforeRW
                 statunc_sm_lin_quad_nominal = np.nan_to_num(ak.to_numpy(content_sm_lin_quad_nominal * histograms_eft[var_name]["stat_unc"] / histograms_eft[var_name]["nominal"]))
                 path_to_sm_lin_quad = f"{channel_DC_setting['prettyname']}/sm_lin_quad_{eft_var}"
                 
@@ -428,17 +454,17 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
     
             variables = VariableReader(args.variablefile, [var_name])
     
-            sm_histograms[channelname] = HistogramManager(storagepath, "TTT", variables, list(shape_systematics.keys()), args.years[0])
+            sm_histograms[channelname] = HistogramManager(storagepath, "ttH", variables, list(shape_systematics.keys()), args.years[0])
             sm_histograms[channelname].load_histograms()
             all_asimovdata[channel_DC_setting['prettyname']] = sm_histograms[channelname][var_name]["nominal"]
     
             path_to_histogram = f"{channel_DC_setting['prettyname']}/sm"
-            convert_and_write_histogram(sm_histograms[channelname][var_name]["nominal"], variables.get_properties(var_name), path_to_histogram, rootfile, statunc=sm_histograms[channelname][var_name]["stat_unc"])
+            convert_and_write_histogram(sm_histograms[channelname][var_name]["nominal"], variables.get_properties(var_name), path_to_histogram, rootfile)#, statunc=sm_histograms[channelname][var_name]["stat_unc"])
             # loop and write systematics
             for systname, syst in shape_systematics.items():
                 if systname == "nominal" or systname == "stat_unc"  or systname == "ScaleVarEnvelopeSignal" or systname == "ISRSignal":
                     continue
-                if not syst.is_process_relevant("TTT"):
+                if not syst.is_process_relevant("TTH"):
                     continue
                 #if "ISR" in systname: print("\n""Here we go. ISR is hereeeeee")
                 
@@ -452,7 +478,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
     
                 rootpath_systname = syst.technical_name
                 if not syst.correlated_process:
-                    rootpath_systname += "TTT"
+                    rootpath_systname += "TTH"
     
                 path_to_histogram_systematic_up = f"{channel_DC_setting['prettyname']}/{rootpath_systname}Up/sm"
                 path_to_histogram_systematic_down = f"{channel_DC_setting['prettyname']}/{rootpath_systname}Down/sm"
@@ -477,25 +503,33 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
     
                 # load nominal and stat unc? stat unc from EFT sample itself, then nominal is the variation, so:
                 content_to_load = ["nominal", "stat_unc", lin_name, quad_name]
-                histograms_eft = HistogramManager(storagepath, "TTT_EFT", variables, content_to_load, args.years[0])
+                histograms_eft = HistogramManager(storagepath, "TTH_EFT", variables, content_to_load, args.years[0])
                 histograms_eft.load_histograms()
                 
-                rel = np.nan_to_num(sm_histograms[channelname][var_name]["nominal"] / histograms_eft[var_name]["nominal"], nan=1.)
-                rel = np.where(np.abs(rel) > 1e10, 1., rel)
-    
-                content_sm_lin_quad_nominal_beforeRW = histograms_eft[var_name]["nominal"] + histograms_eft[var_name][lin_name]["Up"] + histograms_eft[var_name][quad_name]["Up"]
-                content_sm_lin_quad_nominal = rel * content_sm_lin_quad_nominal_beforeRW
-                statunc_sm_lin_quad_nominal = np.nan_to_num(ak.to_numpy(content_sm_lin_quad_nominal * histograms_eft[var_name]["stat_unc"] / histograms_eft[var_name]["nominal"]))
+                #rel = np.nan_to_num(sm_histograms[channelname][var_name]["nominal"] / histograms_eft[var_name]["nominal"], nan=1.)
+                #rel = np.where(np.abs(rel) > 1e10, 1., rel)
+   
+                print(type(histograms_eft[var_name]["nominal"]))
+                print(extract_up_value(histograms_eft[var_name]["nominal"]))
+                print(type(histograms_eft[var_name][lin_name]["Up"]))
+                print(histograms_eft[var_name][lin_name]["Up"])
+                print(type(histograms_eft[var_name][quad_name]["Up"]))
+                print(histograms_eft[var_name][quad_name]["Up"]) 
+                content_sm_lin_quad_nominal = extract_up_value(histograms_eft[var_name]["nominal"]) + histograms_eft[var_name][lin_name]["Up"] + histograms_eft[var_name][quad_name]["Up"]
+                print(type(content_sm_lin_quad_nominal))
+                print(content_sm_lin_quad_nominal)
+                #content_sm_lin_quad_nominal = rel * content_sm_lin_quad_nominal_beforeRW
+                #statunc_sm_lin_quad_nominal = np.nan_to_num(ak.to_numpy(content_sm_lin_quad_nominal * histograms_eft[var_name]["stat_unc"]["Up"] / histograms_eft[var_name]["nominal"]["Up"]))
                 path_to_sm_lin_quad = f"{channel_DC_setting['prettyname']}/sm_lin_quad_{eft_var}"
                 
-                content_quad_nominal_beforeRW = histograms_eft[var_name][quad_name]["Up"]
-                content_quad_nominal = rel * content_quad_nominal_beforeRW
-                statunc_quad_nominal = np.nan_to_num(ak.to_numpy(content_quad_nominal * histograms_eft[var_name]["stat_unc"] / histograms_eft[var_name]["nominal"]))
+                content_quad_nominal = histograms_eft[var_name][quad_name]["Up"]
+                #content_quad_nominal = rel * content_quad_nominal_beforeRW
+                #statunc_quad_nominal = np.nan_to_num(ak.to_numpy(content_quad_nominal * histograms_eft[var_name]["stat_unc"]["Up"] / histograms_eft[var_name]["nominal"]["Up"]))
                 path_to_quad = f"{channel_DC_setting['prettyname']}/quad_{eft_var}"
                 
                 
-                convert_and_write_histogram(content_sm_lin_quad_nominal, variables.get_properties(var_name), path_to_sm_lin_quad, rootfile, statunc=statunc_sm_lin_quad_nominal)
-                convert_and_write_histogram(content_quad_nominal, variables.get_properties(var_name), path_to_quad, rootfile, statunc=statunc_quad_nominal)
+                convert_and_write_histogram(content_sm_lin_quad_nominal, variables.get_properties(var_name), path_to_sm_lin_quad, rootfile)#, statunc=statunc_sm_lin_quad_nominal)
+                convert_and_write_histogram(content_quad_nominal, variables.get_properties(var_name), path_to_quad, rootfile)#, statunc=statunc_quad_nominal)
     
     
     	    # print(content_sm_lin_quad_nominal)
@@ -504,7 +538,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                     #print("\n",f"running systematic {systname}")
                     if systname == "nominal" or systname == "stat_unc" or systname == "ScaleVarEnvelopeSignal" or systname == "ISRSignal":
                         continue
-                    if not syst.is_process_relevant("TTT"):
+                    if not syst.is_process_relevant("TTH"):
                         continue
     
                     upvar_sm = sm_histograms[channelname][var_name][systname]["Up"]
@@ -516,21 +550,21 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                     if systname == "ScaleVarEnvelopeTTT":
                         upvar_sm, downvar_sm = make_envelope(sm_histograms[channelname][var_name])
     
-                    rel_syst_up = np.nan_to_num(upvar_sm / histograms_eft[var_name]["nominal"], nan=1.)
+                    rel_syst_up = np.nan_to_num(upvar_sm / extract_up_value(histograms_eft[var_name]["nominal"]), nan=1.)
                     rel_syst_up = np.where(np.abs(rel_syst_up) > 1e10, 1., rel_syst_up)
     
-                    content_sm_lin_quad_syst_up = rel_syst_up * content_sm_lin_quad_nominal_beforeRW
-                    content_quad_syst_up = rel_syst_up * content_quad_nominal_beforeRW
+                    content_sm_lin_quad_syst_up = rel_syst_up * content_sm_lin_quad_nominal
+                    content_quad_syst_up = rel_syst_up * content_quad_nominal
     
     #                if syst.weight_key_down is None:
     #                    content_sm_lin_quad_syst_down = content_sm_lin_quad_nominal_beforeRW
     #                    content_quad_syst_down = content_quad_nominal_beforeRW
     #                else:
-                    rel_syst_down = np.nan_to_num(downvar_sm / histograms_eft[var_name]["nominal"], nan=1.)
+                    rel_syst_down = np.nan_to_num(downvar_sm / extract_up_value(histograms_eft[var_name]["nominal"]), nan=1.)
                     rel_syst_down = np.where(np.abs(rel_syst_down) > 1e10, 1., rel_syst_down)
     
-                    content_sm_lin_quad_syst_down = rel_syst_down * content_sm_lin_quad_nominal_beforeRW
-                    content_quad_syst_down = rel_syst_down * content_quad_nominal_beforeRW
+                    content_sm_lin_quad_syst_down = rel_syst_down * content_sm_lin_quad_nominal
+                    content_quad_syst_down = rel_syst_down * content_quad_nominal
     
                     rootpath_smlinquad = syst.technical_name
                     rootpath_quad = syst.technical_name
@@ -581,7 +615,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                     
                     # load nominal and stat unc? stat unc from EFT sample itself, then nominal is the variation, so:
                     content_to_load = ["nominal", "stat_unc", mixName, first_lin_name,first_quad_name,second_lin_name,second_quad_name]
-                    histograms_eft = HistogramManager(storagepath, "TTT_EFT", variables, content_to_load, args.years[0])
+                    histograms_eft = HistogramManager(storagepath, "TTH_EFT", variables, content_to_load, args.years[0])
                     histograms_eft.load_histograms()
                     
                     rel = np.nan_to_num(sm_histograms[channelname][var_name]["nominal"] / histograms_eft[var_name]["nominal"], nan=1.)
@@ -598,7 +632,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                     for systname, syst in shape_systematics.items():
                         if systname == "nominal" or systname == "stat_unc" or systname == "ScaleVarEnvelopeSignal" or systname == "ISRSignal":
                                 continue
-                        if not syst.is_process_relevant("TTT"):
+                        if not syst.is_process_relevant("TTH"):
                                 continue
                         
                         upvar_sm = sm_histograms[channelname][var_name][systname]["Up"]
@@ -639,6 +673,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
         # load SM stuff:
         sm_4t_histograms: dict[str, HistogramManager] = dict()
         sm_3t_histograms: dict[str, HistogramManager] = dict()
+        sm_ttH_histograms: dict[str, HistogramManager] = dict()
         all_asimovdata = dict()
         for channelname, channel_DC_setting in datacard_settings["channelcontent"].items():
             storagepath = os.path.join(args.storage, channelname)
@@ -651,30 +686,32 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
             sm_4t_histograms[channelname].load_histograms()
             sm_3t_histograms[channelname] = HistogramManager(storagepath, "ttt", variables, list(shape_systematics.keys()), args.years[0])
             sm_3t_histograms[channelname].load_histograms()
-            all_asimovdata[channel_DC_setting['prettyname']] = sm_4t_histograms[channelname][var_name]["nominal"] + sm_3t_histograms[channelname][var_name]["nominal"]
+            sm_ttH_histograms[channelname] = HistogramManager(storagepath, "ttH", variables, list(shape_systematics.keys()), args.years[0])
+            sm_ttH_histograms[channelname].load_histograms()
+            all_asimovdata[channel_DC_setting['prettyname']] = sm_4t_histograms[channelname][var_name]["nominal"] + sm_3t_histograms[channelname][var_name]["nominal"] + sm_ttH_histograms[channelname][var_name]["nominal"]
     
             path_to_histogram = f"{channel_DC_setting['prettyname']}/sm"
-            sm_hist = sm_4t_histograms[channelname][var_name]["nominal"] + sm_3t_histograms[channelname][var_name]["nominal"]
-            statunc = sm_4t_histograms[channelname][var_name]["stat_unc"] + sm_3t_histograms[channelname][var_name]["stat_unc"]
+            sm_hist = sm_4t_histograms[channelname][var_name]["nominal"] + sm_3t_histograms[channelname][var_name]["nominal"] + sm_ttH_histograms[channelname][var_name]["nominal"]
+            #statunc = sm_4t_histograms[channelname][var_name]["stat_unc"] + sm_3t_histograms[channelname][var_name]["stat_unc"] 
             convert_and_write_histogram(sm_hist, variables.get_properties(var_name), path_to_histogram, rootfile)#, statunc=statunc)
             # loop and write systematics
             for systname, syst in shape_systematics.items():
-                if systname == "nominal" or systname == "stat_unc" or systname == "ScaleVarEnvelopeTTTT" or systname == "ISRTTTT":
+                if systname == "nominal" or systname == "stat_unc":
                     continue
-                if not (syst.is_process_relevant("ttt") or syst.is_process_relevant("tttt")):
+                if not (syst.is_process_relevant("ttt") or syst.is_process_relevant("tttt") or syst.is_process_relevant("ttH")):
                     continue
                 #if "ISR" in systname: print("\n""Here we go. ISR is hereeeeee")
                 
-                upvar = sm_4t_histograms[channelname][var_name][systname]["Up"] + sm_3t_histograms[channelname][var_name][systname]["Up"]
+                upvar = sm_4t_histograms[channelname][var_name][systname]["Up"] + sm_3t_histograms[channelname][var_name][systname]["Up"] + sm_ttH_histograms[channelname][var_name][systname]["Up"]
                 if syst.weight_key_down is None:
-                    downvar = sm_4t_histograms[channelname][var_name]["nominal"] + sm_3t_histograms[channelname][var_name]["nominal"]
+                    downvar = sm_4t_histograms[channelname][var_name]["nominal"] + sm_3t_histograms[channelname][var_name]["nominal"] + sm_ttH_histograms[channelname][var_name]["nominal"]
                 else:
-                    downvar = sm_4t_histograms[channelname][var_name][systname]["Down"] + sm_3t_histograms[channelname][var_name][systname]["Down"]
-                if systname == "ScaleVarEnvelopeSignal":
-                    upvar4, downvar4 = make_envelope(sm_4t_histograms[channelname][var_name])
-                    upvar3, downvar3 = make_envelope(sm_3t_histograms[channelname][var_name])
-                    upvar = upvar4 + upvar3
-                    downvar = downvar4 + downvar3
+                    downvar = sm_4t_histograms[channelname][var_name][systname]["Down"] + sm_3t_histograms[channelname][var_name][systname]["Down"] + sm_ttH_histograms[channelname][var_name][systname]["Down"]
+                #if systname == "ScaleVarEnvelopeSignal":
+                    #upvar4, downvar4 = make_envelope(sm_4t_histograms[channelname][var_name])
+                    #upvar3, downvar3 = make_envelope(sm_3t_histograms[channelname][var_name])
+                    #upvar = upvar4 + upvar3
+                    #downvar = downvar4 + downvar3
 
                 rootpath_systname = syst.technical_name
                 if not syst.correlated_process:
@@ -705,39 +742,45 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                  content_to_load = ["nominal", "stat_unc", lin_name, quad_name]
                  histograms_4t_eft = HistogramManager(storagepath, "TTTT_EFT", variables, content_to_load, args.years[0])
                  histograms_4t_eft.load_histograms()
-                 histograms_3t_eft = HistogramManager(storagepath, "TTTW_EFT", variables, content_to_load, args.years[0])
+                 histograms_3t_eft = HistogramManager(storagepath, "TTT_EFT", variables, content_to_load, args.years[0])
                  histograms_3t_eft.load_histograms()
+                 histograms_ttH_eft = HistogramManager(storagepath, "TTH_EFT", variables, content_to_load, args.years[0])
+                 histograms_ttH_eft.load_histograms()
                  # print(channelname)
                  # print(var_name)
                  
                  rel4 = np.nan_to_num(sm_4t_histograms[channelname][var_name]["nominal"] / histograms_4t_eft[var_name]["nominal"], nan=1.)
                  rel4 = np.where(np.abs(rel4) > 1e10, 1., rel4)
-                 rel3 = np.nan_to_num(sm_3t_histograms[channelname][var_name]["nominal"] / histograms_3t_eft[var_name]["nominal"], nan=1.)
+                 rel3 = np.nan_to_num(extract_up_value(sm_3t_histograms[channelname][var_name]["nominal"]) / extract_up_value(histograms_3t_eft[var_name]["nominal"]), nan=1.)
                  rel3 = np.where(np.abs(rel3) > 1e10, 1., rel3)
                  
                  content_4t_sm_lin_quad_nominal_beforeRW = histograms_4t_eft[var_name]["nominal"] + histograms_4t_eft[var_name][lin_name]["Up"] + histograms_4t_eft[var_name][quad_name]["Up"]
                  content_4t_sm_lin_quad_nominal = rel4 * content_4t_sm_lin_quad_nominal_beforeRW
-                 statunc_4t_sm_lin_quad_nominal = np.nan_to_num(ak.to_numpy(content_4t_sm_lin_quad_nominal * histograms_4t_eft[var_name]["stat_unc"] / histograms_4t_eft[var_name]["nominal"]))
+                 #statunc_4t_sm_lin_quad_nominal = np.nan_to_num(ak.to_numpy(content_4t_sm_lin_quad_nominal * histograms_4t_eft[var_name]["stat_unc"] / histograms_4t_eft[var_name]["nominal"]))
                  
-                 content_3t_sm_lin_quad_nominal_beforeRW = histograms_3t_eft[var_name]["nominal"] + histograms_3t_eft[var_name][lin_name]["Up"] + histograms_3t_eft[var_name][quad_name]["Up"]
+                 content_3t_sm_lin_quad_nominal_beforeRW = extract_up_value(histograms_3t_eft[var_name]["nominal"]) + histograms_3t_eft[var_name][lin_name]["Up"] + histograms_3t_eft[var_name][quad_name]["Up"]
                  content_3t_sm_lin_quad_nominal = rel3 * content_3t_sm_lin_quad_nominal_beforeRW
-                 statunc_3t_sm_lin_quad_nominal = np.nan_to_num(ak.to_numpy(content_3t_sm_lin_quad_nominal * histograms_3t_eft[var_name]["stat_unc"] / histograms_3t_eft[var_name]["nominal"] ))
+                 #statunc_3t_sm_lin_quad_nominal = np.nan_to_num(ak.to_numpy(content_3t_sm_lin_quad_nominal * histograms_3t_eft[var_name]["stat_unc"] / histograms_3t_eft[var_name]["nominal"] ))
                  
-                 content_sm_lin_quad_nominal = content_4t_sm_lin_quad_nominal + content_3t_sm_lin_quad_nominal
-                 statunc_sm_lin_quad_nominal = statunc_4t_sm_lin_quad_nominal + statunc_3t_sm_lin_quad_nominal
+                 content_ttH_sm_lin_quad_nominal = extract_up_value(histograms_ttH_eft[var_name]["nominal"]) + histograms_ttH_eft[var_name][lin_name]["Up"] + histograms_ttH_eft[var_name][quad_name]["Up"]
+                 
+                 content_sm_lin_quad_nominal = content_4t_sm_lin_quad_nominal + content_3t_sm_lin_quad_nominal + content_ttH_sm_lin_quad_nominal
+                 #statunc_sm_lin_quad_nominal = statunc_4t_sm_lin_quad_nominal + statunc_3t_sm_lin_quad_nominal
                  
                  path_to_sm_lin_quad = f"{channel_DC_setting['prettyname']}/sm_lin_quad_{eft_var}"
                  
                  content_4t_quad_nominal_beforeRW = histograms_4t_eft[var_name][quad_name]["Up"]
                  content_4t_quad_nominal = rel4 * content_4t_quad_nominal_beforeRW
-                 statunc_4t_quad_nominal = np.nan_to_num(ak.to_numpy(content_4t_quad_nominal * histograms_4t_eft[var_name]["stat_unc"] / histograms_4t_eft[var_name]["nominal"]))
+                 #statunc_4t_quad_nominal = np.nan_to_num(ak.to_numpy(content_4t_quad_nominal * histograms_4t_eft[var_name]["stat_unc"] / histograms_4t_eft[var_name]["nominal"]))
                  
                  content_3t_quad_nominal_beforeRW = histograms_3t_eft[var_name][quad_name]["Up"]
                  content_3t_quad_nominal = rel3 * content_3t_quad_nominal_beforeRW
-                 statunc_3t_quad_nominal = np.nan_to_num(ak.to_numpy(content_3t_quad_nominal * histograms_3t_eft[var_name]["stat_unc"] / histograms_3t_eft[var_name]["nominal"]))
+                 #statunc_3t_quad_nominal = np.nan_to_num(ak.to_numpy(content_3t_quad_nominal * histograms_3t_eft[var_name]["stat_unc"] / histograms_3t_eft[var_name]["nominal"]))
                  
-                 content_quad_nominal = content_4t_quad_nominal + content_3t_quad_nominal
-                 statunc_quad_nominal = statunc_4t_quad_nominal + statunc_3t_quad_nominal
+                 content_ttH_quad_nominal = histograms_ttH_eft[var_name][quad_name]["Up"]
+                 
+                 content_quad_nominal = content_4t_quad_nominal + content_3t_quad_nominal + content_ttH_quad_nominal
+                 #statunc_quad_nominal = statunc_4t_quad_nominal + statunc_3t_quad_nominal
                  
                  path_to_quad = f"{channel_DC_setting['prettyname']}/quad_{eft_var}"
                  
@@ -758,16 +801,19 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                      # vary 3top and 4top separately for each nuisance
                      upvar_4t_sm = sm_4t_histograms[channelname][var_name][systname]["Up"]
                      upvar_3t_sm = sm_3t_histograms[channelname][var_name][systname]["Up"]
+                     upvar_ttH_sm = sm_ttH_histograms[channelname][var_name][systname]["Up"]
                      if syst.weight_key_down is None:
                         downvar_4t_sm = sm_4t_histograms[channelname][var_name]["nominal"]
-                        downvar_3t_sm = sm_3t_histograms[channelname][var_name]["nominal"]
+                        downvar_3t_sm = extract_up_value(sm_3t_histograms[channelname][var_name]["nominal"])
+                        downvar_ttH_sm = extract_up_value(sm_ttH_histograms[channelname][var_name]["nominal"])
                      else:
                         downvar_4t_sm = sm_4t_histograms[channelname][var_name][systname]["Down"]
                         downvar_3t_sm = sm_3t_histograms[channelname][var_name][systname]["Down"]
+                        downvar_ttH_sm = sm_ttH_histograms[channelname][var_name][systname]["Down"]
                  
-                     if systname == "ScaleVarEnvelopeSignal":
-                        upvar_4t_sm, downvar_4t_sm = make_envelope(sm_4t_histograms[channelname][var_name])
-                        upvar_3t_sm, downvar_3t_sm = make_envelope(sm_3t_histograms[channelname][var_name])
+                     #if systname == "ScaleVarEnvelopeSignal":
+                        #upvar_4t_sm, downvar_4t_sm = make_envelope(sm_4t_histograms[channelname][var_name])
+                        #upvar_3t_sm, downvar_3t_sm = make_envelope(sm_3t_histograms[channelname][var_name])
                  
                      rel_4t_syst_up = np.nan_to_num(upvar_4t_sm / histograms_4t_eft[var_name]["nominal"], nan=1.)
                      rel_4t_syst_up = np.where(np.abs(rel_4t_syst_up) > 1e10, 1., rel_4t_syst_up)
@@ -775,15 +821,21 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                      content_4t_sm_lin_quad_syst_up = rel_4t_syst_up * content_4t_sm_lin_quad_nominal_beforeRW
                      content_4t_quad_syst_up = rel_4t_syst_up * content_4t_quad_nominal_beforeRW
                      
-                     rel_3t_syst_up = np.nan_to_num(upvar_3t_sm / histograms_3t_eft[var_name]["nominal"], nan=1.)
+                     rel_3t_syst_up = np.nan_to_num(upvar_3t_sm / extract_up_value(histograms_3t_eft[var_name]["nominal"]), nan=1.)
                      rel_3t_syst_up = np.where(np.abs(rel_3t_syst_up) > 1e10, 1., rel_3t_syst_up)
                  
                      content_3t_sm_lin_quad_syst_up = rel_3t_syst_up * content_3t_sm_lin_quad_nominal_beforeRW
                      content_3t_quad_syst_up = rel_3t_syst_up * content_3t_quad_nominal_beforeRW
+                     
+                     rel_ttH_syst_up = np.nan_to_num(upvar_ttH_sm / extract_up_value(histograms_ttH_eft[var_name]["nominal"]), nan=1.)
+                     rel_ttH_syst_up = np.where(np.abs(rel_ttH_syst_up) > 1e10, 1., rel_ttH_syst_up)
+                 
+                     content_ttH_sm_lin_quad_syst_up = rel_ttH_syst_up * content_ttH_sm_lin_quad_nominal
+                     content_ttH_quad_syst_up = rel_ttH_syst_up * content_ttH_quad_nominal
                  
                      # combine 3top and 4top Up variations to create signal up variation
-                     content_sm_lin_quad_syst_up = content_4t_sm_lin_quad_syst_up + content_3t_sm_lin_quad_syst_up
-                     content_quad_syst_up = content_4t_quad_syst_up + content_3t_quad_syst_up
+                     content_sm_lin_quad_syst_up = content_4t_sm_lin_quad_syst_up + content_3t_sm_lin_quad_syst_up + content_ttH_sm_lin_quad_syst_up
+                     content_quad_syst_up = content_4t_quad_syst_up + content_3t_quad_syst_up + content_ttH_quad_syst_up
                  
                      rel_4t_syst_down = np.nan_to_num(downvar_4t_sm / histograms_4t_eft[var_name]["nominal"], nan=1.)
                      rel_4t_syst_down = np.where(np.abs(rel_4t_syst_down) > 1e10, 1., rel_4t_syst_down)
@@ -791,15 +843,21 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                      content_4t_sm_lin_quad_syst_down = rel_4t_syst_down * content_4t_sm_lin_quad_nominal_beforeRW
                      content_4t_quad_syst_down = rel_4t_syst_down * content_4t_quad_nominal_beforeRW
                  
-                     rel_3t_syst_down = np.nan_to_num(downvar_3t_sm / histograms_3t_eft[var_name]["nominal"], nan=1.)
+                     rel_3t_syst_down = np.nan_to_num(downvar_3t_sm / extract_up_value(histograms_3t_eft[var_name]["nominal"]), nan=1.)
                      rel_3t_syst_down = np.where(np.abs(rel_3t_syst_down) > 1e10, 1., rel_3t_syst_down)
                  
                      content_3t_sm_lin_quad_syst_down = rel_3t_syst_down * content_3t_sm_lin_quad_nominal_beforeRW
                      content_3t_quad_syst_down = rel_3t_syst_down * content_3t_quad_nominal_beforeRW
                  
+                     rel_ttH_syst_down = np.nan_to_num(downvar_ttH_sm / extract_up_value(histograms_ttH_eft[var_name]["nominal"]), nan=1.)
+                     rel_ttH_syst_down = np.where(np.abs(rel_ttH_syst_down) > 1e10, 1., rel_ttH_syst_down)
+                 
+                     content_ttH_sm_lin_quad_syst_down = rel_ttH_syst_down * content_ttH_sm_lin_quad_nominal
+                     content_ttH_quad_syst_down = rel_ttH_syst_down * content_ttH_quad_nominal
+                 
                      # combine 3top and 4top Up variations to create signal down variation
-                     content_sm_lin_quad_syst_down = content_4t_sm_lin_quad_syst_down + content_3t_sm_lin_quad_syst_down
-                     content_quad_syst_down = content_4t_quad_syst_down + content_3t_quad_syst_down
+                     content_sm_lin_quad_syst_down = content_4t_sm_lin_quad_syst_down + content_3t_sm_lin_quad_syst_down + content_ttH_sm_lin_quad_syst_down
+                     content_quad_syst_down = content_4t_quad_syst_down + content_3t_quad_syst_down + content_ttH_quad_syst_down
                  
                      rootpath_smlinquad = syst.technical_name
                      rootpath_quad = syst.technical_name
@@ -852,24 +910,28 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                     content_to_load = ["nominal", "stat_unc", mixName, first_lin_name,first_quad_name,second_lin_name,second_quad_name]
                     histograms_4t_eft = HistogramManager(storagepath, "TTTT_EFT", variables, content_to_load, args.years[0])
                     histograms_4t_eft.load_histograms()
-                    histograms_3t_eft = HistogramManager(storagepath, "TTTW_EFT", variables, content_to_load, args.years[0])
+                    histograms_3t_eft = HistogramManager(storagepath, "TTT_EFT", variables, content_to_load, args.years[0])
                     histograms_3t_eft.load_histograms()
+                    histograms_ttH_eft = HistogramManager(storagepath, "TTH_EFT", variables, content_to_load, args.years[0])
+                    histograms_ttH_eft.load_histograms()
                     
                     rel4 = np.nan_to_num(sm_4t_histograms[channelname][var_name]["nominal"] / histograms_4t_eft[var_name]["nominal"], nan=1.)
                     rel4 = np.where(np.abs(rel4) > 1e10, 1., rel4)
-                    rel3 = np.nan_to_num(sm_3t_histograms[channelname][var_name]["nominal"] / histograms_3t_eft[var_name]["nominal"], nan=1.)
+                    rel3 = np.nan_to_num(sm_3t_histograms[channelname][var_name]["nominal"] / extract_up_value(histograms_3t_eft[var_name]["nominal"]), nan=1.)
                     rel3 = np.where(np.abs(rel3) > 1e10, 1., rel3)
                     
                     content_4t_mix_nominal_beforeRW = histograms_4t_eft[var_name]["nominal"] + histograms_4t_eft[var_name][first_lin_name]["Up"] + histograms_4t_eft[var_name][first_quad_name]["Up"] + histograms_4t_eft[var_name][second_lin_name]["Up"] + histograms_4t_eft[var_name][second_quad_name]["Up"] + (2*histograms_4t_eft[var_name][mixName]["Up"]) 
                     content_4t_mix_nominal = rel4 * content_4t_mix_nominal_beforeRW
-                    statunc_4t_mix_nominal = np.nan_to_num(ak.to_numpy(content_4t_mix_nominal * histograms_4t_eft[var_name]["stat_unc"] / histograms_4t_eft[var_name]["nominal"]))
+                    #statunc_4t_mix_nominal = np.nan_to_num(ak.to_numpy(content_4t_mix_nominal * histograms_4t_eft[var_name]["stat_unc"] / histograms_4t_eft[var_name]["nominal"]))
                     
-                    content_3t_mix_nominal_beforeRW = histograms_3t_eft[var_name]["nominal"] + histograms_3t_eft[var_name][first_lin_name]["Up"] + histograms_3t_eft[var_name][first_quad_name]["Up"] + histograms_3t_eft[var_name][second_lin_name]["Up"] + histograms_3t_eft[var_name][second_quad_name]["Up"] + (2*histograms_3t_eft[var_name][mixName]["Up"]) 
+                    content_3t_mix_nominal_beforeRW = extract_up_value(histograms_3t_eft[var_name]["nominal"]) + histograms_3t_eft[var_name][first_lin_name]["Up"] + histograms_3t_eft[var_name][first_quad_name]["Up"] + histograms_3t_eft[var_name][second_lin_name]["Up"] + histograms_3t_eft[var_name][second_quad_name]["Up"] + (2*histograms_3t_eft[var_name][mixName]["Up"]) 
                     content_3t_mix_nominal = rel3 * content_3t_mix_nominal_beforeRW
-                    statunc_3t_mix_nominal = np.nan_to_num(ak.to_numpy(content_3t_mix_nominal * histograms_3t_eft[var_name]["stat_unc"] / histograms_3t_eft[var_name]["nominal"]))
+                    #statunc_3t_mix_nominal = np.nan_to_num(ak.to_numpy(content_3t_mix_nominal * histograms_3t_eft[var_name]["stat_unc"] / histograms_3t_eft[var_name]["nominal"]))
                     
-                    content_mix_nominal = content_4t_mix_nominal + content_3t_mix_nominal
-                    statunc_mix_nominal = statunc_4t_mix_nominal + statunc_3t_mix_nominal
+                    content_ttH_mix_nominal = extract_up_value(histograms_ttH_eft[var_name]["nominal"]) + histograms_ttH_eft[var_name][first_lin_name]["Up"] + histograms_ttH_eft[var_name][first_quad_name]["Up"] + histograms_ttH_eft[var_name][second_lin_name]["Up"] + histograms_ttH_eft[var_name][second_quad_name]["Up"] + (2*histograms_ttH_eft[var_name][mixName]["Up"]) 
+                    
+                    content_mix_nominal = content_4t_mix_nominal + content_3t_mix_nominal + content_ttH_mix_nominal 
+                    #statunc_mix_nominal = statunc_4t_mix_nominal + statunc_3t_mix_nominal
                     
                     path_to_mix = f"{channel_DC_setting['prettyname']}/sm_lin_quad_mixed_{eft_var}"
                     
@@ -877,46 +939,57 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                     
                     # loop and write systematics
                     for systname, syst in shape_systematics.items():
-                        if systname == "nominal" or systname == "stat_unc" or systname == "ScaleVarEnvelopeTTTT" or systname == "ISRTTTT":
+                        if systname == "nominal" or systname == "stat_unc":
                                 continue
-                        if not (syst.is_process_relevant("ttt") or syst.is_process_relevant("tttt")):
+                        if not (syst.is_process_relevant("ttt") or syst.is_process_relevant("tttt") or syst.is_process_relevant("ttH")):
                                 continue
                         
                         upvar_4t_sm = sm_4t_histograms[channelname][var_name][systname]["Up"]
                         upvar_3t_sm = sm_3t_histograms[channelname][var_name][systname]["Up"]
+                        upvar_ttH_sm = sm_ttH_histograms[channelname][var_name][systname]["Up"]
                         if syst.weight_key_down is None:
                             downvar_4t_sm = sm_4t_histograms[channelname][var_name]["nominal"]
-                            downvar_3t_sm = sm_3t_histograms[channelname][var_name]["nominal"]
+                            downvar_3t_sm = extract_up_value(sm_3t_histograms[channelname][var_name]["nominal"])
+                            downvar_ttH_sm = extract_up_value(sm_ttH_histograms[channelname][var_name]["nominal"])
                         else:
                             downvar_4t_sm = sm_4t_histograms[channelname][var_name][systname]["Down"]
                             downvar_3t_sm = sm_3t_histograms[channelname][var_name][systname]["Down"]
+                            downvar_ttH_sm = sm_ttH_histograms[channelname][var_name][systname]["Down"]
                         
-                        if systname == "ScaleVarEnvelopeSignal":
-                            upvar_4t_sm, downvar_4t_sm = make_envelope(sm_4t_histograms[channelname][var_name])
-                            upvar_3t_sm, downvar_3t_sm = make_envelope(sm_3t_histograms[channelname][var_name])
+                        #if systname == "ScaleVarEnvelopeSignal":
+                            #upvar_4t_sm, downvar_4t_sm = make_envelope(sm_4t_histograms[channelname][var_name])
+                            #upvar_3t_sm, downvar_3t_sm = make_envelope(sm_3t_histograms[channelname][var_name])
                         #UP
                         rel_4t_syst_up = np.nan_to_num(upvar_4t_sm / histograms_4t_eft[var_name]["nominal"], nan=1.)
                         rel_4t_syst_up = np.where(np.abs(rel_4t_syst_up) > 1e10, 1., rel_4t_syst_up)
                         
-                        rel_3t_syst_up = np.nan_to_num(upvar_3t_sm / histograms_3t_eft[var_name]["nominal"], nan=1.)
+                        rel_3t_syst_up = np.nan_to_num(upvar_3t_sm / extract_up_value(histograms_3t_eft[var_name]["nominal"]), nan=1.)
                         rel_3t_syst_up = np.where(np.abs(rel_3t_syst_up) > 1e10, 1., rel_3t_syst_up)
+                    
+                        rel_ttH_syst_up = np.nan_to_num(upvar_ttH_sm / extract_up_value(histograms_ttH_eft[var_name]["nominal"]), nan=1.)
+                        rel_ttH_syst_up = np.where(np.abs(rel_ttH_syst_up) > 1e10, 1., rel_ttH_syst_up)
                     
                         content_4t_mix_syst_up = rel_4t_syst_up * content_4t_mix_nominal_beforeRW
                         content_3t_mix_syst_up = rel_3t_syst_up * content_3t_mix_nominal_beforeRW
+                        content_ttH_mix_syst_up = rel_ttH_syst_up * content_ttH_mix_nominal
                         
-                        content_mix_syst_up = content_4t_mix_syst_up + content_3t_mix_syst_up
+                        content_mix_syst_up = content_4t_mix_syst_up + content_3t_mix_syst_up + content_ttH_mix_syst_up
                         
 			#Down
                         rel_4t_syst_down = np.nan_to_num(downvar_4t_sm / histograms_4t_eft[var_name]["nominal"], nan=1.)
                         rel_4t_syst_down = np.where(np.abs(rel_4t_syst_down) > 1e10, 1., rel_4t_syst_down)
                         
-                        rel_3t_syst_down = np.nan_to_num(downvar_3t_sm / histograms_3t_eft[var_name]["nominal"], nan=1.)
+                        rel_3t_syst_down = np.nan_to_num(downvar_3t_sm / extract_up_value(histograms_3t_eft[var_name]["nominal"]), nan=1.)
                         rel_3t_syst_down = np.where(np.abs(rel_3t_syst_down) > 1e10, 1., rel_3t_syst_down)
+                    
+                        rel_ttH_syst_down = np.nan_to_num(downvar_ttH_sm / extract_up_value(histograms_ttH_eft[var_name]["nominal"]), nan=1.)
+                        rel_ttH_syst_down = np.where(np.abs(rel_ttH_syst_down) > 1e10, 1., rel_ttH_syst_down)
                     
                         content_3t_mix_syst_down = rel_3t_syst_down * content_3t_mix_nominal_beforeRW
                         content_4t_mix_syst_down = rel_4t_syst_down * content_4t_mix_nominal_beforeRW
+                        content_ttH_mix_syst_down = rel_ttH_syst_down * content_ttH_mix_nominal
                      
-                        content_mix_syst_down = content_4t_mix_syst_down + content_3t_mix_syst_down
+                        content_mix_syst_down = content_4t_mix_syst_down + content_3t_mix_syst_down + content_ttH_mix_syst_down
                     
                         rootpath_mix = syst.technical_name
                         if not syst.correlated_process:
@@ -1034,9 +1107,9 @@ if __name__ == "__main__":
     shape_systematics = load_uncertainties(args.systematicsfile, allowflat=False)
     shape_systematics["nominal"] = Uncertainty("nominal", {})
     shape_systematics["stat_unc"] = Uncertainty("stat_unc", {})
-    print(f"Shape systematics before patch: {shape_systematics.keys()}")
+    #print(f"Shape systematics before patch: {shape_systematics.keys()}")
     patch_scalevar_correlations(shape_systematics, processes)
-    print(f"Shape systematics after patch: {shape_systematics.keys()}")
+    #print(f"Shape systematics after patch: {shape_systematics.keys()}")
 
     if args.UseEFT:
         eft_part, asimov_signal = eft_datacard_creation(rootfile, datacard_settings, args.eft_operator, shape_systematics, args)
@@ -1051,6 +1124,7 @@ if __name__ == "__main__":
             processes = [process for process in processes if process != "ttt"]
             processes = [process for process in processes if process != "tttW"]
             processes = [process for process in processes if process != "tttJ"]
+            processes = [process for process in processes if process != "ttH"]
                 #print("I am Actually trying")
         processes_write = [[process, i + 1] for i, process in enumerate(processes)]
         processes_write.extend(eft_part)
@@ -1121,11 +1195,11 @@ if __name__ == "__main__":
     if args.UseEFT:
 
         if args.TTTT_EFT: 
-            systematics["Norm_tttt"] = Uncertainty("Norm_tttt", {"rate": "0.88/1.04", "processes": ["sm","lin","quad"], "exact": False})
+            systematics["Norm_tttt"] = Uncertainty("cross_section_tttt", {"rate": "0.88/1.04", "processes": ["sm","lin","quad"], "exact": False})
         elif args.TTT_EFT: 
-                systematics["Norm_ttt"] = Uncertainty("Norm_ttt", {"rate": "0.88/1.12", "processes": ["sm","lin","quad"], "exact": False})
+                systematics["Norm_ttt"] = Uncertainty("cross_section_ttt", {"rate": "0.88/1.12", "processes": ["sm","lin","quad"], "exact": False})
         elif args.All_EFT: 
-                systematics["Norm_Signal"] = Uncertainty("Norm_BSMsignal", {"rate": "0.84/1.13", "processes": ["sm","lin","quad"], "exact": False})
+                systematics["Norm_Signal"] = Uncertainty("cross_section_BSMsignal", {"rate": "0.84/1.13", "processes": ["sm","lin","quad"], "exact": False})
 
   
     # if args.UseBSM:
@@ -1134,7 +1208,7 @@ if __name__ == "__main__":
     #     print(f"Where u at? {systematics['tttt_norm']}")
 
     for syst_name, syst_info in systematics.items():
-        print(f"This syst was written: {syst_name}")
+        #print(f"This syst was written: {syst_name}")
         dc_writer.add_systematic(syst_info)
 
     dc_writer.write_card()

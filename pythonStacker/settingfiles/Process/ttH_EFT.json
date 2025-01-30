@@ -1,0 +1,12 @@
+{
+    "Basedir": "/pnfs/iihe/cms/store/user/mshoosht/AnalysisOutput/ReducedTuples/2024-04-23_16-46",
+    "Processes": {
+        "TTH_EFT": {
+            "fileglobs": ["Tree_ttHJetToNonbb_EFT*MCPrompt"],
+            "pretty_name": "t\\bar{t}H",
+            "color": "#b9ac70",
+            "isSignal": 1,
+            "hasEFT": 1
+        }
+    }
+}

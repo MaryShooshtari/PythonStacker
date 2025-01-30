@@ -19,7 +19,6 @@
         "processes": [
             "ttW", 
             "ttZ", 
-            "ttH", 
             "Xg", 
             "VVV",
             "WZ",
@@ -71,7 +70,7 @@
     "XgammaNorm": {
         "processes": "Xg", 
         "corr_proc": 1, 
-        "technical_name": "Norm_Xg", 
+        "technical_name": "cross_section_Xg", 
         "channels": "all", 
         "pretty_name": "XgammaNorm ", 
         "rate": 1.05, 
@@ -95,15 +94,6 @@
         "pretty_name": "PU", 
         "type": "weight"
     }, 
-    "tth_norm": {
-        "processes": "ttH", 
-        "corr_proc": 1, 
-        "technical_name": "Norm_ttH", 
-        "channels": "all", 
-        "pretty_name": "ttH norm", 
-        "rate": 1.2, 
-        "type": "flat"
-    }, 
     "nonPromptElNorm2016": {
         "processes": ["nonPromptElectron","nonPrompt"], 
         "corr_proc": 1, 
@@ -126,7 +116,7 @@
     "VVVNorm": {
         "processes": "VVV", 
         "corr_proc": 1, 
-        "technical_name": "Norm_VVV", 
+        "technical_name": "cross_section_VVV", 
         "channels": "all", 
         "pretty_name": "VVVNorm", 
         "rate": 1.06, 
@@ -147,7 +137,6 @@
         "processes": [
             "ttW", 
             "ttZ", 
-            "ttH", 
             "Xg", 
             "VVV", 
             "WZ",
@@ -182,6 +171,7 @@
         "processes": [
             "tttt", 
             "ttt", 
+            "ttH", 
             "sm", 
             "quad"
         ], 
@@ -194,7 +184,7 @@
     "WZNorm": {
         "processes": "WZ", 
         "corr_proc": 1, 
-        "technical_name": "Norm_WZ", 
+        "technical_name": "cross_section_WZ", 
         "channels": "all", 
         "pretty_name": "WZNorm ", 
         "rate": 1.062, 
@@ -203,7 +193,7 @@
     "nonPromptMuNorm": {
         "processes": ["nonPromptMuon","nonPrompt"], 
         "corr_proc": 1, 
-        "technical_name": "CMS_fake_m_correlated", 
+        "technical_name": "CMS_TOP24008_fake_m_correlated", 
         "channels": "all", 
         "pretty_name": "nonPromptMuNorm", 
         "rate": 1.2, 
@@ -212,7 +202,7 @@
     "JER_1p93": {
         "fileglob": "JER", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_res_j_1p93_2016", 
+        "technical_name": "CMS_TOP24008_res_j_1p93_2016", 
         "type": "shape"
     }, 
     "btag_hf_stats2": {
@@ -245,7 +235,7 @@
     "nonPromptElNorm": {
         "processes": ["nonPromptElectron","nonPrompt"], 
         "corr_proc": 1, 
-        "technical_name": "CMS_fake_e_correlated", 
+        "technical_name": "CMS_TOP24008_fake_e_correlated", 
         "channels": "all", 
         "pretty_name": "nonPromptElNorm", 
         "rate": 1.2, 
@@ -274,6 +264,7 @@
         "processes": [
             "tttt", 
             "ttt", 
+            "ttH", 
             "sm", 
             "lin", 
             "quad"
@@ -314,7 +305,7 @@
     "ttw_norm": {
         "processes": "ttW", 
         "corr_proc": 1, 
-        "technical_name": "Norm_ttW", 
+        "technical_name": "cross_section_ttW", 
         "channels": "all", 
         "pretty_name": "ttW norm", 
         "rate": 1.2, 
@@ -338,7 +329,7 @@
     "MuonIDSyst": {
         "aliasDown": "nominalWeight * expDown[:, 1]", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_eff_m_id_correlated", 
+        "technical_name": "CMS_TOP24008_eff_m_id_correlated", 
         "aliasUp": "nominalWeight * expUp[:, 1]", 
         "channels": "all", 
         "type": "weight"
@@ -348,6 +339,7 @@
         "processes": [
             "tttt", 
             "ttt", 
+            "ttH", 
             "sm", 
             "quad"
         ], 
@@ -360,7 +352,7 @@
     "ChargeMisIDNorm": {
         "processes": "ChargeMisID", 
         "corr_proc": 1, 
-        "technical_name": "Norm_ChargeMisID", 
+        "technical_name": "cross_section_ChargeMisID", 
         "channels": "all", 
         "pretty_name": "ChargeMisIDNorm", 
         "rate": 1.15, 
@@ -378,19 +370,19 @@
     "JER_2p5": {
         "fileglob": "JER", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_res_j_2p5_2016", 
+        "technical_name": "CMS_TOP24008_res_j_2p5_2016", 
         "type": "shape"
     }, 
     "METUnclustered": {
         "fileglob": "MET", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_scale_met_unclustered_energy", 
+        "technical_name": "CMS_TOP24008_scale_met_unclustered_energy", 
         "type": "shape"
     }, 
     "ElectronIDSyst": {
         "aliasDown": "nominalWeight * expDown[:, 3]", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_eff_e_id_correlated", 
+        "technical_name": "CMS_TOP24008_eff_e_id_correlated", 
         "aliasUp": "nominalWeight * expUp[:, 3]", 
         "channels": "all", 
         "type": "weight"
@@ -398,7 +390,7 @@
     "ttz_norm": {
         "processes": "ttZ", 
         "corr_proc": 1, 
-        "technical_name": "Norm_ttZ", 
+        "technical_name": "cross_section_ttZ", 
         "channels": "all", 
         "pretty_name": "ttZ norm", 
         "rate": 1.2, 
@@ -416,7 +408,7 @@
     "Other_tNorm": {
         "processes": "Othert", 
         "corr_proc": 1, 
-        "technical_name": "Norm_Othert", 
+        "technical_name": "cross_section_Othert", 
         "channels": "all", 
         "pretty_name": "Other_tNorm", 
         "rate": 1.2, 
@@ -427,14 +419,13 @@
         "processes": [
             "ttW", 
             "ttZ", 
-            "ttH", 
             "Xg", 
             "VVV", 
             "WZ",
             "Othert"
         ], 
         "corr_proc": 0, 
-        "technical_name": "QCDscale_ren_", 
+        "technical_name": "CMS_TOP24008_QCDscale_ren_", 
         "aliasUp": "scaleVariations[:, 0]", 
         "channels": "all", 
         "type": "weight"
