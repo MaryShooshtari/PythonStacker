@@ -3,6 +3,7 @@ import uproot
 import os
 import glob
 import itertools
+import math
 
 from src.histogramTools import HistogramManager
 import plugins.eft as eft
@@ -142,7 +143,7 @@ def load_prepared_histograms(processinfo, channel, variables, systematics, stora
                 systematics_tmp = list(systematics)
                 systematics_tmp.extend(bsm.getBSMVariationsGroomed())
                 for model, mass in itertools.product(args.bsm_model, args.bsm_mass):
-                    histograms[f"{model}_{mass}"][year] = HistogramManager(storagepath, f"{model}_M{round(mass/1000)}p{int(mass/100)}", variables, systematics_tmp, year, channel=channel)
+                    histograms[f"{model}_{mass}"][year] = HistogramManager(storagepath, f"{model}_M{math.floor(mass/1000)}p{(int(mass)%1000)//100}", variables, systematics_tmp, year, channel=channel)
                     histograms[f"{model}_{mass}"][year].load_histograms()
 
     return histograms

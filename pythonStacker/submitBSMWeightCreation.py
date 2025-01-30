@@ -12,6 +12,8 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description=__doc__)
 
     arguments.add_settingfiles(parser)
+    arguments.add_tmp_storage(parser)
+    arguments.add_reweighting_option(parser)
     args, args_unknown = parser.parse_known_args()
 
     if len(args_unknown) > 0 or len(sys.argv) == 1:
@@ -53,7 +55,11 @@ if __name__ == "__main__":
                     cmd += f" -f {filename}"
                     cmd += f" -e {eventclass}"
                     cmd += f" -p {pname}"
+                    cmd += f" --storage {args.storage}"
+                    if process.get('doReweight', 0) != 0:
+                        cmd += f" --pseudo {args.pseudo}"
                     cmds.append(cmd)
+
             if len(cmds) != 0:
                 # cmds.append("echo 'nothing to do'")
                 commandset.append(cmds)

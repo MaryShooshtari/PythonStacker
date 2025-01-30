@@ -42,7 +42,7 @@ def parse_arguments() -> argparse.Namespace:
     arguments.select_specifics(parser)
     arguments.add_toggles(parser)
     arguments.add_tmp_storage(parser)
-
+    arguments.add_reweighting_option(parser)
     # Parse arguments
     args = parser.parse_args()
 
@@ -238,7 +238,12 @@ if __name__ == "__main__":
         processinfo = processfile["Processes"][args.process]
         basedir = processfile["Basedir"]
         subbasedir = basedir.split("/")[-1]
-        storagepath = os.path.join(storagepath, subbasedir)
+        
+        if args.UseBSM and processinfo.get("hasBSM", 0) > 0:
+            storagepath = os.path.join(storagepath, '2024-04-23_16-46')
+        else:
+            storagepath = os.path.join(storagepath, subbasedir)
+        
 
     # prepare channels:
     with open(args.channelfile, 'r') as f:
@@ -268,6 +273,7 @@ if __name__ == "__main__":
             systematics[eft_var] = Uncertainty(eft_var, tmp_dict)
 
     globalBSMToggle = args.UseBSM and processinfo.get("hasBSM", 0) > 0 and base_run
+    
     if globalBSMToggle:
         print("USING BSM")
         import plugins.bsm as bsm

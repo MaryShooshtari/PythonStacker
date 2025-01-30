@@ -17,6 +17,7 @@ class WeightManager():
         keys = list(aliases.keys())
         self.eft_initialized = False
         self.bsm_initialized = False
+        self.reweight_initialized = False
         # print(aliases)
         self.weights = tree.arrays(keys, cut=selection, aliases=aliases)
 
@@ -25,6 +26,7 @@ class WeightManager():
         aliases["nominal"] = "nominalWeight"
         # each Uncertainty should have a weightVar loaded up
         for name, unc in systematics.items():
+            # print(name, unc)
             if "EFT_" in name:
                 self.hasEFT = True
                 continue
@@ -52,6 +54,10 @@ class WeightManager():
         self.bsm_variations = ak.from_parquet(filepath)
         self.bsm_initialized = True
 
+    def add_reweighting(self, filepath):
+        self.reweight_values = ak.from_parquet(filepath)
+        # print(self.reweight_values)
+        self.reweight_initialized = True
 
     def __getitem__(self, key):
         if "EFT_" in key:
@@ -63,8 +69,13 @@ class WeightManager():
             if not self.bsm_initialized:
                 print("BSM Variations were not initialized! Exiting...")
                 exit(1)
+            if self.reweight_initialized:
+                return self.weights['nominal'] * self.bsm_variations[key] * self.reweight_values
             return self["nominal"] * self.bsm_variations[key]
+        if self.reweight_initialized:
+            return self.weights[key] * self.reweight_values
         return self.weights[key]
+
 
     def __setitem__(self, key, value):
         pass
