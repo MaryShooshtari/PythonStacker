@@ -28,7 +28,7 @@
     }, 
     "tth_norm": {
         "processes": "ttH", 
-        "technical_name": "Norm_ttH", 
+        "technical_name": "cross_section_ttH", 
         "channels": "all", 
         "pretty_name": "ttH norm", 
         "rate": 1.2, 
@@ -68,7 +68,7 @@
     }, 
     "ChargeMisIDNorm": {
         "processes": "ChargeMisID", 
-        "technical_name": "Norm_ChargeMisID", 
+        "technical_name": "cross_section_ChargeMisID", 
         "channels": "all", 
         "pretty_name": "ChargeMisIDNorm", 
         "rate": 1.15, 
@@ -76,7 +76,7 @@
     }, 
     "WZNorm": {
         "processes": "WZ", 
-        "technical_name": "Norm_WZ", 
+        "technical_name": "cross_section_WZ",
         "channels": "all", 
         "pretty_name": "WZNorm ", 
         "rate": 1.062, 
@@ -84,7 +84,7 @@
     }, 
     "VVVNorm": {
         "processes": "VVV", 
-        "technical_name": "Norm_VVV", 
+        "technical_name": "cross_section_VVV",
         "channels": "all", 
         "pretty_name": "VVVNorm", 
         "rate": 1.06, 
@@ -92,7 +92,7 @@
     }, 
     "XgammaNorm": {
         "processes": "Xg", 
-        "technical_name": "Norm_Xg", 
+        "technical_name": "cross_section_Xg",
         "channels": "all", 
         "pretty_name": "XgammaNorm ", 
         "rate": 1.05, 
@@ -100,7 +100,7 @@
     }, 
     "Other_tNorm": {
         "processes": "Othert", 
-        "technical_name": "Norm_Othert", 
+        "technical_name": "cross_section_Othert",
         "channels": "all", 
         "pretty_name": "Other_tNorm", 
         "rate": 1.2, 
@@ -161,6 +161,7 @@
         "processes": [
             "VVV"
         ],
+        "technical_name": "CMS_TOP24008_ZZ_j_0", 
         "type": "weight",
         "aliasUp": "nominalWeight * otherVariations[:, 0]",
         "aliasDown": "nominalWeight * otherVariations[:, 1]"
@@ -170,6 +171,7 @@
         "processes": [
             "VVV"
         ],
+        "technical_name": "CMS_TOP24008_ZZ_j_1",
         "type": "weight",
         "aliasUp": "nominalWeight * otherVariations[:, 2]",
         "aliasDown": "nominalWeight * otherVariations[:, 3]"
@@ -179,6 +181,7 @@
         "processes": [
             "VVV"
         ],
+        "technical_name": "CMS_TOP24008_ZZ_j_2",
         "type": "weight",
         "aliasUp": "nominalWeight * otherVariations[:, 4]",
         "aliasDown": "nominalWeight * otherVariations[:, 5]"
@@ -188,6 +191,7 @@
         "processes": [
             "VVV"
         ],
+        "technical_name": "CMS_TOP24008_ZZ_j_3",
         "type": "weight",
         "aliasUp": "nominalWeight * otherVariations[:, 6]",
         "aliasDown": "nominalWeight * otherVariations[:, 7]"
@@ -433,21 +437,21 @@
     },
     "FlavorQCD_light": {
         "pretty_name": "JEC_FlavorQCD_light",
-        "technical_name": "CMS_scale_j_FlavorQCD_light",
+        "technical_name": "CMS_scale_j_FlavorPureLight",
         "processes": "MCOnly",
         "type": "shape",
         "fileglob": "GroupedJEC"
     },
     "FlavorQCD_charm": {
         "pretty_name": "JEC_FlavorQCD_charm",
-        "technical_name": "CMS_scale_j_FlavorQCD_charm",
+        "technical_name": "CMS_scale_j_FlavorPureCharm",
         "processes": "MCOnly",
         "type": "shape",
         "fileglob": "GroupedJEC"
     },
     "FlavorQCD_bottom": {
         "pretty_name": "JEC_FlavorQCD_bottom",
-        "technical_name": "CMS_scale_j_FlavorQCD_bottom",
+        "technical_name": "CMS_scale_j_FlavorPureBottom",
         "processes": "MCOnly",
         "type": "shape",
         "fileglob": "GroupedJEC"
