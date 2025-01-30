@@ -69,8 +69,8 @@ class WeightManager():
             if not self.bsm_initialized:
                 print("BSM Variations were not initialized! Exiting...")
                 exit(1)
-                if self.reweight_initialized:
-                    return self.weights['nominal'] * self.bsm_variations[key] * self.reweight_values
+            if self.reweight_initialized:
+                return self.weights['nominal'] * self.bsm_variations[key] * self.reweight_values
             return self["nominal"] * self.bsm_variations[key]
         if self.reweight_initialized:
             return self.weights[key] * self.reweight_values
