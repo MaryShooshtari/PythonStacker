@@ -64,14 +64,17 @@ def convert_and_write_histogram(input_histogram, variable: Variable, outputname:
     for i in range(1, ret_th1.GetNbinsX() + 1):
         if ret_th1.GetBinContent(i) > 0.001:
             continue
-        if ret_th1.GetBinContent(i) < -1e-06:
+        ret_th1.SetBinError(i, 0.001)
+        ret_th1.SetBinContent(i, 0.001)
+        #if ret_th1.GetBinContent(i) < -1e-06:
+        if ret_th1.GetBinContent(i) < 0.001:
             if "lin" in outputname :
                 print (outputname , "\n we don't want to change the interference even if it's negative!!")
                 continue
             else:
                 print(f"WARNING: Significant negative value in {outputname} bin {i}! Setting to 0.")
-                ret_th1.SetBinError(i, 0.0)
-                ret_th1.SetBinContent(i, 0.0)
+                #ret_th1.SetBinError(i, 0.0)
+                #ret_th1.SetBinContent(i, 0.0)
     if ret_th1.Integral()==0 :
         ret_th1.SetBinContent(1, 1e-6)  # Set the first bin to a small value
         print (f"This process {outputname} is actually empty here")
