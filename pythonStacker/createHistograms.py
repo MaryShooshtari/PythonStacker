@@ -66,7 +66,7 @@ def parse_arguments() -> argparse.Namespace:
 
 
 def prepare_histogram(data, wgts, variable: Variable):
-    hist_content, binning, hist_unc = src.histogram_w_unc_flow(ak.to_numpy(data), range=variable.range, wgts=ak.to_numpy(wgts), nbins=variable.nbins)
+    hist_content, binning, hist_unc = src.histogram_w_unc_flow(ak.to_numpy(data), axisrange=variable.range, wgts=ak.to_numpy(wgts), nbins=variable.nbins)
     return hist_content, binning, hist_unc
 
 

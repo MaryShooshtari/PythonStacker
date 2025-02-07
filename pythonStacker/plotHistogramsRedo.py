@@ -38,7 +38,7 @@ def parse_arguments():
     parser.add_argument("--BSM_fullbkg", dest="BSM_fullbkg", action="store_true", default=False)
     parser.add_argument("--SBRatio", dest="SBRatio", action="store_true", default=False)
     parser.add_argument("--shapes", dest="shapes", action="store_true", default=False)
-    parser.add_argument("--suffix", action="store", default="_")
+    parser.add_argument("--suffix", action="store", default="")
 
     arguments.add_settingfiles(parser)
     arguments.select_specifics(parser)
@@ -115,7 +115,6 @@ def plot_histograms_base(axis, histograms: dict, variable: Variable, processes: 
     sum_of_content = np.zeros(variable.nbins)
 
     binning = generate_binning(variable.range, variable.nbins)
-
     for name, info in processes.items():
         content = np.zeros(variable.nbins)
         for year in years:
@@ -258,7 +257,8 @@ def plot_BSM_line(axis, histograms, variable: Variable, years, models: list, mas
 
 def finalize_plot(figure, axes, variable: Variable, plotdir: str, plotlabel=""):
     for ax in axes:
-        ax.set_xlim(variable.range)
+        # Not assuming a list with 2 entries ensures variable range doesn't clash with xlim setting 
+        ax.set_xlim(variable.range[0], variable.range[-1])
 
     axes[-1].set_xlabel(variable.axis_label)
     axes[0].text(0.049, 0.76, plotlabel, transform=axes[0].transAxes)
