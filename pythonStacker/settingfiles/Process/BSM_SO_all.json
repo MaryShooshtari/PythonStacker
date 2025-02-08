@@ -1,4 +1,4 @@
-{"Basedir": "/pnfs/iihe/cms/store/user/cgiordan/AnalysisOutput/ReducedTuples/2025-01-19_09-11",
+{"Basedir": "/pnfs/iihe/cms/store/user/cgiordan/AnalysisOutput/ReducedTuples/2025-02-07_15-25",
 "Processes": {
     "TopPhilicScalarOctet_M0p4": {
         "fileglobs": ["Tree_*TopPhilicScalarOctet_M0p4*_MCPrompt"],

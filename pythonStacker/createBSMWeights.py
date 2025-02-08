@@ -10,7 +10,7 @@ import os
 import uproot
 import re
 
-import src
+import src, fnmatch
 import numpy as np
 import json
 import pandas as pd
@@ -45,7 +45,8 @@ def get_bsmvariations_filename(storage: str, filename: str, eventclass, suffix="
 
 def reweight_and_write(reweighter, eventclass, tree, storage, filename, process):
     # should become a record rather than a single array, using the naming scheme I devised in the init
-    if filename in ["/pnfs/iihe/cms/store/user/cgiordan/AnalysisOutput/ReducedTuples/2024-09-09_09-40/Tree_TTTT_13TeV_LO_TopPhilicScalarSinglet_M0p4_C1p0e00_240611_092611_Run2SIM_UL2018NanoAOD_240612_213908_MCPrompt_2018_base.root", "/pnfs/iihe/cms/store/user/cgiordan/AnalysisOutput/ReducedTuples/2024-11-26_15-46/Tree_TTTT_13TeV_LO_TopPhilicScalarSinglet_M0p4_C1p0e00_240611_092611_Run2SIM_UL2018NanoAOD_240612_213908_MCPrompt_2018_base.root", "/pnfs/iihe/cms/store/user/cgiordan/AnalysisOutput/ReducedTuples/2025-01-19_09-11/Tree_TTTT_13TeV_LO_TopPhilicScalarSinglet_M0p4_C1p0e00_240611_092611_Run2SIM_UL2018NanoAOD_240612_213908_MCPrompt_2018_base.root"]:
+    that_file = "/pnfs/iihe/cms/store/user/cgiordan/AnalysisOutput/ReducedTuples/*/Tree_TTTT_13TeV_LO_TopPhilicScalarSinglet_M0p4_C1p0e00_240611_092611_Run2SIM_UL2018NanoAOD_240612_213908_MCPrompt_2018_base.root"
+    if fnmatch.fnmatch(filename, that_file):
         print("SS 0p4 2018, change the BSM variation reading")
         arrs = tree.arrays(["eftVariationsSel"], "eventClass==" + str(eventclass), aliases={"eftVariationsSel": "eftVariations[:, 1:3]"})
     else:
