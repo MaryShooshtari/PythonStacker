@@ -319,7 +319,7 @@
         "type": "weight"
     },
     "btag_hf_stats1_16PreVFP": {
-        "aliasDown": "nominalWeight * expDown[:, 10]", 
+        "aliasDown": "nominalWeight * expDown[:, 9]", 
         "aliasUp": "nominalWeight * expUp[:, 9]", 
         "technical_name": "CMS_btag_shape_hfstats1_2016preVFP",
         "processes": "MCOnly", 
@@ -330,7 +330,7 @@
     }, 
     "btag_hf_stats2_16PreVFP": {
         "aliasDown": "nominalWeight * expDown[:, 10]", 
-        "aliasUp": "nominalWeight * expUp[:, 9]", 
+        "aliasUp": "nominalWeight * expUp[:, 10]", 
         "technical_name": "CMS_btag_shape_hfstats2_2016preVFP",
         "processes": "MCOnly", 
         "channels": "all", 
@@ -339,7 +339,7 @@
         "eraspecific": "16PreVFP"
     }, 
     "btag_hf_stats1_16PostVFP": {
-        "aliasDown": "nominalWeight * expDown[:, 10]", 
+        "aliasDown": "nominalWeight * expDown[:, 9]", 
         "aliasUp": "nominalWeight * expUp[:, 9]", 
         "technical_name": "CMS_btag_shape_hfstats1_2016postVFP",
         "processes": "MCOnly", 
@@ -350,7 +350,7 @@
     }, 
     "btag_hf_stats2_16PostVFP": {
         "aliasDown": "nominalWeight * expDown[:, 10]", 
-        "aliasUp": "nominalWeight * expUp[:, 9]", 
+        "aliasUp": "nominalWeight * expUp[:, 10]", 
         "technical_name": "CMS_btag_shape_hfstats2_2016postVFP",
         "processes": "MCOnly", 
         "channels": "all", 
@@ -739,9 +739,7 @@
         "processes": [
             "ttW",
             "ttZ",
-            "ttH",
-            "tttt",
-            "ttt"
+            "ttH"
         ],
         "technical_name": "CMS_TOP24008_AddBJets_",
         "type": "weight",
