@@ -1,0 +1,73 @@
+{
+    "DC_name": "DC_2016",
+    "channelcontent": {
+        "CR-3L-Z": {
+            "variable": "NJets_CR3LZ",
+            "prettyname": "CR3LZ"
+        },
+        "SR-2Lpuresig_ee": {
+            "variable": "HT_SR2L",
+            "prettyname": "SR2L_ee_Sig"
+        },
+        "SR-2Lpuresig_em": {
+            "variable": "HT_SR2L",
+            "prettyname": "SR2L_em_Sig"
+        },
+        "SR-2Lpuresig_mm": {
+            "variable": "HT_SR2L",
+            "prettyname": "SR2L_mm_Sig"
+        },
+        "SR-2LpureTTW_ee": {
+            "variable": "BDTScore_TTX_2L",
+            "prettyname": "SR2L_ee_ttw"
+        },
+        "SR-2LpureTTW_em": {
+            "variable": "BDTScore_TTX_2L",
+            "prettyname": "SR2L_em_ttw"
+        },
+        "SR-2LpureTTW_mm": {
+            "variable": "BDTScore_TTX_2L",
+            "prettyname": "SR2L_mm_ttw"
+        },
+        "SR-2LpureNP": {
+            "variable": "BDTScore_NP_2L",
+            "prettyname": "SR2L_NP"
+        },
+        "SR-3Lpuresig": {
+            "variable": "HT_SR3L",
+            "prettyname": "SR3L_Sig"
+        },
+        "SR-3LpureTTW": {
+            "variable": "BDTScore_TTX_3L",
+            "prettyname": "SR3L_ttw"
+        },
+        "SR-3LpureNP": {
+            "variable": "BDTScore_NP_3L",
+            "prettyname": "SR3L_NP"
+        },
+        "SR-4Lpuresig_4L": {
+            "variable": "BDTScore_TTTT_4L",
+            "prettyname": "SR4L_Sig"
+        },
+        "SR-4LpureTTW_4L": {
+            "variable": "BDTScore_TTX_4L",
+            "prettyname": "SR4L_ttw"
+        },
+        "CR-2L-23J1B": {
+            "variable": "BDTScore_ttbar_CR2L",
+            "prettyname": "CR2LNP"
+        },
+        "CR-2L-45J2B": {
+            "variable": "BDTScore_ttbar_CR2L",
+            "prettyname": "CR2LTTW"
+        },
+        "CR-4L-Z": {
+            "variable": "NJets_CR4LZ",
+            "prettyname": "CR4LZ"
+        },
+        "CR-3L-2J1B": {
+            "variable": "SumCharges_CR3Lothers",
+            "prettyname": "CR3LNP"
+        }
+    }
+}
