@@ -116,6 +116,7 @@ def plot_histograms_base(axis, histograms: dict, variable: Variable, processes: 
 
     binning = generate_binning(variable.range, variable.nbins)
     for name, info in processes.items():
+        # print(name, info)
         content = np.zeros(variable.nbins)
         for year in years:
             # fixes ordering based on ordering in json file. Honestly sufficient
@@ -246,6 +247,7 @@ def plot_BSM_line(axis, histograms, variable: Variable, years, models: list, mas
         pretty_bsm_name = pretty_bsm_name.replace("Singlet", "S")
         pretty_bsm_name = pretty_bsm_name.replace("Octet", "O")
         pretty_bsm_name = pretty_bsm_name.replace("Scalar", "S")
+        pretty_bsm_name = pretty_bsm_name.replace("Pseudo", "P")
         mass_name = float(mass/1000)
         coupling_name = "(g="+str(coupling)+")"
         pretty_bsm_name += " " + str(mass_name) + " TeV " + coupling_name
