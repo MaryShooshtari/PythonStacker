@@ -7,7 +7,7 @@
         "pretty_name": "Lumi", 
         "rate": 1.02, 
         "type": "flat"
-    }, 
+    },
     "Lumi2018": {
         "processes": "MCOnly", 
         "corr_proc": 1, 
@@ -25,7 +25,7 @@
         "pretty_name": "Lumi1718", 
         "rate": 1.002, 
         "type": "flat"
-    }, 
+    },
     "tth_norm": {
         "processes": "ttH", 
         "technical_name": "cross_section_ttH", 
@@ -33,15 +33,7 @@
         "pretty_name": "ttH norm", 
         "rate": 1.2, 
         "type": "flat"
-    }, 
-    "nonPromptElNorm": {
-        "processes": "nonPromptElectron", 
-        "technical_name": "CMS_TOP24008_fake_e_correlated", 
-        "channels": "all", 
-        "pretty_name": "nonPromptElNorm", 
-        "rate": 1.2, 
-        "type": "flat"
-    }, 
+    },
     "nonPromptElNorm2018": {
         "processes": "nonPromptElectron", 
         "technical_name": "CMS_fake_e_2018", 
@@ -49,7 +41,15 @@
         "pretty_name": "nonPromptElNorm2018", 
         "rate": 1.2, 
         "type": "flat"
-    }, 
+    },
+    "nonPromptElNorm": {
+        "processes": "nonPromptElectron", 
+        "technical_name": "CMS_TOP24008_fake_e_correlated", 
+        "channels": "all", 
+        "pretty_name": "nonPromptElNorm", 
+        "rate": 1.2, 
+        "type": "flat"
+    },
     "nonPromptMuNorm": {
         "processes": "nonPromptMuon", 
         "technical_name": "CMS_TOP24008_fake_m_correlated", 
@@ -57,7 +57,7 @@
         "pretty_name": "nonPromptMuNorm", 
         "rate": 1.2, 
         "type": "flat"
-    }, 
+    },
     "nonPromptMuNorm2018": {
         "processes": "nonPromptMuon", 
         "technical_name": "CMS_fake_m_2018", 
@@ -65,42 +65,42 @@
         "pretty_name": "nonPromptMuNorm2018", 
         "rate": 1.2, 
         "type": "flat"
-    }, 
+    },
     "ChargeMisIDNorm": {
-        "processes": "ChargeMisID", 
+        "processes": "ChargeMisID",
         "technical_name": "cross_section_ChargeMisID", 
         "channels": "all", 
         "pretty_name": "ChargeMisIDNorm", 
         "rate": 1.15, 
         "type": "flat"
-    }, 
+    },
     "WZNorm": {
         "processes": "WZ", 
-        "technical_name": "cross_section_WZ",
+        "technical_name": "cross_section_WZ", 
         "channels": "all", 
         "pretty_name": "WZNorm ", 
         "rate": 1.062, 
         "type": "flat"
-    }, 
+    },
     "VVVNorm": {
-        "processes": "VVV", 
-        "technical_name": "cross_section_VVV",
+        "processes": "VVV",
+        "technical_name": "cross_section_VVV", 
         "channels": "all", 
         "pretty_name": "VVVNorm", 
         "rate": 1.06, 
         "type": "flat"
-    }, 
+    },
     "XgammaNorm": {
-        "processes": "Xg", 
-        "technical_name": "cross_section_Xg",
+        "processes": "Xg",
+        "technical_name": "cross_section_Xg", 
         "channels": "all", 
         "pretty_name": "XgammaNorm ", 
         "rate": 1.05, 
         "type": "flat"
-    }, 
+    },
     "Other_tNorm": {
-        "processes": "Othert", 
-        "technical_name": "cross_section_Othert",
+        "processes": "Othert",
+        "technical_name": "cross_section_Othert", 
         "channels": "all", 
         "pretty_name": "Other_tNorm", 
         "rate": 1.2, 
@@ -115,7 +115,7 @@
         "aliasUp": "nominalWeight * otherVariations[:, 4]", 
         "channels": "all", 
         "type": "weight"
-    }, 
+    },
     "WZNjets_3": {
         "aliasDown": "nominalWeight * otherVariations[:, 7]", 
         "processes": [
@@ -125,7 +125,7 @@
         "aliasUp": "nominalWeight * otherVariations[:, 6]", 
         "channels": "all", 
         "type": "weight"
-    }, 
+    },
     "WZNjets_4": {
         "aliasDown": "nominalWeight * otherVariations[:, 9]", 
         "processes": [
@@ -135,7 +135,7 @@
         "aliasUp": "nominalWeight * otherVariations[:, 8]", 
         "channels": "all", 
         "type": "weight"
-    }, 
+    },
     "WZNjets_5": {
         "aliasDown": "nominalWeight * otherVariations[:, 11]", 
         "processes": [
@@ -145,7 +145,7 @@
         "aliasUp": "nominalWeight * otherVariations[:, 10]", 
         "channels": "all", 
         "type": "weight"
-    }, 
+    },
     "WZNjets_6": {
         "aliasDown": "nominalWeight * otherVariations[:, 13]", 
         "processes": [
@@ -177,23 +177,23 @@
         "aliasDown": "nominalWeight * otherVariations[:, 7]"
     },
     "pileup": {
+        "aliasDown": "nominalWeight * expDown[:, 0]", 
         "processes": "MCOnly", 
         "technical_name": "CMS_pileup_13TeV", 
         "aliasUp": "nominalWeight * expUp[:, 0]", 
-        "aliasDown": "nominalWeight * expDown[:, 0]", 
         "channels": "all", 
         "pretty_name": "PU", 
         "type": "weight"
-    }, 
+    },
     "prefire": {
+        "aliasDown": "nominalWeight * expDown[:, 5]", 
         "processes": "MCOnly", 
         "technical_name": "CMS_l1_ecal_prefiring", 
         "aliasUp": "nominalWeight * expUp[:, 5]", 
-        "aliasDown": "nominalWeight * expDown[:, 5]", 
         "channels": "all", 
         "pretty_name": "L1Prefire", 
         "type": "weight"
-    }, 
+    },
     "ElectronReco": {
         "aliasDown": "nominalWeight * expDown[:, 6]", 
         "processes": "MCOnly", 
@@ -201,23 +201,23 @@
         "aliasUp": "nominalWeight * expUp[:, 6]", 
         "channels": "all", 
         "type": "weight"
-    }, 
+    },
     "ElectronIDStat": {
         "aliasDown": "nominalWeight * expDown[:, 4]", 
         "processes": "MCOnly", 
         "technical_name": "CMS_TOP24008_eff_e_id_2018", 
         "aliasUp": "nominalWeight * expUp[:, 4]", 
-        "channels": "all", 
+        "channels": "all",
         "type": "weight"
     },
     "ElectronIDSyst": {
+        "aliasDown": "nominalWeight * expDown[:, 3]", 
         "processes": "MCOnly", 
         "technical_name": "CMS_TOP24008_eff_e_id_correlated", 
         "aliasUp": "nominalWeight * expUp[:, 3]", 
-        "aliasDown": "nominalWeight * expDown[:, 3]", 
         "channels": "all", 
         "type": "weight"
-    }, 
+    },
     "MuonIDSyst": {
         "aliasDown": "nominalWeight * expDown[:, 1]", 
         "processes": "MCOnly", 
@@ -231,156 +231,145 @@
         "processes": "MCOnly", 
         "technical_name": "CMS_TOP24008_eff_m_id_2018", 
         "aliasUp": "nominalWeight * expUp[:, 2]", 
-        "channels": "all", 
+        "channels": "all",
         "type": "weight"
     },
     "btag_hf": {
         "aliasDown": "nominalWeight * expDown[:, 7]", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_btag_DeepFlav_hf", 
+        "technical_name": "CMS_btag_hf", 
         "aliasUp": "nominalWeight * expUp[:, 7]", 
         "channels": "all", 
         "pretty_name": "BTagSFHf", 
         "type": "weight"
-    }, 
+    },
     "btag_hf_stats1": {
         "aliasDown": "nominalWeight * expDown[:, 9]", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_btag_DeepFlav_hfstats1_2018",
+        "technical_name": "CMS_TOP24008_btag_hfstats1_2018", 
         "aliasUp": "nominalWeight * expUp[:, 9]", 
         "channels": "all", 
-        "pretty_name": "BTagSFHfs1", 
+        "pretty_name": "BTagSFHfs1_2018", 
         "type": "weight"
-    }, 
+    },
     "btag_hf_stats2": {
         "aliasDown": "nominalWeight * expDown[:, 10]", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_btag_DeepFlav_hfstats2_2018",
+        "technical_name": "CMS_TOP24008_btag_hfstats2_2018", 
         "aliasUp": "nominalWeight * expUp[:, 10]", 
         "channels": "all", 
-        "pretty_name": "BTagSFHfs2", 
+        "pretty_name": "BTagSFHfs2_2018", 
         "type": "weight"
     },
     "btag_lf": {
         "aliasDown": "nominalWeight * expDown[:, 8]", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_btag_DeepFlav_lf", 
+        "technical_name": "CMS_btag_lf", 
         "aliasUp": "nominalWeight * expUp[:, 8]", 
         "channels": "all", 
         "pretty_name": "BTagSFLf", 
-        "type": "weight"
-    }, 
-    "btag_lf_stats1": {
-        "aliasDown": "nominalWeight * expDown[:, 11]", 
-        "processes": "MCOnly", 
-        "technical_name": "CMS_btag_DeepFlav_lfstats1_2018",
-        "aliasUp": "nominalWeight * expUp[:, 11]", 
-        "channels": "all", 
-        "pretty_name": "BTagSFLfs1", 
         "type": "weight"
     },
     "btag_lf_stats2": {
         "aliasDown": "nominalWeight * expDown[:, 12]", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_btag_DeepFlav_lfstats2_2018",
+        "technical_name": "CMS_TOP24008_btag_lfstats2_2018", 
         "aliasUp": "nominalWeight * expUp[:, 12]", 
         "channels": "all", 
-        "pretty_name": "BTagSFLfs2", 
+        "pretty_name": "BTagSFLfs2_2018", 
         "type": "weight"
     }, 
+    "btag_lf_stats1": {
+        "aliasDown": "nominalWeight * expDown[:, 11]", 
+        "processes": "MCOnly", 
+        "technical_name": "CMS_TOP24008_btag_lfstats1_2018", 
+        "aliasUp": "nominalWeight * expUp[:, 11]", 
+        "channels": "all", 
+        "pretty_name": "BTagSFLfs1_2018", 
+        "type": "weight"
+    },
     "btag_cferr1": {
         "aliasDown": "nominalWeight * expDown[:, 13]", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_btag_DeepFlav_cferr1", 
+        "technical_name": "CMS_btag_cferr1", 
         "aliasUp": "nominalWeight * expUp[:, 13]", 
         "channels": "all", 
         "pretty_name": "BTagSFCfe1", 
         "type": "weight"
-    }, 
+    },
     "btag_cferr2": {
         "aliasDown": "nominalWeight * expDown[:, 14]", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_btag_DeepFlav_cferr2", 
+        "technical_name": "CMS_btag_cferr2", 
         "aliasUp": "nominalWeight * expUp[:, 14]", 
         "channels": "all", 
         "pretty_name": "BTagSFCfe2", 
         "type": "weight"
     },
-    "JetPUID": {
-        "aliasUp": "nominalWeight * expUp[:, 15]", 
-        "aliasDown": "nominalWeight * expDown[:, 15]", 
-        "processes": "MCOnly", 
-        "technical_name": "CMS_eff_j_PUJET_id_2018", 
-        "channels": "all", 
-        "pretty_name": "JetPUID", 
-        "type": "weight"
-    },
     "ISR": {
-        "processes": "MCOnly", 
+        "processes": ["ttW","ttZ","Xg","VVV","WZ","Othert","tttt","ttt"], 
+        "corr_proc": 0, 
         "technical_name": "ps_isr_", 
-        "aliasUp": "isrfsrVariations[:, 0]", 
+        "aliasUp": "isrfsrVariations[:, 0]",
         "aliasDown": "isrfsrVariations[:, 1]", 
         "channels": "all", 
-        "type": "weight",
-        "corr_proc": 0
-    }, 
+        "type": "weight"
+    },
     "FSR": {
+        "aliasDown": "isrfsrVariations[:, 3]", 
         "processes": "MCOnly", 
         "technical_name": "ps_fsr", 
         "aliasUp": "isrfsrVariations[:, 2]", 
-        "aliasDown": "isrfsrVariations[:, 3]", 
         "channels": "all", 
         "type": "weight"
     },
     "JER_1p93": {
-        "fileglob": "JER", 
+        "type": "shape", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_TOP24008_res_j_1p93_2018",
-        "treename": "JER_1p93",
-        "type": "shape"
-    }, 
+        "technical_name": "CMS_TOP24008_res_j_1p93_2018", 
+        "fileglob": "JER"
+    },
     "JER_2p5": {
-        "fileglob": "JER", 
+        "type": "shape", 
         "processes": "MCOnly", 
-        "technical_name": "CMS_TOP24008_res_j_2p5_2018",
-        "treename": "JER_2p5",
-        "type": "shape"
+        "technical_name": "CMS_TOP24008_res_j_2p5_2018", 
+        "fileglob": "JER"
     },
     "METUnclustered": {
         "fileglob": "MET", 
         "processes": "MCOnly", 
         "technical_name": "CMS_scale_met_unclustered_energy_2018", 
         "type": "shape"
-    },     
+    },   
     "pdfUncertainty": {
         "channels": "all", 
         "processes": "MCOnly", 
         "technical_name": "pdf", 
         "type": "weight"
     }, 
-    "ScaleVarFactorization": {
-        "processes": "MCOnly",
+    "ScaleVarFactorization": { 
+        "processes": ["ttW", "ttZ","Xg", "VVV", "WZ","Othert","tttt", "ttt"], 
         "corr_proc": 0, 
         "technical_name": "QCDscale_fac_", 
-        "aliasUp": "scaleVariations[:, 3]", 
+        "aliasUp": "scaleVariations[:, 3]",
         "aliasDown": "scaleVariations[:, 4]", 
         "channels": "all", 
         "type": "weight"
-    }, 
+    },
     "ScaleVarRenormalization": {
-        "processes": "MCOnly",
+        "processes": ["ttW","ttZ","Xg","VVV","WZ","Othert","tttt","ttt"], 
         "corr_proc": 0, 
         "technical_name": "QCDscale_ren_", 
-        "aliasUp": "scaleVariations[:, 0]", 
-        "aliasDown": "scaleVariations[:, 1]", 
+        "aliasUp": "scaleVariations[:, 0]",
+        "aliasDown": "scaleVariations[:, 1]",
         "channels": "all", 
         "type": "weight"
     },
     "HEMIssue": {
-        "fileglob": "HEMIssue",
-        "technical_name": "CMS_HEM_2018",
-        "processes": "MCOnly",
-        "type": "shape"
+        "type": "shape", 
+        "processes": "MCOnly", 
+        "technical_name": "CMS_HEM_2018", 
+        "fileglob": "HEMIssue"
     },
     "Absolute": {
         "pretty_name": "JEC_Absolute",
@@ -476,20 +465,50 @@
         "rate": "0.867/1.078",
         "type": "flat"
     },
-    "tttj_norm": {
-        "pretty_name": "tttj_norm",
-        "technical_name": "cross_section_tttj",
+    "ttt_norm": {
+        "pretty_name": "ttt_norm",
+        "technical_name": "cross_section_ttt",
         "channels": "all",
-        "processes": "tttj",
-        "rate": "0.90/1.12",
+        "processes": "ttt",
+        "rate": "0.873/1.141",
         "type": "flat"
     },
-    "tttw_norm": {
-        "pretty_name": "tttw_norm",
-        "technical_name": "cross_section_tttW",
-        "channels": "all",
-        "processes": "tttW",
-        "rate": "0.846/1.162",
-        "type": "flat"
+    "ISRSignal": {
+        "processes": [
+            "TopPhilic",
+            "BSM_Quad",
+            "BSM_Quartic"
+        ], 
+        "technical_name": "ps_isr_BSMsignal", 
+        "aliasUp": "isrfsrVariations[:, 0]",
+        "aliasDown": "isrfsrVariations[:, 1]", 
+        "channels": "all", 
+        "type": "weight"
+    },
+    "ScaleVarFactorizationSignal": {
+        "aliasDown": "scaleVariations[:, 4]", 
+        "processes": [
+            "TopPhilic", 
+            "BSM_Quad", 
+            "BSM_Quartic"
+        ], 
+        "corr_proc": 1, 
+        "technical_name": "QCDscale_fac_BSMsignal", 
+        "aliasUp": "scaleVariations[:, 3]", 
+        "channels": "all", 
+        "type": "weight"
+    },
+    "ScaleVarRenormalizationSignal": {
+        "aliasDown": "scaleVariations[:, 1]", 
+        "processes": [
+            "TopPhilic",
+            "BSM_Quad",
+            "BSM_Quartic"
+        ], 
+        "corr_proc": 1, 
+        "technical_name": "QCDscale_ren_BSMsignal", 
+        "aliasUp": "scaleVariations[:, 0]", 
+        "channels": "all", 
+        "type": "weight"
     }
 }
