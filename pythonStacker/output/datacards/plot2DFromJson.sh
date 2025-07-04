@@ -1,0 +1,3 @@
+python3 plot2DFromJson.py --exp v36_IM/2D/cQQ1_ctt_profiled_2Dshape.json --obs v36_IM/2D/cQQ1_ctt_profiled_data_2Dshape.json --xlabel "c_{QQ}^{(1)}" --ylabel "c_{tt}" --output cQQ1_ctt_profiled --xrange -2.5 2.5 --yrange -2.5 2.5
+python3 plot2DFromJson.py --exp v36_IM/2D/ctt_ctHRe_profiled_2Dshape.json --obs v36_IM/2D/ctt_ctHRe_profiled_data_2Dshape.json --xlabel "c_{tt}" --ylabel "c_{tH}^{Re}" --output ctt_ctHRe_profiled --xrange -2.5 2.5 --yrange -15 40
+python3 plot2DFromJson.py --exp v36_IM/2D/ctHRe_ctHIm_profiled_2Dshape.json --obs v36_IM/2D/ctHRe_ctHIm_profiled_data_2Dshape.json --xlabel "c_{tH}^{Re}" --ylabel "c_{tH}^{Im}" --output ctHRe_ctHIm_profiled --xrange -15 40 --yrange -40 40

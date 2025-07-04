@@ -1,0 +1,16 @@
+{
+"k_ctt" : "c_{tt}",
+"k_cQQ1":"c_{QQ}^{1}",
+"k_cQQ8":"c_{QQ}^{8}",
+"k_cQt1":"c_{Qt}^{1}",
+"k_cQt8":"c_{Qt}^{8}",
+"k_ctHRe":"Re(c_{tH})",
+"k_ctHIm":"Im(c_{tH})",
+"ctt" : "c_{tt}",
+"cQQ1":"c_{QQ}^{1}",
+"cQQ8":"c_{QQ}^{8}",
+"cQt1":"c_{Qt}^{1}",
+"cQt8":"c_{Qt}^{8}",
+"ctHRe":"Re(c_{tH})",
+"ctHIm":"Im(c_{tH})"
+}
