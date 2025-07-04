@@ -1,5 +1,5 @@
 {
-    "Basedir": "/pnfs/iihe/cms/store/user/nivanden/AnalysisOutput/ReducedTuples/2024-04-23_16-46",
+    "Basedir": "/pnfs/iihe/cms/store/user/nivanden/AnalysisOutput/ReducedTuples/2025-04-04_14-34_EFT",
     "Processes": {
         "TTTT_EFT": {
             "fileglobs": ["Tree_TTTT_EFT_*_MCPrompt"],
@@ -7,6 +7,27 @@
             "isSignal": 1,
             "hasEFT": 1,
             "pretty_name": "t\\bar{t}t\\bar{t}"
+        },
+        "TTTJ_EFT": {
+            "fileglobs": ["Tree_TTTJ*EFT_*_MCPrompt"],
+            "color": "#EF3340",
+            "isSignal": 1,
+            "hasEFT": 1,
+            "pretty_name": "t\\bar{t}tq"
+        },
+        "TTTW_EFT": {
+            "fileglobs": ["Tree_TTTW*EFT_*_MCPrompt"],
+            "color": "#EF3340",
+            "isSignal": 1,
+            "hasEFT": 1,
+            "pretty_name": "t\\bar{t}tW"
+        },
+        "TTT_EFT": {
+            "fileglobs": ["Tree_TTTW*EFT_*_MCPrompt","Tree_TTTJ*EFT_*_MCPrompt"],
+            "color": "#EF3340",
+            "isSignal": 1,
+            "hasEFT": 1,
+            "pretty_name": "t\\bar{t}t"
         }
     }
 }

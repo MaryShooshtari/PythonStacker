@@ -67,6 +67,7 @@ def parse_arguments() -> argparse.Namespace:
 
 
 def prepare_histogram(data, wgts, variable: Variable):
+    #print("for this variable: nbins=", variable.nbins)
     hist_content, binning, hist_unc = src.histogram_w_unc_flow(ak.to_numpy(data), axisrange=variable.range, wgts=ak.to_numpy(wgts), nbins=variable.nbins)
     return hist_content, binning, hist_unc
 
@@ -109,6 +110,7 @@ def create_histograms_singledata(output_histograms: dict, args, files, channel: 
             print("Loading weights...")
             weights = WeightManager(current_tree, channel.selection, systematics)
             if globalEFTToggle:
+                print("using EFT weights")
                 eventclass = channel.selection.split("==")[-1]
                 weights.add_eftvariations(get_eftvariations_filename(args.storage, filename, eventclass))
             if globalBSMToggle:

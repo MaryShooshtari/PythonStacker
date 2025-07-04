@@ -12,15 +12,15 @@ parser.add_argument('--fileDir', action='store', default='./output/bsmlimits/Top
 args = parser.parse_args()
 
 def output_directory_setup(base_dir: str, version: str, era: str, index_file: str = "/user/nivanden/public_html/index.php"):
-    output_directory = os.path.join(os.path.expanduser(base_dir), "v" + version, era)
+    output_directory = os.path.join(os.path.expanduser(base_dir), version,"PlotsFromDC", era)
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
     os.system(f"cp {index_file} {output_directory}/index.php")
 
     return output_directory
 
-output_dir = os.path.join("~/public_html/PlotsFromDC")
-output_directory = output_directory_setup(output_dir,args.version, args.era)
+output_dir = os.path.join("~/public_html/Interpretations/Plots")
+output_directory = output_directory_setup(output_dir,"SS2L_3L_fit_"+args.version, args.era)
 
 region = {  "SR2L_ee_Sig": "H_{T}(GeV)",
             "SR2L_em_Sig": "H_{T}(GeV)",
@@ -28,6 +28,8 @@ region = {  "SR2L_ee_Sig": "H_{T}(GeV)",
             "SR2L_ee_ttw": "BDT_TTX",
             "SR2L_em_ttw": "BDT_TTX",
             "SR2L_mm_ttw": "BDT_TTX",
+            "SR2L_Sig": "H_{T}(GeV)",
+            "SR2L_ttw": "BDT_TTX",
             "SR2L_NP":     "BDT_TT",
             "SR3L_Sig":    "H_{T}(GeV)",
             "SR3L_NP":     "BDT_TT",
@@ -37,7 +39,9 @@ region = {  "SR2L_ee_Sig": "H_{T}(GeV)",
             "CR2LNP":      "BDT_TT",
             "CR2LTTW":     "BDT_TT",
             "CR3LNP":      "Sum Lep Charges",
-            "CR4LZ":       "N_{jets}(GeV)"
+            "CR3LZ":       "N_{jets}(GeV)",
+            "CR4LZ":       "N_{jets}(GeV)",
+	    "SR4L_Sig":	"BDT_TTX"
              }
           
     
@@ -47,9 +51,14 @@ if not args.data:
 
 # colours from the json setting files (tttt looks beige but ok...)
 process_colors = {
-        "ttt": "#e9d98d", "Othert": "#92dadd", "Xg": "#3f90da", "ChargeMisID": "#832db6",
+        "tttW": "#e9d98d", 
+        "tttj": "#e9d98d", 
+	"Othert": "#92dadd", "Xg": "#3f90da", "ChargeMisID": "#832db6",
         "VVV": "#bd1f01", "WZ": "#bd1f01", "nonPromptElectron": "#e76300", "nonPromptMuon": "#a96b59",
-        "ttH": "#b9ac70", "ttZ": "#717581", "ttW": "#94a4a2", "tttt": "#FF6600"
+        "ttH": "#b9ac70", 
+	"ttZ": "#717581", "ttW": "#94a4a2", 
+	"tttt": "#FF6600",
+	"sm":"#e9d98d"
     }
 
 
@@ -87,7 +96,7 @@ def plot_stacked_histograms(region_name, exclude_histograms, process_colors):
         if isinstance(hist, ROOT.TH1):
             # check the process name from the histogram name
             for process, color in process_colors.items():
-                if process in hist.GetName():
+                if process == hist.GetName():
                     hist.SetLineColor(ROOT.TColor.GetColor(color))
                     hist.SetFillColor(ROOT.TColor.GetColor(color)) 
                     hist.SetFillStyle(1001)

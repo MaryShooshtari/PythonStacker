@@ -131,6 +131,8 @@ class HyperPoly:
         if len(weights[0]) != self.N:
             raise ValueError( "Need %i weights that correspond to the same number of param_points. Got %i." % (self.N, len(weights)) )
         b = np.array( [ self.wEXT_expectation_parallel( weights, self.combination[d] ) for d in range(self.ndof) ] )
+        #print("b", b)
+        #print ("self.Ainv", self.Ainv)
         return np.dot(self.Ainv, b)
 
     def wEXT_expectation(self, weights, combination ):

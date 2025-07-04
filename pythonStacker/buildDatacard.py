@@ -66,6 +66,8 @@ def convert_and_write_histogram(input_histogram, variable: Variable, outputname:
         for i in range(1, ret_th1.GetNbinsX() + 1):
             if ret_th1.GetBinContent(i) > 0.0:
                 continue
+            print(input_histogram,outputname)
+            print("This bin: ",ret_th1.GetBinContent(i))
             ret_th1.SetBinError(i, 0.00001)
             ret_th1.SetBinContent(i, 0.00001)
             #if ret_th1.GetBinContent(i) < -1e-06:
@@ -707,6 +709,17 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
             sm_3t_histograms[channelname].load_histograms()
             sm_ttH_histograms[channelname] = HistogramManager(storagepath, "ttH", variables, list(shape_systematics.keys()), args.years[0])
             sm_ttH_histograms[channelname].load_histograms()
+#            print("channelname:", channelname)
+#            print("var_name:", var_name)
+#            
+#            print("Type sm_4t:", type(sm_4t_histograms[channelname][var_name]["nominal"]))
+#            print("Type sm_3t:", type(sm_3t_histograms[channelname][var_name]["nominal"]))
+#            print("Type sm_ttH:", type(sm_ttH_histograms[channelname][var_name]["nominal"]))
+#            
+#            print("Value sm_4t:", sm_4t_histograms[channelname][var_name]["nominal"])
+#            print("Value sm_3t:", sm_3t_histograms[channelname][var_name]["nominal"])
+#            print("Value sm_ttH:", sm_ttH_histograms[channelname][var_name]["nominal"])
+            
             all_asimovdata[channel_DC_setting['prettyname']] = sm_4t_histograms[channelname][var_name]["nominal"] + sm_3t_histograms[channelname][var_name]["nominal"] + sm_ttH_histograms[channelname][var_name]["nominal"]
     
             path_to_histogram = f"{channel_DC_setting['prettyname']}/sm"
@@ -784,6 +797,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                  content_ttH_sm_lin_quad_nominal = extract_up_value(histograms_ttH_eft[var_name]["nominal"]) + histograms_ttH_eft[var_name][lin_name]["Up"] + histograms_ttH_eft[var_name][quad_name]["Up"]
                  
                  content_sm_lin_quad_nominal = content_4t_sm_lin_quad_nominal + content_3t_sm_lin_quad_nominal + content_ttH_sm_lin_quad_nominal
+                 #content_sm_lin_quad_nominal = content_4t_sm_lin_quad_nominal + content_ttH_sm_lin_quad_nominal
                  #statunc_sm_lin_quad_nominal = statunc_4t_sm_lin_quad_nominal + statunc_3t_sm_lin_quad_nominal
                  
                  path_to_sm_lin_quad = f"{channel_DC_setting['prettyname']}/sm_lin_quad_{eft_var}"
@@ -799,6 +813,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                  content_ttH_quad_nominal = histograms_ttH_eft[var_name][quad_name]["Up"]
                  
                  content_quad_nominal = content_4t_quad_nominal + content_3t_quad_nominal + content_ttH_quad_nominal
+                 #content_quad_nominal = content_4t_quad_nominal  + content_ttH_quad_nominal
                  #statunc_quad_nominal = statunc_4t_quad_nominal + statunc_3t_quad_nominal
                  
                  path_to_quad = f"{channel_DC_setting['prettyname']}/quad_{eft_var}"
@@ -855,6 +870,8 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                      # combine 3top and 4top Up variations to create signal up variation
                      content_sm_lin_quad_syst_up = content_4t_sm_lin_quad_syst_up + content_3t_sm_lin_quad_syst_up + content_ttH_sm_lin_quad_syst_up
                      content_quad_syst_up = content_4t_quad_syst_up + content_3t_quad_syst_up + content_ttH_quad_syst_up
+                     #content_sm_lin_quad_syst_up = content_4t_sm_lin_quad_syst_up + content_ttH_sm_lin_quad_syst_up
+                     #content_quad_syst_up = content_4t_quad_syst_up + content_ttH_quad_syst_up
                  
                      rel_4t_syst_down = np.nan_to_num(downvar_4t_sm / histograms_4t_eft[var_name]["nominal"], nan=1.)
                      rel_4t_syst_down = np.where(np.abs(rel_4t_syst_down) > 1e10, 1., rel_4t_syst_down)
@@ -877,6 +894,8 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                      # combine 3top and 4top Up variations to create signal down variation
                      content_sm_lin_quad_syst_down = content_4t_sm_lin_quad_syst_down + content_3t_sm_lin_quad_syst_down + content_ttH_sm_lin_quad_syst_down
                      content_quad_syst_down = content_4t_quad_syst_down + content_3t_quad_syst_down + content_ttH_quad_syst_down
+                     #content_sm_lin_quad_syst_down = content_4t_sm_lin_quad_syst_down + content_ttH_sm_lin_quad_syst_down
+                     #content_quad_syst_down = content_4t_quad_syst_down  + content_ttH_quad_syst_down
                  
                      rootpath_smlinquad = syst.technical_name
                      rootpath_quad = syst.technical_name
@@ -950,6 +969,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                     content_ttH_mix_nominal = extract_up_value(histograms_ttH_eft[var_name]["nominal"]) + histograms_ttH_eft[var_name][first_lin_name]["Up"] + histograms_ttH_eft[var_name][first_quad_name]["Up"] + histograms_ttH_eft[var_name][second_lin_name]["Up"] + histograms_ttH_eft[var_name][second_quad_name]["Up"] + (2*histograms_ttH_eft[var_name][mixName]["Up"]) 
                     
                     content_mix_nominal = content_4t_mix_nominal + content_3t_mix_nominal + content_ttH_mix_nominal 
+                    #content_mix_nominal = content_4t_mix_nominal  + content_ttH_mix_nominal 
                     #statunc_mix_nominal = statunc_4t_mix_nominal + statunc_3t_mix_nominal
                     
                     path_to_mix = f"{channel_DC_setting['prettyname']}/sm_lin_quad_mixed_{eft_var}"
@@ -993,6 +1013,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                         content_ttH_mix_syst_up = rel_ttH_syst_up * content_ttH_mix_nominal
                         
                         content_mix_syst_up = content_4t_mix_syst_up + content_3t_mix_syst_up + content_ttH_mix_syst_up
+                        #content_mix_syst_up = content_4t_mix_syst_up + content_ttH_mix_syst_up
                         
 			#Down
                         rel_4t_syst_down = np.nan_to_num(downvar_4t_sm / histograms_4t_eft[var_name]["nominal"], nan=1.)
@@ -1009,6 +1030,7 @@ def eft_datacard_creation(rootfile: uproot.WritableDirectory, datacard_settings:
                         content_ttH_mix_syst_down = rel_ttH_syst_down * content_ttH_mix_nominal
                      
                         content_mix_syst_down = content_4t_mix_syst_down + content_3t_mix_syst_down + content_ttH_mix_syst_down
+                        #content_mix_syst_down = content_4t_mix_syst_down  + content_ttH_mix_syst_down
                     
                         rootpath_mix = syst.technical_name
                         if not syst.correlated_process:

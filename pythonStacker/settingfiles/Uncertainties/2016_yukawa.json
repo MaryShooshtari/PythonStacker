@@ -22,7 +22,7 @@
         "technical_name": "cross_section_ttH", 
         "channels": "all", 
         "pretty_name": "ttH norm", 
-        "rate": 1.084, 
+        "rate": 1.077, 
         "type": "flat"
     }, 
     "nonPromptElNorm": {
@@ -552,6 +552,24 @@
         "type": "weight",
         "aliasUp": "nominalWeight * otherVariations[:, 0]",
         "aliasDown": "nominalWeight"
+    },
+    "ttw_norm": {
+        "processes": "ttW",
+        "corr_proc": 1,
+        "technical_name": "cross_section_ttW",
+        "channels": "all",
+        "pretty_name": "ttW norm",
+        "rate": 5,
+        "type": "flat"
+    },
+    "ttz_norm": {
+        "processes": "ttZ",
+        "corr_proc": 1,
+        "technical_name": "cross_section_ttZ",
+        "channels": "all",
+        "pretty_name": "ttZ norm",
+        "rate": 5,
+        "type": "flat"
     },
     "tttt_norm": {
         "pretty_name": "tttt_norm",

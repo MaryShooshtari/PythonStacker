@@ -1,5 +1,5 @@
 {
-    "Basedir": "/pnfs/iihe/cms/store/user/nivanden/AnalysisOutput/ReducedTuples/2025-04-04_14-34",
+    "Basedir": "/pnfs/iihe/cms/store/user/mshoosht/AnalysisOutput/ReducedTuples/2025-04-04_14-34_EFT",
     "Processes": {
         "Data": {
             "fileglobs": ["Tree_*MergedNew*Run*Obs"],

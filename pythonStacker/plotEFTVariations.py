@@ -261,6 +261,199 @@ def mix_SM_plot_EFT(variable: Variable, plotdir: str, histograms, process_info: 
 #    fig.savefig(os.path.join(plotdir, f"{processname}_{variable.name}_mix.root"))
     plt.close(fig)
 
+def ttH_EFT(variable: Variable, plotdir: str, histograms, process_info: dict, plotlabel: str, processname: str):
+    fig, ax_main = fg.create_singleplot()
+
+    binning = generate_binning(variable.range, variable.nbins)
+    # first plot nominal, then start adding variations
+    nominal_content = np.array(ak.to_numpy(histograms[variable.name]["nominal"]))
+    stat_unc_var = np.nan_to_num(np.array(ak.to_numpy(histograms[variable.name]["stat_unc"])) / nominal_content, nan=0.)
+    #pretty_name = generate_process_name("SM", info)
+    nominal_weights = np.ones(len(nominal_content))
+    #ax_main.hist(binning[:-1], binning, weights=nominal_weights, histtype="step", color="k", label="SM")
+    ax_main.hist(binning[:-1], binning, weights=nominal_content , histtype="step", label="sm")
+    ax_main.errorbar(x=binning[:-1] + 0.5 * np.diff(binning), y=nominal_content,fmt='none', yerr=stat_unc_var, label="stat unc.")
+
+    
+    eft_variations = eft.getEFTVariationsLinear()
+    minim = 1.
+    maxim = 1.
+    for eft_var in eft_variations:
+        wc_factor = 1
+        if "ctHRe" in eft_var:
+            wc_factor = 5
+        elif "ctHIm" in eft_var:
+            wc_factor = 15
+        else :
+            continue
+        lin_name = "EFT_" + eft_var
+        quad_name = lin_name + "_" + eft_var
+
+        current_variation = nominal_content + wc_factor  * np.array(ak.to_numpy(histograms[variable.name][lin_name]["Up"])) + wc_factor * wc_factor * np.array(ak.to_numpy(histograms[variable.name][quad_name]["Up"]))
+        quad =  wc_factor * wc_factor *np.array(ak.to_numpy(histograms[variable.name][quad_name]["Up"]))
+        pretty_eft_name = eft_var + f" = {wc_factor}"
+        ax_main.hist(binning[:-1], binning, weights=current_variation, histtype="step", label=pretty_eft_name)
+        ax_main.hist(binning[:-1], binning, weights=quad, histtype="step", label=eft_var + f"_quad = {wc_factor}")
+        for thing1 in current_variation : 
+           if thing1<=0 :print("sm_lin_quad : ",current_variation)
+        for thing2 in quad:
+           if thing2<=0 :print("quad : ",quad)
+
+    #eft_variations = eft.getEFTVariationsLinear()
+    minim = 1.
+    maxim = 1.
+        
+    mix_list = [#"cQQ1_cQt1","cQQ1_cQt8",
+    #"cQQ1_ctHIm","cQQ1_ctHRe",
+    #"cQQ1_ctt","cQQ8_cQQ1","cQQ8_cQt1","cQQ8_cQt8",
+    #"cQQ8_ctHIm","cQQ8_ctHRe",
+    #"cQQ8_ctt",
+    #"cQt1_cQt8",
+    #"cQt1_ctHIm","cQt1_ctHRe",
+    #"cQt1_ctt",
+    #"cQt8_ctHIm","cQt8_ctHRe",
+    "ctHRe_ctHIm",
+    #"ctt_cQt8",
+    #"ctt_ctHIm","ctt_ctHRe"
+    ]
+    for eft_var in mix_list:
+        mix_name = "EFT_"+eft_var
+        wc1 = eft_var.split("_")[0]
+        wc2 = eft_var.split("_")[1]
+        lin_name1 = "EFT_" + wc1
+        lin_name2 = "EFT_" + wc2
+        quad_name1 = "EFT_" + wc1 +"_"+ wc1
+        quad_name2 = "EFT_" + wc2 +"_"+ wc2
+        mix_ratio = np.nan_to_num(np.array(ak.to_numpy(histograms[variable.name][mix_name]["Up"])) , nan=0.)
+        lin1_ratio = np.nan_to_num(np.array(ak.to_numpy(histograms[variable.name][lin_name1]["Up"])) ,nan=0.)
+        lin2_ratio = np.nan_to_num(np.array(ak.to_numpy(histograms[variable.name][lin_name2]["Up"])) ,nan=0.)
+        quad1_ratio = np.nan_to_num(np.array(ak.to_numpy(histograms[variable.name][quad_name1]["Up"])) ,nan=0.)
+        quad2_ratio = np.nan_to_num(np.array(ak.to_numpy(histograms[variable.name][quad_name2]["Up"])),nan=0.)
+        mix_sm = nominal_content + 2*mix_ratio +  lin1_ratio + lin1_ratio + quad1_ratio + quad2_ratio
+        ax_main.hist(binning[:-1], binning, weights=mix_sm, histtype="step" , label=eft_var)
+        minim = min(minim, np.min(mix_sm))
+        maxim = max(maxim, np.max(mix_sm))
+        for thing3 in mix_sm:
+           if thing3<=0 : print("mix : " , mix_sm)
+
+    ax_main.set_xlim(variable.range)
+    ax_main.set_ylabel("rate")
+    modify_yrange_updown(ax_main, (minim, maxim), up_scale=2)
+    ax_main.legend(ncol=1)
+    ax_main.set_xlabel(variable.axis_label)
+    ax_main.text(0.049, 0.77, plotlabel, transform=ax_main.transAxes)
+
+    # fix output name
+    fig.savefig(os.path.join(plotdir, f"{processname}_{variable.name}_all.png"))
+    fig.savefig(os.path.join(plotdir, f"{processname}_{variable.name}_all.pdf"))
+    plt.close(fig)
+
+import os
+import numpy as np
+import awkward as ak
+
+# Make sure these functions/modules are available in your context:
+# - generate_binning(range, nbins)
+# - eft.getEFTVariationsLinear()
+
+import os
+import numpy as np
+import awkward as ak
+
+# Ensure these functions or modules are available in your environment:
+# - generate_binning(range, nbins)
+# - eft.getEFTVariationsLinear()
+
+def main_save_EFT(variable, plotdir, histograms, process_info, plotlabel, processname):
+    """
+    Computes EFT weight variations relative to the nominal histogram content and saves 
+    all relevant arrays to a single compressed .npz file.
+
+    Parameters
+    ----------
+    variable : object
+        Object with attributes:
+          - range: tuple (min, max) defining the histogram range.
+          - nbins: number of bins.
+          - name : key name to access the histogram content in `histograms`.
+    plotdir : str
+        Directory where the output file will be saved.
+    histograms : dict
+        Dictionary containing the nominal histogram and EFT variations stored as Awkward arrays.
+        Expected keys:
+          - histograms[variable.name]["nominal"]
+          - histograms[variable.name][<key>]["Up"]
+    process_info : dict
+        Dictionary with process-related information (not used directly in the computation).
+    plotlabel : str
+        A label string (unused in saving but kept for interface consistency).
+    processname : str
+        Process name used in the naming of the output file.
+
+    Returns
+    -------
+    None
+        The computed arrays are saved in a .npz file.
+    """
+    # Ensure the output directory exists.
+    os.makedirs(plotdir, exist_ok=True)
+    
+    # Create the histogram binning based on the variable's range and number of bins.
+    binning = generate_binning(variable.range, variable.nbins)
+    
+    # Extract nominal histogram content and define nominal weights (array of ones).
+    nominal_content = np.array(ak.to_numpy(histograms[variable.name]["nominal"]))
+    nominal_weights = np.ones_like(nominal_content)
+    
+    # Prepare a dictionary to hold all computed arrays.
+    results = {
+        "binning": binning,
+        "nominal": nominal_content,
+        "nominal_weights": nominal_weights,
+        "plotlabel": plotlabel,  # Stored for reference if needed.
+    }
+    
+    # Retrieve the list of EFT variations.
+    eft_variations = eft.getEFTVariationsLinear()
+    eft_weights = {}
+    eft_value = {}
+    
+    # Loop through each EFT variation to compute the corresponding weight array.
+    for eft_var in eft_variations:
+        # Set Wilson coefficient factor for selected EFT variations.
+        wc_factor = 10 if ("ctHRe" in eft_var or "ctHIm" in eft_var) else 1
+        
+        # Construct the keys for the linear and quadratic contributions.
+        lin_key = f"EFT_{eft_var}"
+        quad_key = f"{lin_key}_{eft_var}"
+        
+        # Calculate the variation: add the linear and quadratic contributions to the nominal content.
+        variation = (
+            nominal_content +
+            wc_factor * np.array(ak.to_numpy(histograms[variable.name][lin_key]["Up"])) +
+            (wc_factor ** 2) * np.array(ak.to_numpy(histograms[variable.name][quad_key]["Up"]))
+        )
+        # Normalize relative to the nominal content, handling any division by zero issues.
+        ratio_variation = np.nan_to_num(variation / nominal_content, nan=1.)
+        
+        # Save this EFT variation under its name.
+        eft_weights[eft_var] = ratio_variation
+        eft_value[eft_var] = variation
+        sm_value = nominal_content
+    
+    # Add the EFT variations to the results dictionary.
+    results["EFT_variations"] = eft_weights
+    results["EFT"] = eft_value
+    results["sm"] = sm_value
+    
+    # Build a file name that embeds the process name and EFT variation names.
+    eft_names_str = "_".join(eft_variations)
+    filename = f"{processname}_EFT_{eft_names_str}.npz"
+    output_filepath = os.path.join(plotdir, filename)
+    
+    # Save the results to a compressed .npz file.
+    np.savez(output_filepath, **results)
+    print(f"EFT arrays successfully saved to: {output_filepath}")
 
 if __name__ == "__main__":
     args = parse_arguments()
@@ -306,12 +499,15 @@ if __name__ == "__main__":
         for _, variable in variables.get_variable_objects().items():
             if not variable.is_channel_relevant(channel):
                 continue
-            lin_quad_plot_EFT(variable, outputfolder, histograms, processinfo, channel, args.process)
-            main_plot_EFT(variable, outputfolder, histograms, processinfo, channel, args.process)
-            mix_plot_EFT(variable, outputfolder, histograms, processinfo, channel, args.process)
-            mix_SM_plot_EFT(variable, outputfolder, histograms, processinfo, channel, args.process)
+#            lin_quad_plot_EFT(variable, outputfolder, histograms, processinfo, channel, args.process)
+#            main_plot_EFT(variable, outputfolder, histograms, processinfo, channel, args.process)
+#            mix_plot_EFT(variable, outputfolder, histograms, processinfo, channel, args.process)
+#            mix_SM_plot_EFT(variable, outputfolder, histograms, processinfo, channel, args.process)
+#            ttH_EFT(variable, outputfolder, histograms, processinfo, channel, args.process)
+            main_save_EFT(variable, outputfolder, histograms, processinfo, channel, args.process)
 
         for subchannel in channels[channel].subchannels.keys():
+            print(subchannel)
             if not variable.is_channel_relevant(channel + subchannel):
                 continue
             storagepath_tmp = os.path.join(storagepath, channel + subchannel)
@@ -327,7 +523,10 @@ if __name__ == "__main__":
             histograms = HistogramManager(storagepath_tmp, args.process, variables, systematics, args.years[0])
             histograms.load_histograms()
             for _, variable in variables.get_variable_objects().items():
-                lin_quad_plot_EFT(variable, outputfolder, histograms, processinfo, channel + subchannel, args.process)
-                main_plot_EFT(variable, outputfolder, histograms, processinfo, channel + subchannel, args.process)
-                mix_plot_EFT(variable, outputfolder, histograms, processinfo, channel + subchannel, args.process)
-                mix_SM_plot_EFT(variable, outputfolder, histograms, processinfo, channel + subchannel, args.process)
+#                lin_quad_plot_EFT(variable, outputfolder, histograms, processinfo, channel + subchannel, args.process)
+#                main_plot_EFT(variable, outputfolder, histograms, processinfo, channel + subchannel, args.process)
+#                mix_plot_EFT(variable, outputfolder, histograms, processinfo, channel + subchannel, args.process)
+#                mix_SM_plot_EFT(variable, outputfolder, histograms, processinfo, channel + subchannel, args.process)
+#                ttH_EFT(variable, outputfolder, histograms, processinfo, channel + subchannel, args.process)
+                main_save_EFT(variable, outputfolder, histograms, processinfo, channel, args.process)
+

@@ -470,6 +470,24 @@
         "aliasUp": "nominalWeight * otherVariations[:, 0]",
         "aliasDown": "nominalWeight"
     },
+    "ttw_norm": {
+        "processes": "ttW",
+        "corr_proc": 1,
+        "technical_name": "cross_section_ttW",
+        "channels": "all",
+        "pretty_name": "ttW norm",
+        "rate": 5,
+        "type": "flat"
+    },
+    "ttz_norm": {
+        "processes": "ttZ",
+        "corr_proc": 1,
+        "technical_name": "cross_section_ttZ",
+        "channels": "all",
+        "pretty_name": "ttZ norm",
+        "rate": 5,
+        "type": "flat"
+    },
     "tttt_norm": {
         "pretty_name": "tttt_norm",
         "technical_name": "cross_section_tttt",

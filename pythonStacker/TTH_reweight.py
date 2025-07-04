@@ -3,14 +3,17 @@ from array import array
 
 
 # Input and output file names
-input_dir = "/pnfs/iihe/cms/store/user/nivanden/AnalysisOutput/ReducedTuples/2024-04-23_16-46/"
-output_dir = "/pnfs/iihe/cms/store/user/mshoosht/AnalysisOutput/ReducedTuples/2024-12-13_12-13/"
+input_dir = "/pnfs/iihe/cms/store/user/mshoosht/AnalysisOutput/ReducedTuples/2025-02-23_22-54/"
+output_dir = "/pnfs/iihe/cms/store/user/mshoosht/AnalysisOutput/ReducedTuples/2025-02-23_22-54/"
 input_file_names = [
-"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2018_base.root",
-"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2016PostVFP_base.root",
-"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2016PreVFP_base.root",
-"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2017_base.root",
-"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2018_base.root",
+"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_RunIISummer20UL16NanoAODAPVv9_MCPrompt_2016PreVFP_base.root",
+"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_RunIISummer20UL16NanoAODv9_MCPrompt_2016PostVFP_base.root",
+"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_RunIISummer20UL17NanoAODv9_MCPrompt_2017_base.root",
+"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_RunIISummer20UL18NanoAODv9_MCPrompt_2018_base.root",
+#"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2016PostVFP_base.root",
+#"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2016PreVFP_base.root",
+#"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2017_base.root",
+#"Tree_ttHJetToNonbb_M125_TuneCP5_13TeV_amcatnloFXFX_madspin_pythia8_MCPrompt_2018_base.root",
 ]
 for in_file in input_file_names:
 

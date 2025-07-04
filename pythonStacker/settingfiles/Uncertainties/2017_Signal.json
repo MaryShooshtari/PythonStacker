@@ -438,5 +438,132 @@
         "aliasUp": "scaleVariations[:, 0]", 
         "channels": "all", 
         "type": "weight"
+    },
+    "ZZNjets_0": {
+        "channels": "all",
+        "processes": [
+            "VVV"
+        ],
+        "technical_name": "CMS_TOP24008_ZZ_j_0",
+        "type": "weight",
+        "aliasUp": "nominalWeight * otherVariations[:, 0]",
+        "aliasDown": "nominalWeight * otherVariations[:, 1]"
+    },
+    "ZZNjets_1": {
+        "channels": "all",
+        "processes": [
+            "VVV"
+        ],
+        "technical_name": "CMS_TOP24008_ZZ_j_1",
+        "type": "weight",
+        "aliasUp": "nominalWeight * otherVariations[:, 2]",
+        "aliasDown": "nominalWeight * otherVariations[:, 3]"
+    },
+    "ZZNjets_2": {
+        "channels": "all",
+        "processes": [
+            "VVV"
+        ],
+        "technical_name": "CMS_TOP24008_ZZ_j_2",
+        "type": "weight",
+        "aliasUp": "nominalWeight * otherVariations[:, 4]",
+        "aliasDown": "nominalWeight * otherVariations[:, 5]"
+    },
+    "ZZNjets_3": {
+        "channels": "all",
+        "processes": [
+            "VVV"
+        ],
+        "technical_name": "CMS_TOP24008_ZZ_j_3",
+        "type": "weight",
+        "aliasUp": "nominalWeight * otherVariations[:, 6]",
+        "aliasDown": "nominalWeight * otherVariations[:, 7]"
+    },
+    "Absolute": {
+        "pretty_name": "JEC_Absolute",
+        "technical_name": "CMS_scale_j_Absolute",
+        "processes": "MCOnly",
+        "type": "shape",
+        "fileglob": "GroupedJEC"
+    },
+    "Absolute_2018": {
+        "pretty_name": "JEC_Absolute_2018",
+        "technical_name": "CMS_scale_j_Absolute_2018",
+        "processes": "MCOnly",
+        "type": "shape",
+        "fileglob": "GroupedJEC"
+    },
+    "BBEC1": {
+        "pretty_name": "JEC_BBEC1",
+        "technical_name": "CMS_scale_j_BBEC1",
+        "processes": "MCOnly",
+        "type": "shape",
+        "fileglob": "GroupedJEC"
+    },
+    "BBEC1_2018": {
+        "pretty_name": "JEC_BBEC1_2018",
+        "technical_name": "CMS_scale_j_BBEC1_2018",
+        "processes": "MCOnly",
+        "type": "shape",
+        "fileglob": "GroupedJEC"
+    },
+    "RelativeBal": {
+        "pretty_name": "JEC_RelativeBal",
+        "technical_name": "CMS_scale_j_RelativeBal",
+        "processes": "MCOnly",
+        "type": "shape",
+        "fileglob": "GroupedJEC"
+    },
+    "RelativeSample_2018": {
+        "pretty_name": "JEC_RelativeSample_2018",
+        "technical_name": "CMS_scale_j_RelativeSample_2018",
+        "processes": "MCOnly",
+        "type": "shape",
+        "fileglob": "GroupedJEC"
+    },
+    "FlavorQCD_light": {
+        "pretty_name": "JEC_FlavorQCD_light",
+        "technical_name": "CMS_TOP24008_scale_j_FlavorQCD_light",
+        "processes": "MCOnly",
+        "type": "shape",
+        "fileglob": "GroupedJEC"
+    },
+    "FlavorQCD_charm": {
+        "pretty_name": "JEC_FlavorQCD_charm",
+        "technical_name": "CMS_scale_j_FlavorPureCharm",
+        "processes": "MCOnly",
+        "type": "shape",
+        "fileglob": "GroupedJEC"
+    },
+    "FlavorQCD_bottom": {
+        "pretty_name": "JEC_FlavorQCD_bottom",
+        "technical_name": "CMS_scale_j_FlavorPureBottom",
+        "processes": "MCOnly",
+        "type": "shape",
+        "fileglob": "GroupedJEC"
+    },
+    "ttV_addBJets": {
+        "channels": "all",
+        "processes": [
+            "ttW",
+            "ttZ",
+            "ttH",
+            "tttt",
+            "ttt"
+        ],
+        "technical_name": "CMS_TOP24008_AddBJets_",
+        "type": "weight",
+        "aliasUp": "nominalWeight * otherVariations[:, 1]",
+        "aliasDown": "nominalWeight * otherVariations[:, 2]"
+    },
+    "ttW_addJets": {
+        "channels": "all",
+        "processes": [
+            "ttW"
+        ],
+        "technical_name": "CMS_TOP24008_AddJets_ttW",
+        "type": "weight",
+        "aliasUp": "nominalWeight * otherVariations[:, 0]",
+        "aliasDown": "nominalWeight"
     }
 }

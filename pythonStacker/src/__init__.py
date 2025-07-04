@@ -123,7 +123,7 @@ def load_prepared_histograms(processinfo, channel, variables, systematics, stora
         histograms[process] = dict()
         if args.UseEFT:
             histograms["TTTT_EFT"] = dict()
-
+            histograms["TTH_EFT"] = dict()
             histograms["TTTW_EFT"] = dict()
             histograms["TTTJ_EFT"] = dict()
             histograms["TTT_EFT"] = dict()
@@ -138,6 +138,8 @@ def load_prepared_histograms(processinfo, channel, variables, systematics, stora
                 systematics_tmp.extend(eft.getEFTVariationsGroomed())
                 histograms["TTTT_EFT"][year] = HistogramManager(storagepath, "TTTT_EFT", variables, systematics_tmp, year, channel=channel)
                 histograms["TTTT_EFT"][year].load_histograms()
+                histograms["TTH_EFT"][year] = HistogramManager(storagepath, "TTH_EFT", variables, systematics_tmp, year, channel=channel)
+                histograms["TTH_EFT"][year].load_histograms()
                 histograms["TTTW_EFT"][year] = HistogramManager(storagepath, "TTTW_EFT", variables, systematics_tmp, year, channel=channel)
                 histograms["TTTW_EFT"][year].load_histograms()
                 histograms["TTTJ_EFT"][year] = HistogramManager(storagepath, "TTTJ_EFT", variables, systematics_tmp, year, channel=channel)

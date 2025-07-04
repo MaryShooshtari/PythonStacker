@@ -1,3 +1,3 @@
 {
-    "load_variables": ["SR-2L.json", "SR-3L.json", "SR-4L.json", "CR-2L.json", "CR-3L-others.json", "CR-3L-Z.json", "CR-4L-Z.json"]
+    "load_variables": ["SR-2L.json", "SR-3L.json", "SR-4L.json", "CR-2L.json", "CR-3L-others.json", "CR-3L-Z.json", "CR-4L-Z.json", "HT_only.json"]
 }

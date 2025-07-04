@@ -1,5 +1,5 @@
 {
-    "Basedir": "/pnfs/iihe/cms/store/user/mshoosht/AnalysisOutput/ReducedTuples/2024-04-23_16-46",
+    "Basedir": "/pnfs/iihe/cms/store/user/mshoosht/AnalysisOutput/ReducedTuples/2025-04-04_14-34_EFT",
     "Processes": {
         "TTH_EFT": {
             "fileglobs": ["Tree_ttHJetToNonbb_EFT*MCPrompt"],

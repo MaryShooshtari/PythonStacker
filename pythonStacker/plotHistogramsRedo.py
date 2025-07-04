@@ -30,7 +30,7 @@ def parse_arguments():
                         default=False, help="Switch to indicate whether the \
                         total uncertainty should be plotted")
 
-    parser.add_argument("--EFTsignal", action="store", default="TTTT_EFT")
+    parser.add_argument("--EFTsignal", action="store", default="All_EFT")
     parser.add_argument("--wc", action="store", default="ctt")
     parser.add_argument("--EFT_ratio", dest="EFT_ratio", action="store_true", default=False)
     parser.add_argument("--EFT_fullbkg", dest="EFT_fullbkg", action="store_true", default=False)
@@ -96,12 +96,12 @@ def generate_outputfolder(years, outputfolder, subdir, suffix=""):
     outputsubfolder += suffix
 
     # outputsubfolder += args.bsm_model
-    if args.UseBSM:
-        # coupling_name =
-        outputfolder_base = os.path.join(outputfolder, subdir, outputsubfolder, args.bsm_model[0])
-        print(outputfolder_base)
-    else:
-        outputfolder_base = os.path.join(outputfolder, subdir, outputsubfolder)
+#    if args.UseBSM:
+#        # coupling_name = 
+#        outputfolder_base = os.path.join(outputfolder, subdir, outputsubfolder, args.bsm_model[0])
+#        print(outputfolder_base)
+#    else:
+    outputfolder_base = os.path.join(outputfolder, subdir, outputsubfolder)
     if not os.path.exists(outputfolder_base):
         os.makedirs(outputfolder_base)
     copy_index_html(outputfolder_base)
@@ -247,6 +247,42 @@ def plot_EFT_line(axis, histograms, variable: Variable, years, operator: str, no
         all_variations.append(current_variation)
     return all_variations
 
+def plot_all_EFT_line(axis, histograms, variable: Variable, years, operator: str, normalization_contribution=None):
+    lin_name = "EFT_" + operator
+    quad_name = lin_name + "_" + operator
+    binning = generate_binning(variable.range, variable.nbins)
+    nominal_content = np.zeros(variable.nbins)
+    if normalization_contribution is None:
+        normalization_contribution = np.ones(variable.nbins)
+
+    for year in years:
+        nominal_content += np.array(ak.to_numpy(histograms["TTTT_EFT"][year][variable.name]["nominal"]))
+        nominal_content += np.array(ak.to_numpy(histograms["TTT_EFT"][year][variable.name]["nominal"]))
+        nominal_content += np.array(ak.to_numpy(histograms["TTH_EFT"][year][variable.name]["nominal"]))
+
+    all_variations = []
+    wc_points = [1. , 2.]
+    if (args.wc=="ctHRe" or args.wc=="ctHIm"): 
+        wc_points = [5. , 10.]
+    for wc_factor in wc_points:
+        current_variation = nominal_content # nominal_content
+        for year in years:
+            current_variation = current_variation + wc_factor * np.array(ak.to_numpy(histograms["TTTT_EFT"][year][variable.name][lin_name]["Up"]))
+            current_variation = current_variation + wc_factor * wc_factor * np.array(ak.to_numpy(histograms["TTTT_EFT"][year][variable.name][quad_name]["Up"]))
+            current_variation = current_variation + wc_factor * np.array(ak.to_numpy(histograms["TTT_EFT"][year][variable.name][lin_name]["Up"]))
+            current_variation = current_variation + wc_factor * wc_factor * np.array(ak.to_numpy(histograms["TTT_EFT"][year][variable.name][quad_name]["Up"]))
+            current_variation = current_variation + wc_factor * np.array(ak.to_numpy(histograms["TTH_EFT"][year][variable.name][lin_name]["Up"]))
+            current_variation = current_variation + wc_factor * wc_factor * np.array(ak.to_numpy(histograms["TTH_EFT"][year][variable.name][quad_name]["Up"]))
+        pretty_eft_name = operator + f" = {wc_factor}"
+
+        current_variation = np.nan_to_num(current_variation / normalization_contribution, nan=1., posinf=1., neginf=1.)
+
+        axis.hist(binning[:-1], binning, weights=current_variation, histtype="step",
+                  label=pretty_eft_name, linewidth=2.)
+
+        all_variations.append(current_variation)
+    return all_variations
+
 
 def plot_BSM_line(axis, histograms, variable: Variable, years, models: list, masses: list, couplings: list, normalization_contribution=None):
     binning = generate_binning(variable.range, variable.nbins)
@@ -349,7 +385,8 @@ def plotting_sequence(args, histograms, variable, processinfo, plotdir, channel,
         unc_band = plot_systematics_band(axes[0], main_plot_out["sum"], variable, storagepath, args.years)
 
     if args.UseEFT:
-        plot_EFT_line(axes[0], histograms[args.EFTsignal], variable, args.years, args.wc)
+        #plot_EFT_line(axes[0], histograms[args.EFTsignal], variable, args.years, args.wc)
+        plot_all_EFT_line(axes[0], histograms, variable, args.years, args.wc)
     if args.UseBSM:
         plot_BSM_line(axes[0], histograms, variable, args.years, args.bsm_model, args.bsm_mass, args.bsm_coupling)
     if args.BSM_ratio:
@@ -361,12 +398,14 @@ def plotting_sequence(args, histograms, variable, processinfo, plotdir, channel,
         ratiocontent = plot_signal_bkg_ratio(axes[1], main_plot_out["binning"], main_plot_out["signal"], main_plot_out["bkg"])
     if args.UseData:
         ratiocontent = plot_data_ratio(axes[1], main_plot_out["binning"], data_out, main_plot_out["sum"], unc_band=unc_band)
-    if args.EFT_ratio or args.EFT_fullbkg:
-        eft_content = plot_EFT_line(axes[1], histograms[args.EFTsignal], variable, args.years, args.wc, main_plot_out["signal"])
+    if (args.EFT_ratio or args.EFT_fullbkg) and not args.UseData:
+        #eft_content = plot_EFT_line(axes[1], histograms[args.EFTsignal], variable, args.years, args.wc, main_plot_out["signal"])
+        eft_content = plot_all_EFT_line(axes[1], histograms, variable, args.years, args.wc, main_plot_out["signal"])
         axes[1].set_ylabel(r"EFT / SM $t\bar{t}t\bar{t}$", fontsize="small")
         modify_yrange_updown(axes[1], eft_content)
     if args.EFT_fullbkg:
-        eft_content = plot_EFT_line(axes[2], histograms[args.EFTsignal], variable, args.years, args.wc, main_plot_out["sum"])
+        #eft_content = plot_EFT_line(axes[2], histograms[args.EFTsignal], variable, args.years, args.wc, main_plot_out["sum"])
+        eft_content = plot_all_EFT_line(axes[2], histograms, variable, args.years, args.wc, main_plot_out["sum"])
         axes[2].set_ylabel("EFT / SM", fontsize="small")
         modify_yrange_updown(axes[2], eft_content)
     if args.BSM_fullbkg:
